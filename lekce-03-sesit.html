@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="cs"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Pracovní sešit 3</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,700&family=Onest:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#F3F5F8;--surface:#FFFFFF;--ink:#18263A;--muted:#5B6878;--line:#DCE2EA;
+  --accent:#1D4E89;--accent-soft:#E3ECF7;--red:#B83A2E;--red-soft:#F8E6E3;
+  --ok:#2E7D4F;--ok-soft:#E1F2E7;--bad:#B83A2E;--bad-soft:#F8E6E3;
+  --ma:#1D6FB8;--mi:#274B7A;--f:#C0392B;--n:#2E7D4F;
+  --display:"Literata",Georgia,serif;--body:"Onest",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  color-scheme:dark;--bg:#0F1621;--surface:#172232;--ink:#E6ECF3;--muted:#98A6B8;--line:#2A394D;
+  --accent:#7FB0EA;--accent-soft:#1D3150;--red:#E88A7E;--red-soft:#3A2220;
+  --ok:#6FCB94;--ok-soft:#18362A;--bad:#E88A7E;--bad-soft:#3A2220;
+  --ma:#7FB8EA;--mi:#A9BFE0;--f:#EE9A8F;--n:#7FD1A0;}}
+:root[data-theme="dark"]{
+  color-scheme:dark;--bg:#0F1621;--surface:#172232;--ink:#E6ECF3;--muted:#98A6B8;--line:#2A394D;
+  --accent:#7FB0EA;--accent-soft:#1D3150;--red:#E88A7E;--red-soft:#3A2220;
+  --ok:#6FCB94;--ok-soft:#18362A;--bad:#E88A7E;--bad-soft:#3A2220;
+  --ma:#7FB8EA;--mi:#A9BFE0;--f:#EE9A8F;--n:#7FD1A0;}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;padding-inline:16px;padding-block:24px 64px}
+.wrap{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:clamp(2rem,6vw,2.8rem)}h2{font-size:1.45rem}h3{font-size:1.08rem}
+p{margin:0}
+.eyebrow{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+header{display:flex;flex-direction:column;gap:10px}
+.lead{color:var(--muted);max-width:62ch}
+.progress{display:flex;align-items:center;gap:12px;font-size:.9rem;color:var(--muted);flex-wrap:wrap}
+.bar{flex:1;min-width:140px;height:8px;background:var(--line);border-radius:99px;overflow:hidden;max-width:320px}
+.bar i{display:block;height:100%;background:var(--red);width:0;transition:width .4s}
+nav.tabs{display:flex;gap:2px;overflow-x:auto;border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5;padding-top:6px;scrollbar-width:none}
+nav.tabs button{font:inherit;font-weight:600;background:none;border:0;color:var(--muted);padding:10px 12px;border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap}
+nav.tabs button[aria-selected="true"]{color:var(--ink);border-color:var(--red)}
+nav.tabs button .ck{color:var(--ok);margin-left:4px}
+button:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+section.panel{display:flex;flex-direction:column;gap:22px}
+.sechead{display:flex;flex-direction:column;gap:4px}
+.pg{font-size:.82rem;color:var(--muted)}
+.note{background:var(--accent-soft);padding:14px 16px;border-radius:10px;font-size:.95rem;display:flex;flex-direction:column;gap:6px}
+.note b{color:var(--accent)}
+.warn{background:var(--red-soft)}.warn b{color:var(--red)}
+.note ul{margin:0;padding-left:18px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{font:inherit;font-weight:600;background:var(--ink);color:var(--bg);border:0;border-radius:8px;padding:9px 16px;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.say{font:inherit;font-size:.82rem;border:1px solid var(--line);background:var(--bg);color:var(--accent);border-radius:8px;padding:3px 9px;cursor:pointer;white-space:nowrap}
+.hint{font-size:.87rem;color:var(--muted)}
+.result{font-weight:600}
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;cursor:pointer;min-height:104px}
+.card .cz{font-family:var(--display);font-size:1.15rem;font-weight:700}
+.card .ru{color:var(--muted)}
+.hideru .card .ru:not(.shown){filter:blur(6px);user-select:none}
+.card .row{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:auto}
+.tag{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.m{color:var(--ma)}.f{color:var(--f)}.mi{color:var(--mi)}.n{color:var(--n)}
+/* tables */
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;background:var(--surface);font-variant-numeric:tabular-nums;border-radius:12px;overflow:hidden}
+th,td{padding:9px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-size:.76rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+td.cz{font-family:var(--display);font-weight:700}
+.end{color:var(--red)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.box ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+/* exercise shell */
+.ex{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:14px}
+.ex h3 small{font-family:var(--body);font-weight:500;color:var(--muted);font-size:.85rem;margin-left:6px}
+.ex.done{border-color:var(--ok)}
+.qs{display:flex;flex-direction:column;gap:6px}
+.q{display:flex;flex-wrap:wrap;align-items:center;gap:6px;line-height:2}
+.q .who{font-weight:600;color:var(--muted)}
+.q input{font:inherit;width:8em;padding:3px 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}
+.q input.ok{border-color:var(--ok);background:var(--ok-soft)}
+.q input.bad{border-color:var(--bad);background:var(--bad-soft)}
+.q .gl{font-size:.82rem;color:var(--muted)}
+.fix{font-size:.85rem;color:var(--bad)}
+.keys{display:flex;gap:6px;flex-wrap:wrap}
+.keys button{font:inherit;min-width:36px;padding:3px 8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:6px;cursor:pointer}
+.bank{display:flex;flex-wrap:wrap;gap:6px;font-size:.9rem}
+.bank span{padding:2px 10px;border:1px dashed var(--line);border-radius:6px}
+/* drill */
+.drill .prompt{font-family:var(--display);font-size:1.35rem;font-weight:700;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.drill .prompt .big{font-size:2.4rem;line-height:1}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.opts button{font:inherit;text-align:left;padding:10px 14px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;cursor:pointer}
+.opts button.ok{border-color:var(--ok);background:var(--ok-soft)}
+.opts button.bad{border-color:var(--bad);background:var(--bad-soft)}
+.meta{display:flex;justify-content:space-between;font-size:.85rem;color:var(--muted)}
+.expl{font-size:.9rem;color:var(--muted)}
+/* builder */
+.target{min-height:48px;border:1px dashed var(--line);border-radius:10px;padding:8px;display:flex;flex-wrap:wrap;gap:6px}
+.pool{display:flex;flex-wrap:wrap;gap:6px}
+.word{font:inherit;padding:6px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.target .word{background:var(--accent-soft);border-color:transparent}
+/* match */
+.match{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.match button{font:inherit;text-align:left;padding:9px 12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;cursor:pointer}
+.match button.sel{border-color:var(--accent);background:var(--accent-soft)}
+.match button.ok{border-color:var(--ok);background:var(--ok-soft);color:var(--ok);cursor:default}
+.shake{animation:sh .3s}
+@keyframes sh{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+/* alphabet & numbers */
+.abc{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:6px}
+.abc button{font:inherit;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 6px;cursor:pointer;color:var(--ink);display:flex;flex-direction:column;align-items:center;gap:2px}
+.abc button b{font-family:var(--display);font-size:1.3rem}
+.abc button span{font-size:.75rem;color:var(--muted);text-align:center;line-height:1.2}
+.abc button.dia b{color:var(--red)}
+.nums{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:6px}
+.nums button{font:inherit;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 4px;cursor:pointer;color:var(--ink);display:flex;flex-direction:column;align-items:center}
+.nums button b{font-family:var(--display);font-size:1.5rem;font-variant-numeric:tabular-nums}
+.nums button span{font-size:.85rem}
+.spell{display:flex;flex-wrap:wrap;gap:6px}
+.spell span{background:var(--accent-soft);border-radius:6px;padding:2px 8px;font-size:.9rem}
+.spell span b{font-family:var(--display)}
+input.txt{font:inherit;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);max-width:100%}
+.dlg{display:flex;flex-direction:column;gap:4px}
+footer{color:var(--muted);font-size:.85rem}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:520px){.match{grid-template-columns:1fr}}
+
+.ex h3{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.num{font-family:var(--body);font-size:.8rem;font-weight:700;background:var(--red);color:#fff;border-radius:6px;padding:2px 8px;letter-spacing:.02em}
+.ex.done .num{background:var(--ok)}
+.q.tight{gap:0}.q.tight input{width:2.6em;text-align:center;margin-inline:2px}
+.q input.wide{width:min(22em,100%)}
+.q input.mid{width:11em}
+.pick{display:flex;flex-direction:column;gap:8px}
+.prow{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.pgrp{display:inline-flex;gap:4px;flex-wrap:wrap}
+.pgrp button{font:inherit;font-size:.95rem;padding:3px 10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:6px;cursor:pointer}
+.pgrp button.ok{border-color:var(--ok);background:var(--ok-soft);color:var(--ok);font-weight:600}
+.pgrp button.bad{border-color:var(--bad);background:var(--bad-soft);text-decoration:line-through}
+.order{display:flex;flex-direction:column;gap:6px;counter-reset:ln}
+.order button{font:inherit;text-align:left;padding:8px 12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;cursor:pointer}
+.order.list button{background:var(--accent-soft);border-color:transparent}
+.order.list button::before{counter-increment:ln;content:counter(ln) ". ";font-weight:700;color:var(--accent)}
+.order.list button.ok{background:var(--ok-soft)}.order.list button.bad{background:var(--bad-soft)}
+.lst{display:flex;flex-direction:column;gap:6px;margin:0;padding:0;list-style:none}
+.lst li{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.skip{font-size:.9rem;color:var(--muted);border:1px dashed var(--line);border-radius:10px;padding:10px 14px}
+
+.q input{line-height:1.4}
+.back{display:inline-flex;align-items:center;gap:6px;font-weight:600;color:var(--accent);text-decoration:none;font-size:.95rem}
+.back:hover{text-decoration:underline}
+.topnav{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.theory{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:10px}
+.theory h3{font-size:1.1rem}
+.theory ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.dlgbox{display:flex;flex-direction:column;gap:3px;padding-left:12px;border-left:3px solid var(--accent-soft)}
+.dlgbox b{color:var(--muted);font-weight:600}
+.city{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:420px}
+.city div{background:var(--accent-soft);border-radius:8px;padding:10px 6px;text-align:center;font-weight:600;font-size:.9rem}
+.city div span{display:block;font-size:1.6rem}
+.mail{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.mail .hd{background:var(--accent-soft);padding:10px 14px;font-size:.88rem;display:flex;flex-direction:column;gap:2px}
+.mail .bd{padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.mail mark{background:var(--red-soft);color:inherit;padding:0 2px;border-radius:3px}
+.reader{display:flex;flex-direction:column;gap:12px}
+.rtext{display:flex;flex-direction:column;gap:10px;font-size:1.08rem;line-height:1.75;max-width:65ch}
+.rtext .spk{color:var(--accent)}
+.gw{border-bottom:2px dotted var(--accent);cursor:pointer;border-radius:3px}
+.gw:hover,.gw.on{background:var(--accent-soft)}
+.gloss{position:sticky;bottom:calc(env(safe-area-inset-bottom,0px) + 8px);background:var(--ink);color:var(--bg);border-radius:10px;padding:10px 14px;font-size:.95rem;box-shadow:0 4px 16px rgba(0,0,0,.18);z-index:4}
+.wl summary{cursor:pointer;font-weight:600;color:var(--accent);padding-block:4px}
+.wl table{margin-top:8px}
+</style></head><body><div id="app"></div><script>
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const shuf=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>s.trim().toLowerCase().replace(/[.!?,„“"]/g,'').replace(/\s+/g,' ');
+const arr=a=>Array.isArray(a)?a:[a];
+const NUM=['nula','jedna','dva','tři','čtyři','pět','šest','sedm','osm','devět','deset'];
+const TEEN=['deset','jedenáct','dvanáct','třináct','čtrnáct','patnáct','šestnáct','sedmnáct','osmnáct','devatenáct'];
+const TENS=['','','dvacet','třicet','čtyřicet','padesát','šedesát','sedmdesát','osmdesát','devadesát'];
+const HUN=['','sto','dvě stě','tři sta','čtyři sta','pět set','šest set','sedm set','osm set','devět set'];
+function cz(n){if(n===0)return 'nula';const p=[];const t=Math.floor(n/1000),h=Math.floor(n%1000/100),r=n%100;
+  if(t)p.push(t===1?'tisíc':t<5?(t===2?'dva':NUM[t])+' tisíce':cz(t)+' tisíc');if(h)p.push(HUN[h]);
+  if(r)p.push(r<=10?NUM[r]:r<20?TEEN[r-10]:TENS[Math.floor(r/10)]+(r%10?' '+NUM[r%10]:''));return p.join(' ')}
+const spoken=s=>s.replace(/@/g,' zavináč ').replace(/\./g,' tečka ').replace(/_/g,' podtržítko ').replace(/-/g,' pomlčka ');
+
+let csVoice=null;
+function say(t,rate=.85){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='cs-CZ';if(csVoice)u.voice=csVoice;u.rate=rate;speechSynthesis.speak(u)}catch(e){}}
+const sayBtn=t=>`<button class="say" data-say="${esc(t)}" aria-label="Произнести">▶</button>`;
+document.addEventListener('click',e=>{const b=e.target.closest('[data-say]');if(b){e.stopPropagation();say(b.dataset.say)}},true);
+let lastInput=null;document.addEventListener('focusin',e=>{if(e.target.matches('.q input'))lastInput=e.target});
+function keys(el){el.innerHTML=['á','é','í','ý','ó','ú','ů','ě','č','ř','š','ž','ň','ď','ť'].map(c=>`<button type="button" tabindex="-1">${c}</button>`).join('');
+  $$('button',el).forEach(b=>b.onmousedown=e=>{e.preventDefault();if(lastInput)lastInput.setRangeText(b.textContent,lastInput.selectionStart,lastInput.selectionEnd,'end')})}
+const actions=(extra='')=>`<div class="actions">${extra}<span class="result"></span></div>`;
+
+function KURZ(cfg){
+  const KEY=cfg.key;let done=store.get(KEY,{});const ALL=[];
+  document.title=cfg.docTitle||cfg.title;
+  $('#app').innerHTML=`<div class="wrap"><div class="topnav"><a class="back" href="index.html">← Все уроки</a>${cfg.other?`<a class="back" href="${cfg.other[0]}">${cfg.other[1]} →</a>`:''}</div>
+   <header><span class="eyebrow">${cfg.eyebrow}</span><h1>${cfg.title}</h1><p class="lead">${cfg.lead}</p>
+   <div class="progress"><span>Выполнено</span><div class="bar"><i id="pbar"></i></div><span id="ptext"></span><button class="say" id="resetAll">сбросить</button></div><p class="hint" id="ttsHint"></p></header>
+   <nav class="tabs" role="tablist" id="tabs"></nav><main id="panels"></main><footer>${cfg.footer||''}</footer></div>`;
+  try{const pick=()=>{csVoice=speechSynthesis.getVoices().find(x=>/^cs/i.test(x.lang))||null;$('#ttsHint').textContent=csVoice?'':'На этом устройстве нет чешского голоса, поэтому озвучка может звучать с акцентом.'};pick();speechSynthesis.onvoiceschanged=pick}catch(e){$('#ttsHint').textContent='Озвучка в этом браузере недоступна.'}
+  const mark=n=>{done[n]=true;store.set(KEY,done);drawP()};
+  function drawP(){const k=ALL.filter(n=>done[n]).length;$('#pbar').style.width=(ALL.length?k/ALL.length*100:0)+'%';$('#ptext').textContent=`${k} из ${ALL.length} ${cfg.unit||'упражнений'}`;
+    store.set('kp:'+cfg.page,{d:k,t:ALL.length});
+    ALL.forEach(n=>{const e=document.getElementById('x-'+n);if(e)e.classList.toggle('done',!!done[n])});
+    cfg.tabs.forEach(t=>{const b=$(`#tabs [data-tab="${t.id}"] .ck`);const ex=t.ex.filter(e=>ALL.includes(e.n));if(b)b.textContent=ex.length&&ex.every(e=>done[e.n])?'✓':''})}
+
+  const E={};
+  E.html=(ex,sp)=>{$('.body',ex).innerHTML=sp.html};
+  E.cards=(ex,sp)=>{const b=$('.body',ex);b.innerHTML=`<div class="actions"><button class="btn ghost" data-h>Скрыть перевод</button></div><div class="cards">${sp.items.map(c=>`<div class="card" tabindex="0"><span class="cz ${c[3]||''}">${c[0]}</span><span class="ru">${c[1]}</span><div class="row"><span class="tag">${c[2]||''}</span>${sayBtn(c[0].replace(/<[^>]+>/g,''))}</div></div>`).join('')}</div>`;
+    $$('.card',b).forEach(c=>{const t=()=>$('.ru',c).classList.toggle('shown');c.onclick=e=>{if(!e.target.closest('.say'))t()};c.onkeydown=e=>{if(e.key==='Enter')t()}});
+    $('[data-h]',b).onclick=e=>{b.classList.toggle('hideru');e.target.textContent=b.classList.contains('hideru')?'Показать перевод':'Скрыть перевод'}};
+  E.fill=(ex,sp)=>{const b=$('.body',ex);const size=sp.size||'';
+    b.innerHTML=(sp.intro?`<div>${sp.intro}</div>`:'')+(sp.bank?`<div class="bank">${sp.bank.map(w=>`<span>${w}</span>`).join('')}</div>`:'')+`<div class="keys"></div><div class="qs"></div>`+actions('<button class="btn" data-check>Проверить</button><button class="btn ghost" data-again>Заново</button>');
+    keys($('.keys',b));const qs=$('.qs',b),res=$('.result',b);const gaps=sp.items.filter(q=>q.a!=null);
+    const build=()=>{let n=0;qs.innerHTML=sp.items.map((q,i)=>q.a==null?`<div class="q">${q.w!=null?`<span class="who">${q.w}</span>`:''}<span>${q.p||''}</span></div>`:
+      `<div class="q ${size==='tight'?'tight':''}" data-i="${i}">${q.w!=null?`<span class="who">${q.w}</span>`:`<span class="gl" style="min-width:1.6em">${++n}.</span>`}<span>${q.p||''}</span><input class="${q.size||size}" autocomplete="off" spellcheck="false" aria-label="ответ"><span>${q.s||''}</span>${q.g?`<span class="gl">&nbsp;${q.g}</span>`:''}<span class="fix"></span></div>`).join('');res.textContent=''};
+    build();
+    $('[data-check]',b).onclick=()=>{let ok=0;$$('.q[data-i]',qs).forEach(r=>{const it=sp.items[+r.dataset.i],inp=$('input',r),good=arr(it.a).some(a=>norm(a)===norm(inp.value));
+      inp.classList.toggle('ok',good);inp.classList.toggle('bad',!good);$('.fix',r).textContent=good?'':' → '+arr(it.a)[0];if(good)ok++});
+      res.textContent=`${ok} из ${gaps.length}`+(ok===gaps.length?' · Výborně!':'');if(ok/gaps.length>=(sp.pass||.8))mark(sp.n)};
+    $('[data-again]',b).onclick=build};
+  E.pick=(ex,sp)=>{const b=$('.body',ex);b.innerHTML=(sp.intro?`<div>${sp.intro}</div>`:'')+`<div class="pick"></div>`+actions('<button class="btn ghost" data-again>Заново</button>');
+    const box=$('.pick',b),res=$('.result',b);let answered,ok;
+    const build=()=>{answered=0;ok=0;res.textContent='';box.innerHTML=sp.items.map((it,i)=>{const [pre,post]=it.t.split('___');
+      return `<div class="prow" data-i="${i}"><span class="gl">${i+1}.</span><span>${pre}</span><span class="pgrp">${it.o.map(o=>`<button>${o}</button>`).join('')}</span><span>${post||''}</span></div>`}).join('');
+      $$('.prow',box).forEach(r=>{const it=sp.items[+r.dataset.i];$$('button',r).forEach(bt=>bt.onclick=()=>{if(r.dataset.done)return;r.dataset.done=1;answered++;
+        const good=bt.textContent===it.a;bt.classList.add(good?'ok':'bad');if(good)ok++;else $$('button',r).find(x=>x.textContent===it.a).classList.add('ok');
+        if(answered===sp.items.length){res.textContent=`${ok} из ${sp.items.length}`+(ok===sp.items.length?' · Výborně!':'');if(ok/sp.items.length>=(sp.pass||.8))mark(sp.n)}})})};
+    build();$('[data-again]',b).onclick=build};
+  E.drill=(ex,sp)=>{const host=$('.body',ex);host.innerHTML=(sp.intro?`<div>${sp.intro}</div>`:'')+'<div class="drill"></div>';const el=$('.drill',host);let items,i,score;
+    let wrong=[];const start=()=>{const src=typeof sp.items==='function'?sp.items():sp.items;items=(sp.keepOrder?src.slice():shuf(src)).slice(0,sp.take||99);i=0;score=0;wrong=[];show()};
+    const show=()=>{if(i>=items.length){const good=score/items.length>=(sp.pass||.8);
+        const bk=KEY+':best:'+sp.n,best=Math.max(store.get(bk,0),score);store.set(bk,best);
+        el.innerHTML=`<div class="prompt">${score} из ${items.length}</div><p>${good?'Skvělé! Упражнение выполнено.':'Попробуйте ещё раз.'}${sp.review?` Лучший результат: ${best} из ${items.length}.`:''}</p>${sp.review&&wrong.length?`<div class="theory"><h3>Разбор ошибок</h3><ul>${wrong.map(w=>`<li>${w[0]} — <b style="color:var(--ok)">${w[1]}</b> <span class="hint">(вы выбрали: ${w[2]})</span></li>`).join('')}</ul></div>`:''}<div class="actions"><button class="btn ghost">Ещё раз</button></div>`;$('.actions button',el).onclick=start;if(good)mark(sp.n);return}
+      const it=items[i],o=sp.fixed?it.o:shuf(it.o.slice());
+      el.innerHTML=`<div class="meta"><span>${i+1} / ${items.length}</span><span>верно: ${score}</span></div>
+        <div class="prompt">${it.big?`<span class="big">${it.big}</span>`:''}<span>${it.q}</span>${it.say?sayBtn(it.say):''}</div>
+        <div class="opts">${o.map(x=>`<button data-o="${esc(x)}">${x}</button>`).join('')}</div><p class="expl" hidden></p><div class="actions"><button class="btn" data-n hidden>Дальше →</button></div>`;
+      if(it.autoSay&&i>0)say(it.say);
+      $$('.opts button',el).forEach(bt=>bt.onclick=()=>{if(!$('[data-n]',el).hidden)return;const good=bt.dataset.o===String(it.a);bt.classList.add(good?'ok':'bad');
+        $$('.opts button',el).find(x=>x.dataset.o===String(it.a)).classList.add('ok');if(good)score++;else wrong.push([it.q,it.a,bt.dataset.o]);const x=$('.expl',el);x.hidden=false;
+        x.innerHTML=(good?'<b style="color:var(--ok)">Správně!</b> ':'<b style="color:var(--bad)">Špatně.</b> ')+(it.x||'');if(it.after)say(it.after);$('[data-n]',el).hidden=false;$('[data-n]',el).focus()});
+      $('[data-n]',el).onclick=()=>{i++;show()}};start()};
+  E.match=(ex,sp)=>{const b=$('.body',ex);b.innerHTML=`<p class="hint">Нажмите слева, затем подходящий вариант справа.</p><div class="match"></div>`+actions('<button class="btn ghost" data-again>Перемешать</button>');
+    const m=$('.match',b),res=$('.result',b);let sel,got;
+    const build=()=>{sel=null;got=0;res.textContent='';const L=sp.pairs.map((p,i)=>[p[0],i]),R=shuf(sp.pairs.map((p,i)=>[p[1],i]));
+      m.innerHTML=L.map((l,k)=>`<button data-s="L" data-i="${l[1]}">${l[0]}</button><button data-s="R" data-i="${R[k][1]}">${R[k][0]}</button>`).join('');
+      $$('button',m).forEach(bt=>bt.onclick=()=>{if(bt.classList.contains('ok'))return;
+        if(bt.dataset.s==='L'){$$('[data-s="L"]',m).forEach(x=>x.classList.remove('sel'));bt.classList.add('sel');sel=bt;return}
+        if(!sel)return;if(sel.dataset.i===bt.dataset.i){sel.className='ok';bt.className='ok';say(sel.textContent+' '+bt.textContent);sel=null;if(++got===sp.pairs.length){res.textContent='Všechno správně!';mark(sp.n)}}
+        else{bt.classList.add('shake');setTimeout(()=>bt.classList.remove('shake'),300)}})};build();$('[data-again]',b).onclick=build};
+  E.order=(ex,sp)=>{const b=$('.body',ex);b.innerHTML=`<p class="hint">Нажимайте на части по порядку. Нажатие в списке возвращает часть обратно.</p><div class="order list"></div><div class="order pool"></div>`+actions('<button class="btn" data-check>Проверить</button><button class="btn ghost" data-again>Заново</button>');
+    const list=$('.order.list',b),pool=$('.order.pool',b),res=$('.result',b);
+    const build=()=>{list.innerHTML='';res.textContent='';pool.innerHTML=shuf(sp.lines.map((l,i)=>[l,i])).map(([l,i])=>`<button data-i="${i}">${l}</button>`).join('');
+      $$('button',pool).forEach(bt=>bt.onclick=()=>{bt.className='';(bt.parentElement===pool?list:pool).appendChild(bt)})};
+    $('[data-check]',b).onclick=()=>{const it=$$('button',list);let ok=0;it.forEach((bt,k)=>{const g=+bt.dataset.i===k;bt.className=g?'ok':'bad';if(g)ok++});
+      res.textContent=it.length<sp.lines.length?`Разложите все части (${it.length} из ${sp.lines.length}).`:`${ok} из ${sp.lines.length} на своём месте`+(ok===sp.lines.length?' · Výborně!':'');if(ok===sp.lines.length)mark(sp.n)};
+    build();$('[data-again]',b).onclick=build};
+  E.build=(ex,sp)=>{const b=$('.body',ex);b.innerHTML=`<p class="hint" data-ru></p><div class="target"></div><div class="pool"></div>`+actions('<button class="btn" data-check>Проверить</button><button class="btn ghost" data-next>Следующее</button>');
+    const t=$('.target',b),p=$('.pool',b),res=$('.result',b);let i=0;const solved=new Set();
+    const show=()=>{const [hint,s]=sp.items[i];$('[data-ru]',b).innerHTML=`${i+1}/${sp.items.length} · ${hint}`;t.innerHTML='';res.textContent='';
+      p.innerHTML=shuf(s.split(' ')).map(w=>`<button class="word">${w}</button>`).join('');$$('.word',p).forEach(w=>w.onclick=()=>(w.parentElement===p?t:p).appendChild(w))};
+    $('[data-check]',b).onclick=()=>{const got=$$('.word',t).map(w=>w.textContent).join(' '),good=got===sp.items[i][1];res.textContent=good?'Správně! ✓':(got?'Порядок не тот, попробуйте ещё.':'Нажимайте на слова по порядку.');
+      if(good){say(got);solved.add(i);if(solved.size>=Math.ceil(sp.items.length*.8))mark(sp.n)}};
+    $('[data-next]',b).onclick=()=>{i=(i+1)%sp.items.length;show()};show()};
+  E.listen=(ex,sp)=>{const b=$('.body',ex);b.innerHTML=(sp.intro?`<div>${sp.intro}</div>`:'')+`<ul class="lst">${sp.items.map(t=>`<li>${sayBtn(sp.spk?spoken(t):t)}<span>${t}</span></li>`).join('')}</ul>`+actions();
+    const heard=new Set();$$('.lst .say',b).forEach((bt,i)=>bt.addEventListener('click',()=>{heard.add(i);if(heard.size>=Math.min(sp.need||5,sp.items.length)){mark(sp.n);$('.result',b).textContent='Отлично! Повторяйте вслух.'}}))};
+  E.free=(ex,sp)=>{$('.body',ex).innerHTML=`<p>${sp.text}</p>`};
+  E.skip=(ex,sp)=>{ex.classList.add('skip');$('.body',ex).innerHTML=`<p>${sp.text||'Это задание лучше сделать на бумаге.'}</p>`};
+
+  $('#tabs').innerHTML=cfg.tabs.map(t=>`<button role="tab" data-tab="${t.id}" aria-selected="false">${t.name}<span class="ck"></span></button>`).join('');
+  $('#panels').innerHTML=cfg.tabs.map(t=>`<section class="panel" id="t-${t.id}" hidden>${t.ex.map((e,j)=>e.type==='html'?`<div class="theory" id="h-${t.id}-${j}">${e.t?`<h3>${e.t}</h3>`:''}<div class="body"></div></div>`:
+    `<div class="ex" id="x-${e.n||t.id+'-'+j}"><h3>${e.n?`<span class="num">${e.n}</span>`:''}${e.t||''}${e.h?` <small>${e.h}</small>`:''}</h3><div class="body"></div></div>`).join('')}</section>`).join('');
+  cfg.tabs.forEach(t=>t.ex.forEach((e,j)=>{const el=e.type==='html'?$(`#h-${t.id}-${j}`):document.getElementById('x-'+(e.n||t.id+'-'+j));if(e.n&&!['free','skip','html','cards'].includes(e.type))ALL.push(e.n);E[e.type](el,e)}));
+  const open=k=>{$$('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===k));$$('section.panel').forEach(p=>p.hidden=p.id!=='t-'+k);store.set(KEY+':tab',k)};
+  $$('#tabs button').forEach(b=>b.onclick=()=>{open(b.dataset.tab);window.scrollTo({top:0})});
+  const last=store.get(KEY+':tab');open(cfg.tabs.some(t=>t.id===last)?last:cfg.tabs[0].id);
+  $('#resetAll').onclick=()=>{done={};store.set(KEY,done);drawP()};drawP();
+}
+
+function TESTY(t){const pad=String(t.n).padStart(2,'0');
+  KURZ({unit:'вариантов',key:'t'+t.n,page:`lekce-${pad}-testy`,eyebrow:`Česky krok za krokem 1 · Lekce ${t.n} · Testy`,title:`Testy: ${t.title}`,docTitle:`Testy ${t.n} · ${t.title}`,
+    lead:'4 варианта по 30 вопросов, в каждом три ответа и один правильный. Порядок вопросов и ответов каждый раз перемешивается. Если ответите правильно на 24 и больше (80%), вариант засчитан, а в конце будет разбор ошибок.',
+    other:[`lekce-${pad}.html`,`Учебник, урок ${t.n}`],
+    tabs:t.variants.map((v,k)=>({id:'v'+(k+1),name:`Вариант ${k+1}`,ex:[{n:`V${k+1}`,t:`Вариант ${k+1}`,h:'30 вопросов',type:'drill',review:true,pass:.8,
+      items:v.trim().split('\n').map(r=>{const [q,a,b,c]=r.split('|');return {q,o:[a,b,c],a}})}]}))})}
+
+/* reading block: {type:'read', t, paras:[...], words:[[cz,ru],...]} */
+function readHtml(sp){const W=sp.words.slice().sort((a,b)=>b[0].length-a[0].length);
+  const re=new RegExp('(?<![\\p{L}])('+W.map(w=>w[0].replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|')+')(?![\\p{L}])','giu');
+  const map=Object.fromEntries(W.map(w=>[w[0].toLowerCase(),w[1]]));
+  const wrap=t=>esc(t).replace(re,m=>`<span class="gw" tabindex="0" data-ru="${esc(map[m.toLowerCase()]||'')}">${m}</span>`);
+  const paras=sp.paras.map(p=>{const m=p.match(/^([A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ][\p{L}]+):\s(.*)$/u);return `<p>${m?`<b class="spk">${m[1]}:</b> ${wrap(m[2])}`:wrap(p)} ${sayBtn(m?m[2]:p)}</p>`}).join('');
+  const full=sp.paras.map(p=>p.replace(/^[^:\s]+:\s/,'')).join(' ');
+  return `<div class="reader"><div class="actions"><button class="btn ghost" data-say="${esc(full)}">▶ Слушать весь текст</button><span class="hint">Нажмите на подчёркнутое слово, чтобы увидеть перевод.</span></div>
+   <div class="rtext">${paras}</div><div class="gloss" aria-live="polite">Нажмите на слово в тексте</div>
+   <details class="wl"><summary>Слова к тексту (${sp.words.length})</summary><div class="tablewrap"><table><tbody>${sp.words.map(w=>`<tr><td class="cz">${w[0]} ${sayBtn(w[0])}</td><td>${w[1]}</td></tr>`).join('')}</tbody></table></div></details></div>`}
+document.addEventListener('click',e=>{const g=e.target.closest('.gw');if(!g)return;const box=g.closest('.reader').querySelector('.gloss');box.innerHTML=`<b>${g.textContent}</b> — ${g.dataset.ru}`;$$('.gw.on').forEach(x=>x.classList.remove('on'));g.classList.add('on');say(g.textContent)});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.matches('.gw'))e.target.click()});
+
+function CTENI(t){const pad=String(t.n).padStart(2,'0');
+  KURZ({key:'c'+t.n,page:`lekce-${pad}-cteni`,eyebrow:`Česky krok za krokem 1 · Lekce ${t.n} · Čtení`,title:`Čtení: ${t.title}`,docTitle:`Čtení ${t.n} · ${t.title}`,
+    lead:'Короткие тексты по темам урока, написаны по пройденным словам. Сначала прочитайте текст сами, потом послушайте его и сделайте упражнения. Новые слова выделены: нажмите на слово, и появится перевод.',
+    other:[`lekce-${pad}-testy.html`,`Тесты, урок ${t.n}`],
+    footer:'Тексты и упражнения составлены для этого курса по лексике и грамматике урока.',
+    tabs:t.texts.map((x,k)=>({id:'r'+(k+1),name:`${k+1}. ${x.name}`,ex:[{type:'html',t:x.t,html:readHtml(x)},...x.ex.map((e,j)=>({...e,n:`${k+1}${'ABCDE'[j]}`}))]}))})}
+
+const optsFrom=(list,w,n=4)=>[w,...shuf(list.filter(x=>x!==w)).slice(0,n-1)];
+function scramble(w){let s;do{s=shuf(w.toUpperCase().split('')).join('')}while(s===w.toUpperCase());return s}
+const PR=['já','ty','on, ona, to','my','vy','oni'];
+const tbl=(verb,forms,give=[0,5])=>forms.map((f,i)=>give.includes(i)?null:{p:`${verb} · ${PR[i]} —`,a:f}).filter(Boolean);
+const RODL={Ma:'Ma · муж. одуш.',Mi:'Mi · муж. неодуш.',F:'F · женский',N:'N · средний'};
+const TXT33=`<div class="dlgbox"><p><b>A. Jana říká:</b> Jsem vegetariánka a (1) maso už pět let. Ale (2) ráda bílé víno, to (3) skoro každý den.</p><p><b>B. Pavel říká:</b> (4) vůbec alkohol. (5) jenom vodu a čaj. Taky často (6) kávu. (7) rád mexické jídlo.</p><p><b>C. Lenka říká:</b> (8) ráda sladké. Obvykle (9) dorty a palačinky a (10) Colu. Teď ale (11) zdravé jídlo, mám dietu.</p><p><b>D. Karel říká:</b> Já (12) typický Čech. (13) rád pivo a svíčkovou. (14) rád zeleninu, ale (15) ovoce.</p></div>`;
+
+KURZ({key:'ps3',page:'lekce-03-sesit',eyebrow:'Česky krok za krokem 1 · Pracovní sešit · Lekce 3',title:'Pracovní sešit 3',docTitle:'Pracovní sešit 3',
+lead:'Рабочая тетрадь к уроку 3 «Jídlo a pití»: упражнения 1–48 с теми же номерами и заданиями, что в бумажной тетради, но со своими предложениями.',
+other:['lekce-03.html','Учебник, урок 3'],
+footer:'Упражнения повторяют задания и нумерацию рабочей тетради «Česky krok za krokem 1 — Pracovní sešit», урок 3. Предложения и диалоги составлены заново. Поиск слов (2) и кроссворд (10) заменены похожими заданиями.',
+tabs:[
+{id:'a',name:'1–10 Jídlo',ex:[
+ {n:'1',t:'Co je to? Kolik to stojí?',type:'drill',items:[['🍟','hranolky',29],['🍺','světlé pivo',45],['🍲','bramborová polévka',39],['🥩🍚','hovězí maso a dušená rýže',179],['🥟','guláš a knedlíky',159],['🍗','pečené kuře',149],['🍦','vanilková zmrzlina',35],['🥒','okurkový salát',49]].map(([e,w,c],i,A)=>({big:e,q:`Co je to? (${c} Kč)`,o:optsFrom(A.map(x=>x[1]),w),a:w,after:`${w}. Stojí ${cz(c)} korun.`}))},
+ {n:'2',t:'Jaké jídlo a pití znáte?',h:'вместо поиска слов: буквы перемешаны',type:'fill',size:'mid',items:['salát','pivo','káva','čaj','víno','sýr','voda','rýže','dort','maso','kuře','polévka'].map(w=>({p:`<b style="letter-spacing:.12em">${scramble(w)}</b> →`,a:w}))},
+ {n:'3',t:'Spojte výrazy',type:'match',pairs:[['červené','víno'],['česneková','polévka'],['dušená','rýže'],['světlé','pivo'],['perlivá','voda'],['pomerančový','džus'],['smažený','sýr'],['vanilková','zmrzlina'],['vepřové','maso'],['zeleninový','salát']]},
+ {n:'4',t:'Spojte substantiva a příbuzná adjektiva',type:'match',pairs:[['brambory','bramborová polévka'],['česnek','česneková polévka'],['čokoláda','čokoládová zmrzlina'],['okurka','okurkový salát'],['ovoce','ovocný čaj'],['pomeranč','pomerančový džus'],['vanilka','vanilková zmrzlina'],['zelenina','zeleninový salát']]},
+ {n:'5',t:'Co tam nepatří?',type:'drill',items:[{q:'Polévky: česneková, perlivá, bramborová, gulášová',o:['perlivá','česneková','gulášová'],a:'perlivá',x:'perlivá — это вода, а не суп.'},{q:'Maso: řízek, zeleninový, vepřové, hovězí',o:['zeleninový','řízek','vepřové'],a:'zeleninový'},{q:'Saláty: okurkový, šopský, knedlíky, zeleninový',o:['knedlíky','okurkový','šopský'],a:'knedlíky'},{q:'Dezerty: losos, zmrzlina, palačinky, dort',o:['losos','zmrzlina','dort'],a:'losos'},{q:'Nápoje: voda, džus, dort, čaj',o:['dort','voda','čaj'],a:'dort'}]},
+ {n:'6',t:'Rozdělte slova do tabulky',type:'drill',take:14,items:[['čaj','nápoj'],['kuře','maso'],['vepřové','maso'],['zmrzlina','dezert'],['šopský','salát'],['bramborová','polévka'],['dort','dezert'],['okurkový','salát'],['voda','nápoj'],['zeleninový','salát'],['palačinky','dezert'],['gulášová','polévka'],['řízek','maso'],['víno','nápoj'],['česneková','polévka']].map(([q,a])=>({q,say:q,o:['polévka','maso','dezert','salát','nápoj'],a})),fixed:true},
+ {n:'7',t:'Rozdělte slova podle rodu',h:'Ma — живое: kapr, losos',type:'drill',take:15,items:[['losos','Ma'],['kapr','Ma'],['salát','Mi'],['čaj','Mi'],['sýr','Mi'],['džus','Mi'],['zmrzlina','F'],['rýže','F'],['voda','F'],['omáčka','F'],['polévka','F'],['pivo','N'],['víno','N'],['maso','N'],['kuře','N'],['zelí','N']].map(([q,g])=>({q,say:q,o:Object.values(RODL),a:RODL[g],x:{Ma:'живое существо (рыба тоже!)',Mi:'предмет, кончается на согласный',F:'-a / -e',N:'-o / -e (kuře) / -í'}[g]})),fixed:true},
+ {n:'8',t:'Pochvalte jídlo nebo pití',h:'Ta bramborová polévka je dobrá.',type:'fill',size:'wide',items:[['smažený sýr','Ten smažený sýr je dobrý'],['bílé víno','To bílé víno je dobré'],['česneková polévka','Ta česneková polévka je dobrá'],['černé pivo','To černé pivo je dobré'],['smažený losos','Ten smažený losos je dobrý'],['vepřové maso','To vepřové maso je dobré'],['okurkový salát','Ten okurkový salát je dobrý'],['vanilková zmrzlina','Ta vanilková zmrzlina je dobrá'],['hovězí maso','To hovězí maso je dobré'],['ovocný čaj','Ten ovocný čaj je dobrý'],['dušená rýže','Ta dušená rýže je dobrá'],['pečené kuře','To pečené kuře je dobré']].map(([w,a])=>({p:`${w} →`,a}))},
+ {n:'9',t:'Co říkáme, když něco je, nebo není dobré?',type:'drill',fixed:true,items:[['🤢','Fuj, to není dobré!'],['😋','Mňam, to je dobré!'],['👨‍🍳👌','Mm, to je výborné!']].map(([e,a])=>({big:e,q:'',o:['Mňam, to je dobré!','Mm, to je výborné!','Fuj, to není dobré!'],a,after:a}))},
+ {n:'10',t:'Co je to?',h:'вместо кроссворда · первые буквы дают «Dobrou chuť!»',type:'drill',keepOrder:true,items:[['🧃','džus'],['🥩','maso'],['🥔','brambory'],['🍚','rýže'],['🍲','polévka'],['🍗','kuře'],['🥒','okurka'],['🍟','hranolky'],['🫖','čaj'],['🍨','zmrzlina'],['💧','voda'],['🧀','sýr'],['☕','káva'],['🍺','pivo'],['🍷','víno']].map(([e,w],i,A)=>({big:e,q:'Co je to?',o:optsFrom(A.map(x=>x[1]),w,3),a:w,after:w}))}]},
+
+{id:'b',name:'11–21 Restaurace',ex:[
+ {n:'11',t:'Co slyšíte nebo říkáte v restauraci? Spojte',type:'match',pairs:[['Co si dáte?','Dám si pečené kuře a hranolky.'],['Co si dáte k jídlu?','Dáme si dvakrát guláš a knedlíky.'],['Co si dáte k pití?','Dám si černé pivo.'],['Dáte si salát?','Ne, děkuju.'],['Zaplatím.','Tři sta padesát korun.'],['Dáte si dezert?','Ano. Dám si palačinky.'],['Děkuju.','Prosím.'],['Zvlášť, nebo dohromady?','Zvlášť.']]},
+ {n:'12',t:'Co říká číšník (Č) a co host (H)?',type:'drill',items:[['Dám si maso a knedlíky.','host'],['Zvlášť, nebo dohromady?','číšník'],['Dáte si taky nějaký dezert?','číšník'],['Zaplatím.','host'],['Já nechci polévku.','host'],['Co si dáte k jídlu?','číšník'],['Máte hranolky?','host'],['Ještě něco?','číšník'],['Dáme si hovězí maso a brambory.','host'],['Co si dáte k pití?','číšník']].map(([q,a])=>({q,say:q,o:['číšník','host'],a,fixed:true}))},
+ {n:'13',t:'Čtěte podle modelu',h:'2× zelený čaj — dvakrát zelený čaj',type:'fill',size:'wide',items:[['2× káva','dvakrát kávu'],['3× limonáda','třikrát limonádu'],['4× čokoládový dort','čtyřikrát čokoládový dort'],['1× biftek a hranolky','jednou biftek a hranolky'],['2× džus','dvakrát džus'],['3× pivo','třikrát pivo'],['2× vanilková zmrzlina','dvakrát vanilkovou zmrzlinu'],['1× palačinky','jednou palačinky']].map(([p,a])=>({p:p+' —',a}))},
+ {n:'14',t:'Co je v jídelním lístku? Co si dáte?',h:'Dám si…',type:'fill',size:'wide',items:[['bramborová polévka','bramborovou polévku'],['palačinky','palačinky'],['smažený sýr a brambory','smažený sýr a brambory'],['vanilková zmrzlina','vanilkovou zmrzlinu'],['káva','kávu'],['černé pivo','černé pivo'],['zelený čaj','zelený čaj'],['grilovaný losos a hranolky','grilovaného lososa a hranolky'],['Cola','Colu'],['okurkový salát','okurkový salát']].map(([w,a])=>({p:`${w} → Dám si`,a}))},
+ {n:'15',t:'Procvičujte akuzativ sg.',h:'Dám si… (perlivá voda) — Dám si perlivou vodu.',type:'fill',size:'mid',items:[['Dám si','zelený čaj','zelený čaj'],['Prosím','černá káva','černou kávu'],['Máte','bílé víno','bílé víno'],['Máte','gulášová polévka','gulášovou polévku'],['Dáme si','černé pivo','černé pivo'],['Prosím','zeleninová pizza','zeleninovou pizzu'],['Dám si','hovězí maso','hovězí maso'],['Prosím','tatarská omáčka','tatarskou omáčku'],['Dám si','čokoládová zmrzlina','čokoládovou zmrzlinu'],['Dám si','okurkový salát','okurkový salát'],['Máte','smažený kapr','smaženého kapra'],['Máte','grilovaný losos','grilovaného lososa']].map(([p,w,a])=>({p,a,s:`(${w})`}))},
+ {n:'16',t:'Slova v závorce ve správném tvaru',type:'fill',size:'wide',items:[{w:'Číšník:',p:'Prosím, co si dáte?'},{w:'Olga a Petr:',p:'Dáme si 2× (česneková polévka) →',a:'dvakrát česnekovou polévku'},{w:'Číšník:',p:'A ještě něco?'},{w:'Olga a Petr:',p:'Ano, 2× (smažený sýr) →',a:'dvakrát smažený sýr'},{w:'Číšník:',p:'A co k pití?'},{w:'Olga a Petr:',p:'1× (pivo) →',a:'jednou pivo'},{w:'',p:'a 1× (limonáda) →',a:'jednou limonádu'},{w:'Číšník:',p:'Dáte si nějaký dezert?'},{w:'Olga a Petr:',p:'Ano, 2× (vanilková zmrzlina) →',a:'dvakrát vanilkovou zmrzlinu'}]},
+ {n:'17',t:'Akuzativ, nebo nominativ? Vyberte',type:'pick',items:[{t:'Dám si ___.',o:['zeleninová polévka','zeleninovou polévku'],a:'zeleninovou polévku'},{t:'Kolik stojí ___?',o:['grilovaný losos','grilovaného lososa'],a:'grilovaný losos'},{t:'Nemám rád ___.',o:['vegetariánská pizza','vegetariánskou pizzu'],a:'vegetariánskou pizzu'},{t:'___ není dobrá.',o:['Svíčková omáčka','Svíčkovou omáčku'],a:'Svíčková omáčka'},{t:'Kolik stojí ___?',o:['vanilková zmrzlina','vanilkovou zmrzlinu'],a:'vanilková zmrzlina'},{t:'Dáš si ___?',o:['čokoláda','čokoládu'],a:'čokoládu'},{t:'Dáme si ___.',o:['smažený kapr','smaženého kapra'],a:'smaženého kapra'},{t:'___ není zdravá, ale je dobrá.',o:['Zmrzlina','Zmrzlinu'],a:'Zmrzlina'},{t:'Dáme si ___.',o:['perlivá voda','perlivou vodu'],a:'perlivou vodu'},{t:'___ stojí 110 korun.',o:['Salámová pizza','Salámovou pizzu'],a:'Salámová pizza'}]},
+ {n:'18',t:'Doplňte koncovky -a, -á, -u nebo -ou',type:'fill',size:'tight',items:[{w:'Iva:',p:'Dobrý den, jak',a:'é',s:' máte polévky?'},{w:'Číšník:',p:'Máme bramborov',a:'ou',s:' a zeleninovou.'},{w:'Iva:',p:'A kolik stojí t',a:'a',s:' zeleninová?'},{w:'Číšník:',p:'Zeleninov',a:'á',s:' stojí 45.'},{w:'Iva:',p:'Tak my si dáme dvakrát t',a:'u',s:' zeleninovou.'},{w:'Jana:',p:'Mňam, ta polévk',a:'a',s:' je opravdu dobrá.'},{w:'Iva:',p:'Nedáš si dezert? Třeba zmrzlin',a:'u',s:'?'},{w:'Jana:',p:'Tak já si dám tu vanilkov',a:'ou',s:'.'}]},
+ {n:'19',t:'Nominativ, nebo akuzativ? Napište ve správné formě',type:'fill',size:'wide',items:[['Dáme si','česneková polévka','česnekovou polévku'],['To je dobrá','perlivá voda','perlivá voda'],['Dám si','černé pivo','černé pivo'],['To je dobrý','smažený sýr','smažený sýr'],['To je dobrá','čokoládová zmrzlina','čokoládová zmrzlina'],['Dám si','čokoládový dort','čokoládový dort'],['To je','svíčková omáčka','svíčková omáčka'],['Dneska mají','světlé pivo','světlé pivo'],['Dáš si','bílé víno','bílé víno'],['Máte','sýrová pizza','sýrovou pizzu'],['Prosím','okurkový salát','okurkový salát'],['Dáme si','vanilková zmrzlina','vanilkovou zmrzlinu'],['To je','bramborová polévka','bramborová polévka']].map(([p,w,a])=>({p,a,s:`(${w})`}))},
+ {n:'20',t:'Co je to? Napište správně',h:'Nemám rád IPOV. — PIVO.',type:'fill',size:'mid',items:[['Dáme si nějaké dobré','VÍNO'],['Piju jenom','VODU'],['Dáte si','PALAČINKY'],['To je dobrá','ZMRZLINA'],['Chci nějaký dobrý','DEZERT'],['Mám ráda','ČOKOLÁDU'],['Nemám rád','KNEDLÍKY'],['V neděli jíme','MASO']].map(([p,w])=>({p:`${p} <b style="letter-spacing:.1em">${scramble(w)}</b> →`,a:w.toLowerCase()}))},
+ {n:'21',t:'V restauraci, v kavárně a v obchodě. Doplňte dialogy',type:'fill',size:'wide',bank:['Jednou kávu.','Třeba nějaký dezert?','Ještě salát, prosím.','Co si dáte?','Jedno pivo a jednu limonádu.','To je všechno.','Chtěl bych dvakrát mléko a jeden sýr.','Ano. Bílé, nebo červené?'],items:[
+  {w:'1 Číšník:',p:'Prosím, paní, co si dáte?'},{w:'Lori:',a:'Jednou kávu'},{w:'Číšník:',a:['Třeba nějaký dezert','Třeba nějaký dezert?']},{w:'Lori:',p:'Dám si zmrzlinu a palačinky se šlehačkou.'},
+  {w:'2 Servírka:',p:'Prosím, co si dáte?'},{w:'David:',p:'Jednou polévku a kuře s rýží. — A ještě něco?'},{w:'David:',a:'Ještě salát, prosím'},
+  {w:'3 Číšník:',a:'Co si dáte'},{w:'Jana:',p:'Dáme si dvakrát guláš s knedlíkem. A k pití?'},{w:'Pavel:',a:'Jedno pivo a jednu limonádu'},{w:'Číšník:',p:'A ještě něco?'},{w:'Pavel:',p:'Ne, díky.',a:'To je všechno'},
+  {w:'4 Prodavačka:',p:'Prosím?'},{w:'Robert:',a:['Chtěl bych dvakrát mléko a jeden sýr','Chtěl bych dvakrát mléko a jeden sýr.']},{w:'Robert:',p:'Máte nějaké víno?'},{w:'Prodavačka:',a:'Ano. Bílé, nebo červené'}]}]},
+
+{id:'c',name:'22–35 Slovesa',ex:[
+ {n:'22',t:'Doplňte tabulku',h:'mít · jíst · číst · pít · mít rád · chtít',type:'fill',size:'mid',items:[...tbl('mít',['mám','máš','má','máme','máte','mají'],[0]),...tbl('jíst',['jím','jíš','jí','jíme','jíte','jí'],[0,5]),...tbl('číst',['čtu','čteš','čte','čteme','čtete','čtou'],[0]),...tbl('pít',['piju','piješ','pije','pijeme','pijete','pijou'],[0,5]),...tbl('mít rád',['mám rád','máš rád','má rád','máme rádi','máte rádi','mají rádi'],[0,2,5]),...tbl('chtít',['chci','chceš','chce','chceme','chcete','chtějí'],[5])]},
+ {n:'23',t:'Slovesa jíst, číst, pít a chtít. Vyberte',type:'pick',items:[{t:'(já) ___ čaj.',o:['Piju','Pijeme','Pijou'],a:'Piju'},{t:'Karel ___ jídelní lístek.',o:['číst','čte','čtou'],a:'čte'},{t:'(my) ___ alkohol.',o:['Nepiju','Nepijeme','Nepít'],a:'Nepijeme'},{t:'Jana ___ zeleninovou polévku.',o:['chce','chtít','chtějí'],a:'chce'},{t:'(ty) ___ lososa?',o:['Nechcete','Nechtít','Nechceš'],a:'Nechceš'},{t:'Proč Anna ___ víno?',o:['nepijete','nepiješ','nepije'],a:'nepije'},{t:'(já) ___ maso.',o:['Nejí','Nejíš','Nejím'],a:'Nejím'},{t:'(ty) ___ zelený čaj?',o:['Piju','Pije','Piješ'],a:'Piješ'},{t:'Co (ty) ___?',o:['čtu','čteš','čtete'],a:'čteš'},{t:'Co (vy) ___?',o:['chceš','chce','chcete'],a:'chcete'},{t:'Proč (vy) ___ knedlíky?',o:['nejíš','nejíte','nejí'],a:'nejíte'},{t:'Max a Klára ___ kávu.',o:['nechceme','nechcete','nechtějí'],a:'nechtějí'}]},
+ {n:'24',t:'být, mít, mít rád, jíst, číst, pít, chtít. Vyberte',type:'pick',items:[{t:'Pavel ___ jídelní lístek.',o:['pije','má rád','čte'],a:'čte'},{t:'___ smažený sýr.',o:['Mám ráda','Piju','Čtu'],a:'Mám ráda'},{t:'Smažený sýr ___ zdravý.',o:['nechci','není','nejí'],a:'není'},{t:'Jaké ___ víno?',o:['čtete','jíte','máte'],a:'máte'},{t:'___ řízek, jsem vegetarián.',o:['Nechci','Nečtu','Nepiju'],a:'Nechci'},{t:'___ pizzu.',o:['Nemáme rádi','Nečteme','Nepijeme'],a:'Nemáme rádi'},{t:'___, ale má rád víno.',o:['Nepije pivo','Nejí pivo','Nečte pivo'],a:'Nepije pivo'},{t:'___ maso, mám rád zeleninu.',o:['Nepiju','Nečtu','Nejím'],a:'Nejím'},{t:'___ polévku.',o:['Nečte','Nechce','Nepije'],a:'Nechce'},{t:'Monika ___ kapra.',o:['má ráda','čte','pije'],a:'má ráda'}]},
+ {n:'25',t:'Chceš…, nebo…? Tvořte otázky a reagujte',h:'Chceš pivo, nebo víno? — Chtěl/a bych víno. / Dám si víno.',type:'listen',need:5,items:['Chceš perlivou, nebo neperlivou vodu? — Dám si neperlivou vodu.','Chceš zelený, nebo černý čaj? — Chtěla bych zelený čaj.','Chceš čokoládovou, nebo vanilkovou zmrzlinu? — Dám si vanilkovou zmrzlinu.','Chceš vepřové, nebo hovězí maso? — Chtěl bych hovězí maso.','Chceš brambory, nebo knedlíky? — Dám si knedlíky.','Chceš bramborovou, nebo česnekovou polévku? — Dám si česnekovou polévku.']},
+ {n:'26',t:'Slovesa podle konjugace',h:'já-forma → группа',type:'drill',take:16,items:[['vidět','vidím','-í'],['jíst','jím','-í'],['mluvit','mluvím','-í'],['pít','piju','-e'],['vědět','vím','nepravidelné'],['pracovat','pracuju','-uj'],['muset','musím','-í'],['dělat','dělám','-á'],['studovat','studuju','-uj'],['mít','mám','-á'],['číst','čtu','-e'],['chtít','chci','nepravidelné'],['rozumět','rozumím','-í'],['hledat','hledám','-á'],['bydlet','bydlím','-í'],['dát si','dám si','-á'],['učit se','učím se','-í']].map(([v,f,a])=>({q:`${v} → ${f}`,say:f,o:['-á','-í','-uj','-e','nepravidelné'],a})),fixed:true},
+ {n:'27',t:'Analyzujte formy sloves. Doplňte kdo',type:'drill',items:[['jsou',5],['děláš',1],['rozumíme',3],['mluví',2],['pije',2],['máme rádi',3],['víte',4],['vidíš',1],['studuju',0],['děláte',4],['musíme',3],['hledám',0],['bydlíme',3],['pracuje',2],['čtu',0],['vím',0]].map(([f,i])=>({q:f,say:f,o:PR,a:PR[i]}))},
+ {n:'28',t:'Spojte části vět',type:'match',pairs:[['Bydlíme','v hotelu.'],['Ivana čte','jídelní lístek.'],['Nejím','čokoládový dort.'],['Hledáme','nový byt.'],['Nevíte, kde','je Náměstí Republiky?'],['Josef mluví','dobře česky.'],['Musíte','jet autobusem číslo 321.'],['Nepiju','černý čaj.'],['Pracujete','ve škole?'],['Chci vidět','nějaký český film.']]},
+ {n:'29',t:'Doplňte vhodné sloveso',h:'Ester je v kavárně. Pije černý čaj.',type:'fill',size:'mid',items:[{p:'(my) Ve škole',a:['mluvíme','studujeme'],s:'česky.'},{p:'Jsem učitel.',a:'Pracuju',s:'tady ve škole.'},{p:'Eliška je v restauraci a',a:'čte',s:'jídelní lístek.'},{p:'Martin je v kavárně.',a:['Jí','Chce'],s:'čokoládový dort.'},{p:'Nemocnice je daleko.',a:'Musíte',s:'jet metrem.'},{p:'Nemá byt,',a:'bydlí',s:'v hotelu.'},{p:'Erik bydlí v hotelu a',a:'hledá',s:'nový byt.'},{p:'(já)',a:'Nevím',s:', kde je nádraží.'}]},
+ {n:'30',t:'Tvořte věty',h:'Iva / pít / voda — Iva pije vodu.',type:'fill',size:'wide',items:[['Petr / pít / limonáda','Petr pije limonádu'],['Markéta / chtít / česneková polévka','Markéta chce česnekovou polévku'],['Alena / číst / jídelní lístek','Alena čte jídelní lístek'],['Ty / mít rád / bílé víno?','Ty máš rád bílé víno'],['Dana / chtít / kočka','Dana chce kočku'],['David a Martin / nechtít / dezert','David a Martin nechtějí dezert'],['Jan a Eva / nepít / pivo',['Jan a Eva nepijou pivo','Jan a Eva nepijí pivo']],['Renata / jíst / smažený řízek','Renata jí smažený řízek'],['Vy / nejíst / maso?','Vy nejíte maso'],['Vy / chtít / polévka?','Vy chcete polévku'],['Milan / nemít rád / palačinky','Milan nemá rád palačinky'],['David / nepít / káva?','David nepije kávu'],['Já / nepít / Cola',['Já nepiju Colu','Já nepiji Colu']],['Ty / nechtít / dort?','Ty nechceš dort'],['Tereza / nepít / perlivá voda','Tereza nepije perlivou vodu']].map(([p,a])=>({p:p+' →',a}))},
+ {n:'31',t:'Procvičujte akuzativ sg.',h:'Dám si (neperlivá voda). — Dám si neperlivou vodu.',type:'fill',size:'mid',items:[['Dám si','červené víno','červené víno'],['Nechci','zelený čaj','zelený čaj'],['Dan nepije','černá káva','černou kávu'],['Nedám si','polévka','polévku'],['Chceš','limonáda','limonádu'],['Nemám rád','pizza','pizzu'],['Dáte si','omáčka','omáčku'],['Nechcete','dort','dort'],['Mám ráda','pivo','pivo'],['Hledám','banka','banku'],['Hledáte','hotel','hotel'],['Hledám','divadlo','divadlo'],['Vidím','škola','školu'],['Mám rád','Praha','Prahu'],['Nemám ráda','opera','operu'],['Mám rád','balet','balet'],['Máš','lístek','lístek'],['Hledám','pošta','poštu']].map(([p,w,a])=>({p,a,s:`(${w})`}))},
+ {type:'html',t:'Proto, protože, proč · někdy, nikdy',html:`<ul><li><b>Proč?</b> — Почему? · <b>protože</b> — потому что · <b>proto</b> — поэтому.<br><i>Proč nejíš maso? — <b>Protože</b> jsem vegetarián.</i> · <i>Jsem vegetarián, <b>proto</b> nejím maso.</i></li>
+  <li><b>někdy</b> — иногда · <b>nikdy</b> — никогда. После <i>nikdy</i> глагол всегда с <b>ne-</b> (двойное отрицание, как в русском): <i>Nikdy <b>ne</b>jím maso.</i> — Я никогда не ем мясо.</li>
+  <li><b>každý den</b> — каждый день · <b>často</b> — часто · <b>obvykle</b> — обычно · <b>ale</b> — но · <b>taky</b> — тоже</li></ul>`},
+ {n:'32',t:'Doplňte do vět slova',type:'fill',size:'mid',bank:['proto','Nikdy','někdy','protože','Proč','ale','taky'],items:[{p:'Nejím maso,',a:'protože',s:'jsem vegetarián.'},{p:'Jsem vegetarián, a',a:'proto',s:'nejím maso.'},{a:'Proč',s:'nejíš maso? — Protože jsem vegetarián.'},{p:'Jsem vegetarián a moje přítelkyně je',a:'taky',s:'vegetariánka.'},{p:'Jsem vegetarián,',a:'ale',s:'někdy jím ryby.'},{p:'Jíš maso? —',a:'Někdy',s:'ano, někdy ne.'},{a:'Nikdy',s:'nejím maso, protože jsem vegetarián.'}]},
+ {n:'33',t:'Doplňte do textu slovesa ve správné formě',type:'fill',size:'mid',intro:TXT33,items:[['(1) nejíst','nejím'],['(2) mít','mám'],['(3) pít','piju'],['(4) nepít','Nepiju'],['(5) pít','Piju'],['(6) pít','piju'],['(7) mít','Mám'],['(8) mít','Mám'],['(9) jíst','jím'],['(10) pít','piju'],['(11) jíst','jím'],['(12) být','jsem'],['(13) mít','Mám'],['(14) nemít','Nemám'],['(15) jíst','jím']].map(([p,a])=>({p,a:[a,a.replace('piju','piji')]}))},
+ {n:'34',t:'Kdo to je? (podle cvičení 33)',type:'drill',items:[['Kdo nejí maso?','Jana'],['Kdo nepije alkohol?','Pavel'],['Kdo má rád mexické jídlo?','Pavel'],['Kdo má teď dietu?','Lenka'],['Kdo má rád pivo a svíčkovou?','Karel'],['Kdo pije skoro každý den bílé víno?','Jana'],['Kdo jí dorty a palačinky?','Lenka'],['Kdo nemá rád zeleninu?','Karel']].map(([q,a])=>({q,o:['Jana','Pavel','Lenka','Karel'],a,fixed:true}))},
+ {n:'35',t:'Pište o sobě',h:'každý den · často · obvykle · někdy · nikdy ne-',type:'free',text:'Напишите мне 5 предложений: <i>pít pivo, pít kávu, jíst maso, jíst zdravé jídlo, mít rád zeleninu</i>. Например: <i>Každý den piju kávu. Nikdy nepiju pivo.</i>'}]},
+
+{id:'d',name:'36–43 Návštěva',ex:[
+ {n:'36',t:'Neformální návštěva. Doplňte typické fráze',type:'fill',size:'mid',bank:['dál','máš','líto','nechceš','později','škoda','toaleta','si','pomoct','sestru'],items:[{p:'Pojď',a:'dál',s:'.'},{p:'Jak se',a:'máš',s:'?'},{p:'To je mi',a:'líto',s:'.'},{p:'A',a:'nechceš',s:'cukr?'},{p:'Ne, děkuju, možná',a:'později',s:'.'},{p:'To je',a:'škoda',s:'.'},{p:'Promiň, kde je',a:'toaleta',s:'?'},{p:'Odskočím',a:'si',s:'.'},{p:'Můžu ti nějak',a:'pomoct',s:'?'},{p:'Pozdravuj',a:'sestru',s:'!'}]},
+ {n:'37',t:'Co říkáte na formální návštěvě? Spojte',type:'match',pairs:[['Jak se máte?','Děkuju, dobře.'],['Dáte si něco k pití?','Dám si jenom vodu.'],['Chcete černý, nebo zelený čaj?','Černý.'],['Nechcete cukr nebo mléko?','Jenom mléko, cukr ne, děkuju.'],['Bratr je už zdravý?','Ano, je. Už pracuje.'],['Promiňte, už musím jít.','To je škoda. Tak na shledanou.'],['Dáte si čokoládový dort?','Ano, děkuju. Mám rád dorty.']]},
+ {n:'38',t:'Paní Malá a pan Dvořák. Seřaďte dialog',type:'order',lines:['Paní Malá: Dobrý den, pojďte dál. Jak se máte?','Pan Dvořák: Děkuju, docela dobře. A vy?','Paní Malá: Taky dobře. Dáte si něco k pití? Kávu, čaj nebo vodu?','Pan Dvořák: Dám si čaj.','Paní Malá: A chcete černý, nebo zelený?','Pan Dvořák: Zelený, děkuju.','Paní Malá: A co je nového? Bratr je už zdravý?','Pan Dvořák: Ano, je. Už pracuje.','Paní Malá: Aha, tak to je dobře.','Pan Dvořák: Promiňte, paní Malá, už musím jít. Děkuju za čaj.','Paní Malá: Není zač. Mějte se hezky. A pozdravujte bratra.','Pan Dvořák: Na shledanou.']},
+ {n:'39',t:'Jakub mluví s Terezou. Doplňte do dialogu',type:'fill',size:'mid',bank:['jsem v pohodě','peníze','mám moc práce','jít na kafe','rýmu','náladu','ujde to','smůlu'],items:[{w:'Jakub:',p:'Čau, Terezo. Jak se máš?'},{w:'Tereza:',p:'Čau,',a:'ujde to',s:'. A co ty?'},{w:'Jakub:',p:'Jo, mám se docela fajn, ale',a:'mám moc práce',s:'!'},{w:'Tereza:',p:'Tak máš taky',a:'peníze',s:', ne?'},{w:'Jakub:',p:'To jo. Ale ty seš nějaká smutná. Máš špatnou',a:'náladu',s:'?'},{w:'Tereza:',p:'Ne,',a:'jsem v pohodě',s:'. Mám jen trochu'},{w:'',a:'rýmu',s:'.'},{w:'Jakub:',p:'Hm… A nechceš',a:'jít na kafe',s:'?'},{w:'Tereza:',p:'Ne, díky. Mám rande! Čau!'},{w:'Jakub:',p:'Ach jo, mám dneska fakt',a:'smůlu',s:'.'}]},
+ {n:'40',t:'Pište o sobě. Dokončete věty',type:'free',text:'Допишите и пришлите мне: <i>Každý den mám… Často mám… Často nemám… Dneska mám… Teď mám… Obvykle mám… Obvykle nemám… O víkendu mám…</i>'},
+ {n:'41',t:'Co je to? Napište správně',h:'Mám PORBĚLMY. — Mám problémy.',type:'fill',size:'mid',items:['rýmu','hlad','žízeň','dovolenou','smůlu','strach','čas','práce'].map(w=>({p:`Mám <b style="letter-spacing:.1em">${scramble(w)}</b> →`,a:w}))},
+ {n:'42',t:'Kdo to asi říká?',type:'drill',items:[['😱 Karel se dívá na horor.','Mám strach.'],['🍰 Irena nejí dort.','Mám dietu.'],['🍝 Ivan jí špagety.','Mám hlad.'],['🏝️ Jiří je u moře.','Mám dovolenou.'],['😤 David je v autě.','Mám vztek.'],['💡 Sylva má nový plán.','Mám nápad.'],['😞 Patrik je smutný.','Mám depresi.'],['🥤 Boris je v poušti.','Mám žízeň.'],['🤧 Dana je nemocná.','Mám rýmu.'],['💸 Leoš vyhrál.','Mám peníze.'],['🍷 Klára je v restauraci s Tomem.','Mám rande.'],['📞 Libor je v kanceláři.','Mám moc práce.']].map(([q,a],i,A)=>({q,o:optsFrom(A.map(x=>x[1]),a,3),a,after:a}))},
+ {n:'43',t:'Spojte otázky a reakce',h:'ještě — ещё · už — уже',type:'match',pairs:[['Máš hlad?','Ne, děkuju. Mám jenom žízeň.'],['Máš ještě rýmu?','Ne, už jsem zdravý.'],['Máš teď moc práce?','Ne. Teď mám čas.'],['Máš strach?','Ne, nemám.'],['Máš žízeň?','Ano. Dám si velkou Colu.'],['Máš peníze?','Ano, mám tady dva tisíce.'],['Máš o víkendu čas?','Ne, mám moc práce.']]}]},
+
+{id:'e',name:'44–48 Pravopis',ex:[
+ {n:'44',t:'Doplňte í nebo ý',type:'fill',size:'tight',pass:.9,items:[['Nechci vepřov','ý',' řízek.'],['Dám si hověz','í',' guláš.'],['Nechutná mi čokoládov','ý',' dort.'],['Mám ráda kuřec','í',' maso.'],['Smažen','ý',' sýr není zdravý.'],['Ten guláš je moc dobr','ý','.'],['Pros','í','m, tady je cukr.'],['Já nej','í','m knedlíky.'],['Mám ž','í','zeň.'],['Mám r','ý','mu.'],['Nemám pen','í','ze.'],['Na zdrav','í','!']].map(([p,a,s])=>({p,a,s}))},
+ {n:'45',t:'Doplňte u nebo ou',type:'fill',size:'tight',pass:.9,items:[['Eva a Petr js','ou',' v restauraci.'],['Dám si vanilkov','ou',' zmrzlinu.'],['Dám si vanilkovou zmrzlin','u','.'],['Dobr','ou',' chuť!'],['Ještě jedn','o',' pivo.'],['Máte vod','u','?'],['Nechcete káv','u','?'],['Na shledan','ou','.'],['Proč máš špatn','ou',' náladu?'],['Mám dovolen','ou','.'],['Mám smůl','u','.'],['Mám rým','u','.']].filter((x,i)=>i!==4).map(([p,a,s])=>({p,a,s}))},
+ {n:'46',t:'Doplňte u nebo o',type:'fill',size:'tight',pass:.9,items:[['Máte červené vín','o','?'],['Dám si hovězí mas','o','.'],['Chcete bramb','o','ry, nebo hranolky?'],['Dáte si čaj nebo káv','u','?'],['Nechcete c','u','kr nebo mléko?'],['Jak se máte? — ','U','jde to.'],['Ne, děk','u','ju.'],['Sestra je boh','u','žel nemocná.'],['To je mi lít','o','.'],['Dobro','u',' chuť!'],['Můžu vám nějak pomoct?','','']].filter(x=>x[1]).map(([p,a,s])=>({p,a,s}))},
+ {n:'47',t:'Kde to můžete říkat nebo slyšet?',h:'na ulici · na návštěvě · v restauraci',type:'drill',items:[['Dám si menu číslo 4.','v restauraci'],['Dáš si kafe?','na návštěvě'],['Hledám hotel Orion.','na ulici'],['Jaké máte červené víno?','v restauraci'],['Jednou hranolky.','v restauraci'],['Musíte jít doleva.','na ulici'],['Nádraží je daleko.','na ulici'],['Nechceš čaj?','na návštěvě'],['Pojď dál.','na návštěvě'],['Zvlášť, nebo dohromady?','v restauraci']].map(([q,a])=>({q,say:q,o:['na ulici','na návštěvě','v restauraci'],a,fixed:true}))},
+ {n:'48',t:'Vyberte, co je správně',type:'pick',items:[{t:'Václav ___ ekonom.',o:['nepracuje','není','jsem'],a:'není'},{t:'Marie ___ nový telefon.',o:['mám','máš','má'],a:'má'},{t:'Mějte se ___.',o:['dobrý','těší','hezky'],a:'hezky'},{t:'Můžeme ___',o:['tykat','si tykat','ty'],a:'si tykat'},{t:'Jsem doktor a Táňa je ___ doktorka.',o:['taky','tady','tam'],a:'taky'},{t:'Hana pracuje ve škole. Je ___',o:['herečka','učitelka','zpěvačka'],a:'učitelka'},{t:'Dole je ___ restaurace.',o:['dobrý','dobrá','dobré'],a:'dobrá'},{t:'Je tady ___ moderní hotel?',o:['nějaký','nějaká','nějaké'],a:'nějaký'},{t:'___ Praha.',o:['Líbí se mi','Chutná mi','Jsem ráda'],a:'Líbí se mi'}]}]}
+]});
+
+</script></body></html>

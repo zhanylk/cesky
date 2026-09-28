@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="cs"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Lekce 1 · Seznamujeme se</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,700&family=Onest:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#F3F5F8;--surface:#FFFFFF;--ink:#18263A;--muted:#5B6878;--line:#DCE2EA;
+  --accent:#1D4E89;--accent-soft:#E3ECF7;--red:#B83A2E;--red-soft:#F8E6E3;
+  --ok:#2E7D4F;--ok-soft:#E1F2E7;--bad:#B83A2E;--bad-soft:#F8E6E3;
+  --ma:#1D6FB8;--mi:#274B7A;--f:#C0392B;--n:#2E7D4F;
+  --display:"Literata",Georgia,serif;--body:"Onest",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  color-scheme:dark;--bg:#0F1621;--surface:#172232;--ink:#E6ECF3;--muted:#98A6B8;--line:#2A394D;
+  --accent:#7FB0EA;--accent-soft:#1D3150;--red:#E88A7E;--red-soft:#3A2220;
+  --ok:#6FCB94;--ok-soft:#18362A;--bad:#E88A7E;--bad-soft:#3A2220;
+  --ma:#7FB8EA;--mi:#A9BFE0;--f:#EE9A8F;--n:#7FD1A0;}}
+:root[data-theme="dark"]{
+  color-scheme:dark;--bg:#0F1621;--surface:#172232;--ink:#E6ECF3;--muted:#98A6B8;--line:#2A394D;
+  --accent:#7FB0EA;--accent-soft:#1D3150;--red:#E88A7E;--red-soft:#3A2220;
+  --ok:#6FCB94;--ok-soft:#18362A;--bad:#E88A7E;--bad-soft:#3A2220;
+  --ma:#7FB8EA;--mi:#A9BFE0;--f:#EE9A8F;--n:#7FD1A0;}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;padding-inline:16px;padding-block:24px 64px}
+.wrap{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:clamp(2rem,6vw,2.8rem)}h2{font-size:1.45rem}h3{font-size:1.08rem}
+p{margin:0}
+.eyebrow{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+header{display:flex;flex-direction:column;gap:10px}
+.lead{color:var(--muted);max-width:62ch}
+.progress{display:flex;align-items:center;gap:12px;font-size:.9rem;color:var(--muted);flex-wrap:wrap}
+.bar{flex:1;min-width:140px;height:8px;background:var(--line);border-radius:99px;overflow:hidden;max-width:320px}
+.bar i{display:block;height:100%;background:var(--red);width:0;transition:width .4s}
+nav.tabs{display:flex;gap:2px;overflow-x:auto;border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5;padding-top:6px;scrollbar-width:none}
+nav.tabs button{font:inherit;font-weight:600;background:none;border:0;color:var(--muted);padding:10px 12px;border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap}
+nav.tabs button[aria-selected="true"]{color:var(--ink);border-color:var(--red)}
+nav.tabs button .ck{color:var(--ok);margin-left:4px}
+button:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+section.panel{display:flex;flex-direction:column;gap:22px}
+.sechead{display:flex;flex-direction:column;gap:4px}
+.pg{font-size:.82rem;color:var(--muted)}
+.note{background:var(--accent-soft);padding:14px 16px;border-radius:10px;font-size:.95rem;display:flex;flex-direction:column;gap:6px}
+.note b{color:var(--accent)}
+.warn{background:var(--red-soft)}.warn b{color:var(--red)}
+.note ul{margin:0;padding-left:18px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{font:inherit;font-weight:600;background:var(--ink);color:var(--bg);border:0;border-radius:8px;padding:9px 16px;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.say{font:inherit;font-size:.82rem;border:1px solid var(--line);background:var(--bg);color:var(--accent);border-radius:8px;padding:3px 9px;cursor:pointer;white-space:nowrap}
+.hint{font-size:.87rem;color:var(--muted)}
+.result{font-weight:600}
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;cursor:pointer;min-height:104px}
+.card .cz{font-family:var(--display);font-size:1.15rem;font-weight:700}
+.card .ru{color:var(--muted)}
+.hideru .card .ru:not(.shown){filter:blur(6px);user-select:none}
+.card .row{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:auto}
+.tag{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.m{color:var(--ma)}.f{color:var(--f)}.mi{color:var(--mi)}.n{color:var(--n)}
+/* tables */
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;background:var(--surface);font-variant-numeric:tabular-nums;border-radius:12px;overflow:hidden}
+th,td{padding:9px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-size:.76rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+td.cz{font-family:var(--display);font-weight:700}
+.end{color:var(--red)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.box ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+/* exercise shell */
+.ex{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:14px}
+.ex h3 small{font-family:var(--body);font-weight:500;color:var(--muted);font-size:.85rem;margin-left:6px}
+.ex.done{border-color:var(--ok)}
+.qs{display:flex;flex-direction:column;gap:6px}
+.q{display:flex;flex-wrap:wrap;align-items:center;gap:6px;line-height:2}
+.q .who{font-weight:600;color:var(--muted)}
+.q input{font:inherit;width:8em;padding:3px 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}
+.q input.ok{border-color:var(--ok);background:var(--ok-soft)}
+.q input.bad{border-color:var(--bad);background:var(--bad-soft)}
+.q .gl{font-size:.82rem;color:var(--muted)}
+.fix{font-size:.85rem;color:var(--bad)}
+.keys{display:flex;gap:6px;flex-wrap:wrap}
+.keys button{font:inherit;min-width:36px;padding:3px 8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:6px;cursor:pointer}
+.bank{display:flex;flex-wrap:wrap;gap:6px;font-size:.9rem}
+.bank span{padding:2px 10px;border:1px dashed var(--line);border-radius:6px}
+/* drill */
+.drill .prompt{font-family:var(--display);font-size:1.35rem;font-weight:700;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.drill .prompt .big{font-size:2.4rem;line-height:1}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.opts button{font:inherit;text-align:left;padding:10px 14px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;cursor:pointer}
+.opts button.ok{border-color:var(--ok);background:var(--ok-soft)}
+.opts button.bad{border-color:var(--bad);background:var(--bad-soft)}
+.meta{display:flex;justify-content:space-between;font-size:.85rem;color:var(--muted)}
+.expl{font-size:.9rem;color:var(--muted)}
+/* builder */
+.target{min-height:48px;border:1px dashed var(--line);border-radius:10px;padding:8px;display:flex;flex-wrap:wrap;gap:6px}
+.pool{display:flex;flex-wrap:wrap;gap:6px}
+.word{font:inherit;padding:6px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.target .word{background:var(--accent-soft);border-color:transparent}
+/* match */
+.match{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.match button{font:inherit;text-align:left;padding:9px 12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;cursor:pointer}
+.match button.sel{border-color:var(--accent);background:var(--accent-soft)}
+.match button.ok{border-color:var(--ok);background:var(--ok-soft);color:var(--ok);cursor:default}
+.shake{animation:sh .3s}
+@keyframes sh{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+/* alphabet & numbers */
+.abc{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:6px}
+.abc button{font:inherit;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 6px;cursor:pointer;color:var(--ink);display:flex;flex-direction:column;align-items:center;gap:2px}
+.abc button b{font-family:var(--display);font-size:1.3rem}
+.abc button span{font-size:.75rem;color:var(--muted);text-align:center;line-height:1.2}
+.abc button.dia b{color:var(--red)}
+.nums{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:6px}
+.nums button{font:inherit;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 4px;cursor:pointer;color:var(--ink);display:flex;flex-direction:column;align-items:center}
+.nums button b{font-family:var(--display);font-size:1.5rem;font-variant-numeric:tabular-nums}
+.nums button span{font-size:.85rem}
+.spell{display:flex;flex-wrap:wrap;gap:6px}
+.spell span{background:var(--accent-soft);border-radius:6px;padding:2px 8px;font-size:.9rem}
+.spell span b{font-family:var(--display)}
+input.txt{font:inherit;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);max-width:100%}
+.dlg{display:flex;flex-direction:column;gap:4px}
+footer{color:var(--muted);font-size:.85rem}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:520px){.match{grid-template-columns:1fr}}
+</style><style>[hidden]{display:none!important}.topnav{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.back{font-weight:600;color:var(--accent);text-decoration:none;font-size:.95rem}.back:hover{text-decoration:underline}</style>
+
+<div class="wrap"><div class="topnav"><a class="back" href="index.html">← Все уроки</a><a class="back" href="lekce-01-sesit.html">Рабочая тетрадь →</a></div>
+<header>
+  <span class="eyebrow">Česky krok za krokem 1 · Lekce 1 · стр. 9–16</span>
+  <h1>Seznamujeme se</h1>
+  <p class="lead">Знакомимся: полезные фразы, чешский алфавит, формальные и неформальные диалоги, глаголы <b>být</b>, <b>mít</b> и три типа спряжения, профессии, числа 0–10. Кнопка ▶ озвучивает слово, а по нажатию на карточку открывается перевод.</p>
+  <div class="progress"><span>Выполнено</span><div class="bar"><i id="pbar"></i></div><span id="ptext"></span><button class="say" id="resetAll">сбросить</button></div>
+  <p class="hint" id="ttsHint"></p>
+</header>
+
+<nav class="tabs" role="tablist" id="tabs"></nav>
+
+<!-- 1 FRÁZE -->
+<section class="panel" id="t-fraze">
+  <div class="sechead"><span class="pg">Cvičení 1 · стр. 9</span><h2>Užitečné fráze — полезные фразы для урока</h2></div>
+  <div class="actions"><button class="btn ghost" data-hideru>Скрыть перевод</button><span class="hint">Прослушайте каждую фразу и повторите вслух.</span></div>
+  <div class="cards" id="c-fraze"></div>
+  <div class="note"><b>Prosím — универсальное слово</b>
+    <ul>
+      <li>ответ на «спасибо»: <i>Děkuju. — Prosím.</i> (пожалуйста)</li>
+      <li>ответ на телефонный звонок: <i>Prosím?</i> (алло?)</li>
+      <li>когда не расслышали: <i>Prosím?</i> (простите, что?)</li>
+      <li>когда пропускаете кого-то или что-то даёте: <i>Prosím.</i> (прошу)</li>
+      <li>обращение к официанту или прохожему: <i>Prosím vás…</i> (будьте добры…)</li>
+    </ul></div>
+  <div class="ex" id="x-fraze"><h3>Какая фраза нужна? <small>выберите по ситуации</small></h3><div class="drill"></div></div>
+</section>
+
+<!-- 2 VÝSLOVNOST -->
+<section class="panel" id="t-vyslovnost" hidden>
+  <div class="sechead"><span class="pg">Výslovnost · стр. 10</span><h2>Česká písmena — чешские буквы</h2></div>
+  <p>Чешский пишется латиницей плюс три значка: <b>háček</b> ˇ смягчает согласный (č, ř, š, ž, ď, ť, ň) или даёт ě, <b>čárka</b> ´ удлиняет гласный (á, é, í, ó, ú, ý), <b>kroužek</b> ˚ тоже удлиняет, но только в ů. Нажмите на букву, чтобы услышать, как она называется: это пригодится, когда будете диктовать имя или e-mail.</p>
+  <div class="abc" id="abc"></div>
+  <div class="grid2">
+    <div class="box"><h3>Правила произношения</h3><ul>
+      <li>Ударение всегда на <b>первом</b> слоге: <i>RE-stau-ra-ce, U-ni-ver-zi-ta</i>.</li>
+      <li>Čárka означает долготу, а не ударение: <i>dobrý</i> [до-брыы].</li>
+      <li><i>dě, tě, ně</i> = [дье, тье, нье]; <i>mě</i> = [мнье]: <i>Těší mě</i>.</li>
+      <li><i>di, ti, ni</i> читаются мягко: <i>rádio</i> [раадьё].</li>
+      <li><i>ch</i> — одна буква, [х], идёт в алфавите после h.</li>
+      <li><i>j</i> в начале <i>jsem, jsi, jste…</i> почти не слышно.</li>
+    </ul></div>
+    <div class="box"><h3>Слова-интернационализмы по родам</h3><ul>
+      <li><b class="m">Ma</b> м. р. одуш.: student, profesor, doktor, manažer, prezident, politik, kamarád</li>
+      <li><b class="mi">Mi</b> м. р. неодуш.: supermarket, kontakt, mítink, koncert, problém, film, program</li>
+      <li><b class="f">F</b> ж. р.: studentka, škola, univerzita, restaurace, konference, policie</li>
+      <li><b class="n">N</b> ср. р.: kino, auto, metro, víno, rádio, espresso, centrum</li>
+    </ul></div>
+  </div>
+  <div class="note"><b>Cvičení 6: как узнать род по окончанию</b>
+    <ul><li>Мужской род чаще всего кончается на <b>согласный</b>: student, film.</li>
+    <li>Женский — на <b>-a</b> или <b>-e</b>: škola, restaurace.</li>
+    <li>Средний — на <b>-o</b>, <b>-um</b> (а также -e, -í): auto, centrum.</li>
+    <li>Прилагательные кончаются на <b>-ý / -í</b>: moderní, energický. Глаголы-интернационализмы — на <b>-ovat</b>: studovat, telefonovat.</li></ul></div>
+  <div class="ex" id="x-coje"><h3>Co je to? <small>cvičení 2–4 · To je…</small></h3><div class="drill"></div></div>
+  <div class="ex" id="x-rod"><h3>Какой род? <small>Ma · Mi · F · N</small></h3><div class="drill"></div></div>
+</section>
+
+<!-- 3 DIALOGY -->
+<section class="panel" id="t-dialogy" hidden>
+  <div class="sechead"><span class="pg">Formální a neformální dialogy · стр. 11–12</span><h2>Vy или ty — формально или по-дружески</h2></div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Формально (Vy)</th><th>Неформально (ty)</th><th>Перевод</th></tr></thead>
+    <tbody id="formTbl"></tbody></table></div>
+  <div class="grid2">
+    <div class="box"><h3>z / ze + родительный падеж</h3>
+      <p>«Я из…» — <i>Jsem z…</i>, и страна меняет окончание (об этом подробнее в уроке 10):</p>
+      <ul id="zeme"></ul>
+      <p class="hint"><i>ze</i> ставится для удобства произношения: <i>ze Slovenska, ze Švýcarska</i>.</p></div>
+    <div class="box"><h3>Oslovení — звательный падеж</h3>
+      <p>Когда обращаемся к человеку, имя меняется:</p>
+      <ul><li><i>Já jsem Marina.</i> → <b>Marino!</b></li><li><i>Já jsem Tom.</i> → <b>Tome!</b></li>
+      <li><i>pan</i> → <b>pane!</b> · <i>paní</i> → <b>paní!</b> · <i>slečna</i> → <b>slečno!</b></li>
+      <li>Женские на -a → <b>-o</b>: Eva → Evo, Jana → Jano.</li></ul></div>
+  </div>
+  <div class="ex" id="x-formal"><h3>Формальное → неформальное <small>cvičení 9 · найдите пару</small></h3><div class="match"></div><div class="actions"><button class="btn ghost" data-again>Перемешать</button><span class="result"></span></div></div>
+  <div class="ex" id="x-dialog"><h3>Doplňte dialog <small>формальный диалог, как в cvičení 2</small></h3>
+    <div class="bank"><span>jsem</span><span>Těší</span><span>Odkud</span><span>z</span><span>děláte</span><span>učitelka</span><span>Mějte</span><span>taky</span></div>
+    <div class="keys"></div><div class="qs"></div>
+    <div class="actions"><button class="btn" data-check>Проверить</button><button class="btn ghost" data-again>Заново</button><span class="result"></span></div></div>
+  <div class="ex" id="x-stavba"><h3>Соберите фразу <small>неформально, на «ty»</small></h3>
+    <p class="hint" data-ru></p><div class="target"></div><div class="pool"></div>
+    <div class="actions"><button class="btn" data-check>Проверить</button><button class="btn ghost" data-next>Следующая</button><span class="result"></span></div></div>
+  <div class="ex"><h3>Cvičení 4 и 10: представьтесь</h3>
+    <p>Напишите мне в чат два варианта знакомства о себе: формальный (<i>Dobrý den. Jsem… Jsem z… Jsem…</i>) и неформальный (<i>Ahoj, já jsem…</i>). Я проверю.</p></div>
+</section>
+
+<!-- 4 GRAMATIKA -->
+<section class="panel" id="t-gramatika" hidden>
+  <div class="sechead"><span class="pg">Gramatika · стр. 13</span><h2>Местоимения и глагол být</h2></div>
+  <div class="grid2">
+    <div class="box"><h3>Osobní zájmena</h3>
+      <div class="tablewrap"><table><tbody>
+        <tr><td class="cz">já</td><td>я</td><td class="cz">my</td><td>мы</td></tr>
+        <tr><td class="cz">ty</td><td>ты</td><td class="cz">vy</td><td>вы / Вы</td></tr>
+        <tr><td class="cz">on, ona, to</td><td>он, она, оно</td><td class="cz">oni</td><td>они</td></tr>
+      </tbody></table></div>
+      <p class="hint"><i>ono</i> встречается только в устойчивых выражениях, а когда на что-то указывают, говорят <i>to</i>: <i>To je student.</i> Формы <i>ony, ona</i> (они) бывают только на письме.</p></div>
+    <div class="box"><h3>Главное отличие от русского</h3>
+      <p>В настоящем времени русский опускает «быть», а чешский <b>никогда</b>: «Я студент» — <i>Jsem student.</i></p>
+      <p>Местоимение же обычно опускают, потому что окончание глагола уже показывает лицо. Так что <i>Jsem student</i> звучит естественнее, чем <i>Já jsem student</i>.</p></div>
+  </div>
+  <div class="tablewrap"><table>
+    <thead><tr><th></th><th>být</th><th>произносится</th><th>отрицание</th></tr></thead>
+    <tbody id="bytTbl"></tbody></table></div>
+  <p class="hint">В разговорной речи бывает <i>seš</i> вместо <i>jsi</i> и <i>nejseš</i> вместо <i>nejsi</i>, а в Моравии — <i>jsu</i> вместо <i>jsem</i>. Отрицание <b>ne-</b> пишется слитно с глаголом, а у 3-го лица особая форма: <b>není</b>.</p>
+  <div class="ex" id="x-byt"><h3>Вставьте být <small>jsem · jsi · je · jsme · jste · jsou</small></h3>
+    <div class="keys"></div><div class="qs"></div>
+    <div class="actions"><button class="btn" data-check>Проверить</button><button class="btn ghost" data-again>Заново</button><span class="result"></span></div></div>
+
+  <div class="sechead"><h2>Три типа спряжения: -á, -í, -uj</h2></div>
+  <p>Большинство чешских глаголов правильные. В этом уроке их три группы, и по инфинитиву видно, к какой относится глагол.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th></th><th>-á · dělat<br><span class="hint">инф. на -at, + mít</span></th><th>-á · mít</th><th>-í · rozumět<br><span class="hint">инф. на -et/-ět/-it</span></th><th>-uj · pracovat<br><span class="hint">инф. на -ovat</span></th></tr></thead>
+    <tbody id="konjTbl"></tbody></table></div>
+  <p class="hint">Формы в скобках (<i>pracuji, rozumějí</i>) — книжные и письменные, а в речи говорят <i>pracuju, rozumí</i>. Отрицание образуется так же, приставкой: <i>dělám → nedělám, mám → nemám</i>.</p>
+  <div class="ex" id="x-kdo"><h3>Kdo? — чья это форма? <small>cvičení 14</small></h3><div class="drill"></div></div>
+  <div class="ex" id="x-konj"><h3>Проспрягайте глагол <small>dělat · mít · rozumět · pracovat</small></h3>
+    <div class="keys"></div><div class="qs"></div>
+    <div class="actions"><button class="btn" data-check>Проверить</button><button class="btn ghost" data-again>Заново</button><span class="result"></span></div></div>
+  <div class="ex" id="x-neg"><h3>Скажите «нет» <small>cvičení 15 · отрицание</small></h3>
+    <div class="keys"></div><div class="qs"></div>
+    <div class="actions"><button class="btn" data-check>Проверить</button><button class="btn ghost" data-again>Заново</button><span class="result"></span></div></div>
+</section>
+
+<!-- 5 PROFESE -->
+<section class="panel" id="t-profese" hidden>
+  <div class="sechead"><span class="pg">Kdo je to? Co dělá? · Slovní banka · стр. 14, 16</span><h2>Profese — профессии</h2></div>
+  <p>Почти у каждой профессии есть мужская и женская форма: <span class="m">prezident</span> — <span class="f">prezidentka</span>. Вопросы: <i>Kdo je to?</i> (кто это?) и <i>Co dělá?</i> (чем занимается?). Модель: <i>To je úředník? — Ne, není. To je úřednice.</i></p>
+  <div class="actions"><button class="btn ghost" data-hideru>Скрыть перевод</button></div>
+  <div class="cards" id="c-profese"></div>
+  <div class="grid2">
+    <div class="box"><h3>Jak se máte? / Jak se máš?</h3><ul>
+      <li>😊 <b>Dobře.</b> — Хорошо.</li><li>😐 <b>Ujde to.</b> / <b>No, ujde to.</b> — Нормально.</li><li>☹️ <b>Špatně.</b> — Плохо.</li></ul>
+      <p class="hint">В отличие от английского «How are you?», этот вопрос не задают при первом знакомстве, а ответ может быть честным и подробным, даже негативным.</p></div>
+    <div class="box"><h3>Фразы для знакомства (cvičení 6)</h3><ul>
+      <li><i>To je… a to je…</i> — Это… а это…</li><li><i>To je zajímavé.</i> — Интересно.</li><li><i>To je náhoda!</i> — Какое совпадение!</li>
+      <li><i>Můžeme si tykat?</i> — Можем перейти на «ты»?</li><li><i>Určitě.</i> — Конечно.</li></ul></div>
+  </div>
+  <div class="ex" id="x-zena"><h3>Он → она <small>женская форма профессии</small></h3><div class="drill"></div></div>
+  <div class="ex" id="x-model"><h3>To je…? — Ne, není. <small>cvičení 2, по модели</small></h3>
+    <div class="keys"></div><div class="qs"></div>
+    <div class="actions"><button class="btn" data-check>Проверить</button><button class="btn ghost" data-again>Заново</button><span class="result"></span></div></div>
+</section>
+
+<!-- 6 ČÍSLA -->
+<section class="panel" id="t-cisla" hidden>
+  <div class="sechead"><span class="pg">Čísla 0–10. Kontaktní informace · стр. 15</span><h2>Числа 0–10 и глагол mít</h2></div>
+  <div class="nums" id="nums"></div>
+  <div class="grid2">
+    <div class="box"><h3>Pamatujte si: e-mail</h3><ul>
+      <li><b>@</b> — zavináč</li><li><b>.</b> — tečka</li><li><b>-</b> — pomlčka</li><li><b>_</b> — podtržítko</li></ul>
+      <p class="hint">Пример: <i>tom.brown@gmail.com</i> = tom tečka brown zavináč gmail tečka com.</p></div>
+    <div class="box"><h3>Mít — иметь</h3><p>Спрягается как <i>dělat</i>: mám, máš, má, máme, máte, mají. Отрицание: nemám…</p>
+      <p><i>Jaký máte telefon?</i> — Какой у Вас телефон (номер)?<br><i>Mám telefon 608 774 142.</i></p></div>
+  </div>
+  <div class="note warn"><b>Pozor: 112</b> — единый номер экстренной помощи. Он соединит вас с врачом, пожарными или полицией.</div>
+  <div class="ex" id="x-poslech"><h3>Послушайте и выберите цифру</h3><div class="drill"></div></div>
+  <div class="ex" id="x-pocty"><h3>Kolik je…? <small>cvičení 2 · plus a mínus</small></h3><div class="drill"></div></div>
+  <div class="ex" id="x-telefon"><h3>Диктант: номер телефона <small>cvičení 3</small></h3>
+    <p>Нажмите ▶, послушайте номер и запишите его цифрами.</p>
+    <div class="actions"><button class="btn ghost" data-play>▶ Слушать номер</button><input class="txt" id="telIn" inputmode="numeric" autocomplete="off" placeholder="123 456 789" aria-label="Номер телефона"><button class="btn" data-check>Проверить</button><button class="btn ghost" data-next>Новый номер</button></div>
+    <p class="result"></p></div>
+  <div class="ex" id="x-mit"><h3>Doplňte sloveso mít <small>cvičení 4</small></h3>
+    <div class="keys"></div><div class="qs"></div>
+    <div class="actions"><button class="btn" data-check>Проверить</button><button class="btn ghost" data-again>Заново</button><span class="result"></span></div></div>
+  <div class="ex" id="x-spell"><h3>Jak se to píše? — продиктуйте по буквам</h3>
+    <p>Введите имя, фамилию или e-mail, и вы увидите и услышите, как продиктовать его по-чешски.</p>
+    <div class="actions"><input class="txt" id="spellIn" value="Kazakova" autocomplete="off" aria-label="Слово для диктовки"><button class="btn ghost" id="spellSay">▶ Продиктовать</button></div>
+    <div class="spell" id="spellOut"></div></div>
+</section>
+
+<!-- 7 TEST -->
+<section class="panel" id="t-test" hidden>
+  <div class="sechead"><h2>Závěrečný test — итоговый тест урока</h2><p class="hint">15 вопросов по всему уроку. Если ответите правильно на 12 и больше, урок пройден.</p></div>
+  <div class="ex" id="x-test"><div class="drill"></div></div>
+</section>
+
+<footer>Интерактивный конспект к уроку 1 учебника Lída Holá «Česky krok za krokem 1» (Akropolis) для личной учёбы. Слова и грамматика взяты из урока, диалоги и упражнения составлены заново. Аудио к оригинальным упражнениям — на CD учебника (дорожки 01–13). Озвучку здесь даёт голос вашего устройства.</footer>
+</div>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const shuf=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>s.trim().toLowerCase().replace(/[.!?,]/g,'').replace(/\s+/g,' ');
+
+/* ===== TTS ===== */
+let csVoice=null;
+function pickVoice(){try{csVoice=speechSynthesis.getVoices().find(x=>/^cs/i.test(x.lang))||null;
+  $('#ttsHint').textContent=csVoice?'':'На этом устройстве нет чешского голоса, поэтому озвучка может звучать с акцентом. Лучше всего слушать в Chrome или Safari.'}catch(e){$('#ttsHint').textContent='Озвучка в этом браузере недоступна.'}}
+if('speechSynthesis' in window){pickVoice();speechSynthesis.onvoiceschanged=pickVoice}else $('#ttsHint').textContent='Озвучка в этом браузере недоступна.';
+function say(t,rate=.85){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='cs-CZ';if(csVoice)u.voice=csVoice;u.rate=rate;speechSynthesis.speak(u)}catch(e){}}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-say]');if(b){e.stopPropagation();say(b.dataset.say)}},true);
+const sayBtn=t=>`<button class="say" data-say="${esc(t)}" aria-label="Произнести">▶</button>`;
+
+/* ===== progress ===== */
+const TASKS={fraze:'Фразы',coje:'Co je to',rod:'Род',formal:'Ty/Vy',dialog:'Диалог',stavba:'Сборка фраз',byt:'být',kdo:'Kdo?',konj:'Спряжение',neg:'Отрицание',zena:'Он→она',model:'Модель',poslech:'Цифры на слух',pocty:'Счёт',telefon:'Телефон',mit:'mít',test:'Тест'};
+const TAB_TASKS={fraze:['fraze'],vyslovnost:['coje','rod'],dialogy:['formal','dialog','stavba'],gramatika:['byt','kdo','konj','neg'],profese:['zena','model'],cisla:['poslech','pocty','telefon','mit'],test:['test']};
+let done=store.get('l1v2',{});
+function mark(k){if(!done[k]){done[k]=true;store.set('l1v2',done)}const ex=$('#x-'+k);if(ex)ex.classList.add('done');drawP()}
+function drawP(){const all=Object.keys(TASKS),n=all.filter(k=>done[k]).length;$('#pbar').style.width=(n/all.length*100)+'%';$('#ptext').textContent=`${n} из ${all.length} заданий`;store.set('kp:lekce-01',{d:n,t:all.length});
+  Object.entries(TAB_TASKS).forEach(([t,ks])=>{const b=$(`#tabs [data-tab="${t}"]`);if(b)b.querySelector('.ck').textContent=ks.every(k=>done[k])?'✓':''});
+  Object.keys(done).forEach(k=>{const ex=$('#x-'+k);if(ex)ex.classList.add('done')})}
+$('#resetAll').onclick=()=>{done={};store.set('l1v2',done);$$('.ex.done').forEach(e=>e.classList.remove('done'));drawP()};
+
+/* ===== tabs ===== */
+const TABS=[['fraze','Fráze'],['vyslovnost','Výslovnost'],['dialogy','Dialogy'],['gramatika','Gramatika'],['profese','Profese'],['cisla','Čísla'],['test','Test']];
+$('#tabs').innerHTML=TABS.map(([k,v])=>`<button role="tab" data-tab="${k}" aria-selected="false">${v}<span class="ck"></span></button>`).join('');
+function openTab(k){$$('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===k));$$('section.panel').forEach(p=>p.hidden=p.id!=='t-'+k);store.set('l1tab',k)}
+$$('#tabs button').forEach(b=>b.onclick=()=>{openTab(b.dataset.tab);window.scrollTo({top:0})});
+openTab(store.get('l1tab','fraze'));
+
+/* ===== engines ===== */
+function cards(el,list,onSay){
+  el.innerHTML=list.map(c=>`<div class="card" tabindex="0"><span class="cz">${c[0]}</span><span class="ru">${c[1]}</span>
+    <div class="row"><span class="tag">${c[2]||''}</span>${sayBtn(c[3]||c[0].replace(/<[^>]+>/g,'').replace(/…/g,''))}</div></div>`).join('');
+  $$('.card',el).forEach(c=>{const t=()=>$('.ru',c).classList.toggle('shown');c.onclick=e=>{if(!e.target.closest('.say'))t()};c.onkeydown=e=>{if(e.key==='Enter')t()}});
+  if(onSay){let heard=new Set();$$('.say',el).forEach((b,i)=>b.addEventListener('click',()=>{heard.add(i);onSay(heard.size)}))}
+}
+$$('[data-hideru]').forEach(b=>b.onclick=()=>{const p=b.closest('section');p.classList.toggle('hideru');b.textContent=p.classList.contains('hideru')?'Показать перевод':'Скрыть перевод'});
+
+let lastInput=null;
+document.addEventListener('focusin',e=>{if(e.target.matches('.q input,.txt'))lastInput=e.target});
+function keys(el){el.innerHTML=['á','é','í','ý','ó','ú','ů','ě','č','ř','š','ž','ď','ť','ň'].map(c=>`<button type="button" tabindex="-1">${c}</button>`).join('');
+  $$('button',el).forEach(b=>b.onmousedown=e=>{e.preventDefault();if(lastInput){lastInput.setRangeText(b.textContent,lastInput.selectionStart,lastInput.selectionEnd,'end');lastInput.dispatchEvent(new Event('input'))}})}
+
+/* fill: items {w:who, p:pre, a:[answers], s:post, g:gloss} */
+function fill(id,items,pass=1){
+  const ex=$('#x-'+id),qs=$('.qs',ex),res=$('.result',ex);const k=$('.keys',ex);if(k)keys(k);
+  const gaps=items.filter(q=>q.a);
+  const build=()=>{let n=0;qs.innerHTML=items.map((q,i)=>q.a?`<div class="q" data-i="${i}">${q.w?`<span class="who">${q.w}</span>`:`<span>${++n}.</span>`}<span>${q.p||''}</span><input id="${id}-${i}" autocomplete="off" spellcheck="false" aria-label="ответ ${i+1}"><span>${q.s||''}</span>${q.g?`<span class="gl">${q.g}</span>`:''}<span class="fix"></span></div>`:`<div class="q"><span class="who">${q.w||''}</span><span>${q.p}</span></div>`).join('');res.textContent=''};
+  build();
+  $('[data-check]',ex).onclick=()=>{let ok=0;$$('.q[data-i]',qs).forEach(row=>{const i=+row.dataset.i,inp=$('input',row),good=items[i].a.some(a=>norm(a)===norm(inp.value));
+    inp.classList.toggle('ok',good);inp.classList.toggle('bad',!good);$('.fix',row).textContent=good?'':'→ '+items[i].a[0];if(good)ok++});
+    res.textContent=`${ok} из ${gaps.length}`+(ok===gaps.length?' · Výborně!':'');if(ok/gaps.length>=pass)mark(id)};
+  $('[data-again]',ex).onclick=build;
+}
+
+/* drill: items {q, big, o:[options], a:answer, say, sayQ, x:explanation} */
+function drill(id,getItems,{pass=.8,autoSay=false,label=''}={}){
+  const ex=$('#x-'+id),el=$('.drill',ex);let items,i,score;
+  const start=()=>{items=getItems();i=0;score=0;show()};
+  const show=()=>{
+    if(i>=items.length){const good=score/items.length>=pass;
+      el.innerHTML=`<div class="prompt">${score} из ${items.length}</div><p>${good?'Skvělé! Задание выполнено.':'Неплохо! Попробуйте ещё раз, чтобы набрать '+Math.ceil(pass*items.length)+'.'}</p><div class="actions"><button class="btn ghost">Ещё раз</button></div>`;
+      $('button',el).onclick=start;if(good)mark(id);return}
+    const it=items[i],opts=shuf(it.o.slice());
+    el.innerHTML=`<div class="meta"><span>${label}${i+1} / ${items.length}</span><span>верно: ${score}</span></div>
+      <div class="prompt">${it.big?`<span class="big">${it.big}</span>`:''}<span>${it.q}</span>${it.say?sayBtn(it.say):''}</div>
+      <div class="opts">${opts.map(o=>`<button data-o="${esc(o)}">${o}</button>`).join('')}</div>
+      <p class="expl" hidden></p><div class="actions"><button class="btn" data-n hidden>Дальше →</button></div>`;
+    if(it.say&&(autoSay||it.sayQ)&&i>0)say(it.say);
+    $$('.opts button',el).forEach(b=>b.onclick=()=>{if(!$('[data-n]',el).hidden)return;const good=b.dataset.o===String(it.a);
+      b.classList.add(good?'ok':'bad');$$('.opts button',el).find(x=>x.dataset.o===String(it.a)).classList.add('ok');
+      if(good)score++;const x=$('.expl',el);x.hidden=false;x.innerHTML=(good?'<b style="color:var(--ok)">Správně!</b> ':'<b style="color:var(--bad)">Špatně.</b> ')+(it.x||'');
+      if(it.sayAfter)say(it.sayAfter);$('[data-n]',el).hidden=false;$('[data-n]',el).focus()});
+    $('[data-n]',el).onclick=()=>{i++;show()}};
+  start();
+}
+
+function match(id,pairs){
+  const ex=$('#x-'+id),m=$('.match',ex),res=$('.result',ex);let sel=null,got=0;
+  const build=()=>{sel=null;got=0;res.textContent='';const L=shuf(pairs.map((p,i)=>[p[0],i])),R=shuf(pairs.map((p,i)=>[p[1],i]));
+    m.innerHTML=L.map((l,k)=>`<button data-s="L" data-i="${l[1]}">${l[0]}</button><button data-s="R" data-i="${R[k][1]}">${R[k][0]}</button>`).join('');
+    $$('button',m).forEach(b=>b.onclick=()=>{if(b.classList.contains('ok'))return;
+      if(b.dataset.s==='L'){$$('[data-s="L"]',m).forEach(x=>x.classList.remove('sel'));b.classList.add('sel');sel=b;return}
+      if(!sel)return;if(sel.dataset.i===b.dataset.i){sel.className='ok';b.className='ok';say(b.textContent);sel=null;got++;if(got===pairs.length){res.textContent='Všechno správně!';mark(id)}}
+      else{b.classList.add('shake');setTimeout(()=>b.classList.remove('shake'),300)}})};
+  build();$('[data-again]',ex).onclick=build;
+}
+
+function builder(id,list,need){
+  const ex=$('#x-'+id),t=$('.target',ex),p=$('.pool',ex),res=$('.result',ex);let i=0,solved=new Set();
+  const show=()=>{const [ru,cz]=list[i];$('[data-ru]',ex).textContent=`${i+1}/${list.length} · «${ru}»`;t.innerHTML='';res.textContent='';
+    p.innerHTML=shuf(cz.split(' ')).map(w=>`<button class="word">${w}</button>`).join('');
+    $$('.word',p).forEach(w=>w.onclick=()=>(w.parentElement===p?t:p).appendChild(w))};
+  $('[data-check]',ex).onclick=()=>{const got=$$('.word',t).map(w=>w.textContent).join(' '),good=got===list[i][1];
+    res.textContent=good?'Správně! ✓':(got?'Порядок не тот, попробуйте ещё.':'Нажимайте на слова по порядку.');
+    if(good){say(list[i][1]);solved.add(i);if(solved.size>=need)mark(id)}};
+  $('[data-next]',ex).onclick=()=>{i=(i+1)%list.length;show()};show();
+}
+
+/* ===== 1 FRÁZE ===== */
+const FRAZE=[['Dobrý den. — Dobrý den.','Здравствуйте. — Здравствуйте.'],['Já jsem…','Я…'],['Těší mě.','Очень приятно.'],['Co znamená…?','Что значит…?'],
+ ['Jak se řekne…?','Как сказать…?'],['Jak se to píše?','Как это пишется?'],['Rozumíte? — Nerozumím.','Вы понимаете? — Не понимаю.'],['Ještě jednou, prosím.','Ещё раз, пожалуйста.'],
+ ['Mám otázku.','У меня вопрос.'],['Mluvíte anglicky, německy, rusky?','Вы говорите по-английски, по-немецки, по-русски?'],['Ano. / Jo. — Ne.','Да. / Ага (разг.). — Нет.'],['Děkuju. / Děkuji. — Prosím.','Спасибо. — Пожалуйста.']];
+cards($('#c-fraze'),FRAZE.map((f,i)=>[f[0],f[1],'фраза '+(i+1)]),n=>{if(n>=8)mark('fraze')});
+drill('fraze',()=>shuf([
+ {q:'Вы не поняли, что сказал преподаватель.',o:['Nerozumím.','Těší mě.','Mám otázku.'],a:'Nerozumím.'},
+ {q:'Попросите повторить.',o:['Ještě jednou, prosím.','Jak se to píše?','Děkuju.'],a:'Ještě jednou, prosím.'},
+ {q:'Вам сказали «Děkuju». Что ответить?',o:['Prosím.','Děkuju.','Ano.'],a:'Prosím.',x:'На «спасибо» отвечают <i>prosím</i>.'},
+ {q:'Вы хотите узнать значение слова «náhoda».',o:['Co znamená „náhoda“?','Jak se řekne „náhoda“?','Jak se to píše?'],a:'Co znamená „náhoda“?'},
+ {q:'Как по-чешски «кошка»? Спросите.',o:['Jak se řekne „кошка“?','Co znamená „кошка“?','Mluvíte rusky?'],a:'Jak se řekne „кошка“?'},
+ {q:'Вы хотите узнать, как пишется фамилия.',o:['Jak se to píše?','Co to je?','Rozumíte?'],a:'Jak se to píše?'},
+ {q:'Вам ответили на знакомство «Těší mě». Вы:',o:['Těší mě.','Prosím.','Na shledanou.'],a:'Těší mě.'},
+ {q:'Звонит телефон. Вы берёте трубку:',o:['Prosím?','Děkuju?','Těší mě?'],a:'Prosím?',x:'<i>Prosím?</i> = «Алло?»'},
+ {q:'Вы хотите задать вопрос на уроке.',o:['Mám otázku.','Mám problém.','Mám telefon.'],a:'Mám otázku.'},
+ {q:'Спросите, говорит ли собеседник по-русски.',o:['Mluvíte rusky?','Rozumíte česky?','Jste Rus?'],a:'Mluvíte rusky?'}]).map(x=>({...x,sayAfter:x.a})));
+
+/* ===== 2 VÝSLOVNOST ===== */
+const ABC=[['a','á'],['á','dlouhé á'],['b','bé'],['c','cé'],['č','čé'],['d','dé'],['ď','ďé'],['e','é'],['é','dlouhé é'],['ě','e s háčkem'],['f','ef'],['g','gé'],['h','há'],['ch','chá'],
+ ['i','měkké í'],['í','dlouhé měkké í'],['j','jé'],['k','ká'],['l','el'],['m','em'],['n','en'],['ň','eň'],['o','ó'],['ó','dlouhé ó'],['p','pé'],['q','kvé'],['r','er'],['ř','eř'],
+ ['s','es'],['š','eš'],['t','té'],['ť','ťé'],['u','ú'],['ú','dlouhé ú'],['ů','ú s kroužkem'],['v','vé'],['w','dvojité vé'],['x','iks'],['y','ypsilon, tvrdé y'],['ý','dlouhé tvrdé ý'],['z','zet'],['ž','žet']];
+const DIA=/[áčďéěíňóřšťúůýž]|ch/;
+$('#abc').innerHTML=ABC.map(([l,n])=>`<button class="${DIA.test(l)?'dia':''}" data-say="${esc(n)}"><b>${l.length>1?'Ch':l.toUpperCase()} ${l}</b><span>${n}</span></button>`).join('');
+const COJE=[['🚌','autobus'],['🚕','taxi'],['🚋','tramvaj'],['🚗','auto'],['🏨','hotel'],['🛒','supermarket'],['🎬','kino'],['🍽️','restaurace'],['🏫','škola'],['ℹ️','infocentrum'],['🚇','metro'],['🍷','víno'],['📻','rádio'],['☕','espresso']];
+drill('coje',()=>shuf(COJE).slice(0,10).map(([e,w])=>({big:e,q:'Co je to? — To je…',o:[w,...shuf(COJE.filter(c=>c[1]!==w)).slice(0,3).map(c=>c[1])],a:w,sayAfter:'To je '+w})));
+const ROD={Ma:['student','profesor','doktor','manažer','prezident','politik','kamarád'],Mi:['supermarket','kontakt','mítink','koncert','problém','film','program'],F:['studentka','škola','univerzita','restaurace','konference','policie'],N:['kino','auto','metro','víno','rádio','espresso','centrum']};
+const RODL={Ma:'Ma · муж. одуш.',Mi:'Mi · муж. неодуш.',F:'F · женский',N:'N · средний'};
+const RODX={Ma:'человек мужского пола, кончается на согласный',Mi:'предмет, кончается на согласный',F:'кончается на -a / -e',N:'кончается на -o / -um'};
+drill('rod',()=>shuf(Object.entries(ROD).flatMap(([g,ws])=>ws.map(w=>({q:w,say:w,o:Object.values(RODL),a:RODL[g],x:RODX[g]})))).slice(0,14));
+
+/* ===== 3 DIALOGY ===== */
+const FORM=[['Dobrý den.','Ahoj. / Čau.','Здравствуйте / привет'],['Odkud jste?','Odkud jsi?','Откуда Вы / ты?'],['Co děláte?','Co děláš?','Чем Вы занимаетесь / ты занимаешься?'],
+ ['Děkuju. / Děkuji.','Díky.','Спасибо'],['Promiňte.','Promiň.','Извините / извини'],['Mějte se hezky.','Měj se hezky.','Всего доброго'],['Vy taky.','Ty taky.','Вам / тебе тоже'],['Na shledanou.','Ahoj. / Čau.','До свидания / пока'],['Jak se máte?','Jak se máš?','Как Ваши / твои дела?']];
+$('#formTbl').innerHTML=FORM.map(f=>`<tr><td class="cz">${f[0]} ${sayBtn(f[0])}</td><td class="cz">${f[1]} ${sayBtn(f[1])}</td><td>${f[2]}</td></tr>`).join('');
+match('formal',FORM.filter((f,i)=>i!==7).map(f=>[f[0],f[1]]));
+const ZEME=[['Rusko','z Ruska'],['Kazachstán','z Kazachstánu'],['Ukrajina','z Ukrajiny'],['Amerika','z Ameriky'],['Austrálie','z Austrálie'],['Německo','z Německa'],['Polsko','z Polska'],['Bulharsko','z Bulharska'],['Slovensko','ze Slovenska']];
+$('#zeme').innerHTML=ZEME.map(z=>`<li>${z[0]} → <b>${z[1]}</b> ${sayBtn('Jsem '+z[1])}</li>`).join('');
+fill('dialog',[
+ {w:'Jana:',p:'Dobrý den. Já jsem Jana Malá.'},
+ {w:'Ivan:',p:'Dobrý den. Já',a:['jsem'],s:'Ivan Petrov.'},
+ {w:'Jana:',a:['Těší'],s:'mě.'},
+ {w:'Ivan:',p:'Těší mě.'},
+ {w:'Jana:',a:['Odkud'],s:'jste?'},
+ {w:'Ivan:',p:'Jsem',a:['z'],s:'Ruska. A vy?'},
+ {w:'Jana:',p:'Jsem z Prahy. Co',a:['děláte'],s:'?'},
+ {w:'Ivan:',p:'Jsem student. Studuju na univerzitě. A vy?'},
+ {w:'Jana:',p:'Jsem',a:['učitelka'],s:'. Pracuju tady ve škole.'},
+ {w:'Jana:',a:['Mějte'],s:'se hezky. Na shledanou.'},
+ {w:'Ivan:',p:'Vy',a:['taky'],s:'. Na shledanou.'}]);
+builder('stavba',[['Привет, я Петра.','Ahoj, já jsem Petra.'],['Откуда ты?','Odkud jsi?'],['Я из Казахстана. А ты?','Jsem z Kazachstánu. A ty?'],
+ ['Чем ты занимаешься?','Co děláš?'],['Я тоже студент.','Já jsem taky student.'],['Извини, не понимаю.','Promiň, nerozumím.'],['Всего доброго, Петра!','Měj se hezky, Petro!'],['Можем перейти на «ты»?','Můžeme si tykat?']],5);
+
+/* ===== 4 GRAMATIKA ===== */
+const BYT=[['já','jsem','[сем]','nejsem'],['ty','jsi','[си]','nejsi'],['on, ona, to','je','[е]','<span class="end">není</span> (!)'],['my','jsme','[сме]','nejsme'],['vy','jste','[сте]','nejste'],['oni','jsou','[соу]','nejsou']];
+$('#bytTbl').innerHTML=BYT.map(b=>`<tr><td>${b[0]}</td><td class="cz">${b[1]} ${sayBtn(b[1])}</td><td>${b[2]}</td><td class="cz">${b[3]}</td></tr>`).join('');
+const KONJ=[['já','dělá<span class="end">m</span>','má<span class="end">m</span>','rozumí<span class="end">m</span>','pracu<span class="end">ju</span> (pracuji)'],
+ ['ty','dělá<span class="end">š</span>','má<span class="end">š</span>','rozumí<span class="end">š</span>','pracu<span class="end">ješ</span>'],
+ ['on, ona, to','dělá','má','rozumí','pracu<span class="end">je</span>'],
+ ['my','dělá<span class="end">me</span>','má<span class="end">me</span>','rozumí<span class="end">me</span>','pracu<span class="end">jeme</span>'],
+ ['vy','dělá<span class="end">te</span>','má<span class="end">te</span>','rozumí<span class="end">te</span>','pracu<span class="end">jete</span>'],
+ ['oni','děla<span class="end">jí</span>','ma<span class="end">jí</span>','rozumí (rozumě<span class="end">jí</span>)','pracu<span class="end">jou</span> (pracují)']];
+$('#konjTbl').innerHTML=KONJ.map(r=>`<tr><td>${r[0]}</td>${r.slice(1).map(c=>`<td class="cz">${c}</td>`).join('')}</tr>`).join('');
+fill('byt',[{p:'Já',a:['jsem'],s:'Ivan.'},{p:'Odkud',a:['jsi'],s:', Petro?'},{p:'Eva',a:['je'],s:'učitelka.'},{p:'My',a:['jsme'],s:'z Kazachstánu.'},
+ {p:'Pane Dvořák, vy',a:['jste'],s:'doktor?'},{p:'Tom a Marina',a:['jsou'],s:'ve škole.'},{p:'To',a:['je'],s:'autobus.'},{p:'Odkud',a:['jste'],s:', paní Wolfová?'},{p:'Oni',a:['jsou'],s:'studenti.'},{p:'Ty',a:['jsi'],s:'taky student?'}]);
+const KDO=[['jsi','ty'],['jste','vy'],['je','on, ona, to'],['jsou','oni'],['jsem','já'],['jsme','my'],['dělám','já'],['rozumíš','ty'],['pracujeme','my'],['mají','oni'],['máte','vy'],['dělá','on, ona, to'],['pracujou','oni'],['nerozumím','já'],['nejste','vy'],['není','on, ona, to']];
+drill('kdo',()=>shuf(KDO).slice(0,12).map(([f,p])=>({q:f,say:f,o:['já','ty','on, ona, to','my','vy','oni'],a:p})));
+fill('konj',[{p:'(já)',a:['rozumím'],s:'česky.',g:'rozumět'},{p:'Co (vy)',a:['děláte'],s:'?',g:'dělat'},{p:'(my)',a:['pracujeme'],s:'ve škole.',g:'pracovat'},
+ {p:'Eva',a:['má'],s:'telefon.',g:'mít'},{p:'(ty)',a:['máš'],s:'otázku?',g:'mít'},{p:'Oni',a:['pracujou','pracují'],s:'na univerzitě.',g:'pracovat'},
+ {p:'Co',a:['dělá'],s:'Tom?',g:'dělat'},{p:'(vy)',a:['rozumíte'],s:'anglicky?',g:'rozumět'},{p:'(ty)',a:['pracuješ'],s:'tady?',g:'pracovat'},
+ {p:'Co (ty)',a:['děláš'],s:'?',g:'dělat'},{p:'Studenti',a:['rozumí','rozumějí'],s:'.',g:'rozumět'},{p:'(my)',a:['máme'],s:'problém.',g:'mít'}]);
+fill('neg',[{p:'Jsem Čech? — Ne,',a:['nejsem'],s:'Čech.'},{p:'Je to Petr? — Ne,',a:['není'],s:'to Petr.'},{p:'Rozumíte? — Ne,',a:['nerozumím'],s:'.'},
+ {p:'Pracuješ tady? — Ne,',a:['nepracuju','nepracuji'],s:'tady.'},{p:'Máte otázku? — Ne,',a:['nemám'],s:'otázku.'},{p:'Jste studenti? — Ne,',a:['nejsme'],s:'studenti.'},
+ {p:'Dělám to dobře? — Ne,',a:['neděláš'],s:'to dobře.'},{p:'Jsou z Polska? — Ne,',a:['nejsou'],s:'z Polska.'}]);
+
+/* ===== 5 PROFESE ===== */
+const PROF=[['úředník','úřednice','служащий, клерк'],['dělník','dělnice','рабочий'],['číšník','servírka','официант'],['učitel','učitelka','учитель'],['doktor','doktorka','врач'],['lékař','lékařka','врач'],
+ ['prodavač','prodavačka','продавец'],['manažer','manažerka','менеджер'],['vědec','vědkyně','учёный'],['policista','policistka','полицейский'],['uklízeč','uklízečka','уборщик'],['hasič','hasička','пожарный'],
+ ['sportovec','sportovkyně','спортсмен'],['herec','herečka','актёр'],['zpěvák','zpěvačka','певец'],['politik','politička','политик'],['prezident','prezidentka','президент'],['student','studentka','студент']];
+cards($('#c-profese'),PROF.map(p=>[`<span class="m">${p[0]}</span>, <span class="f">${p[1]}</span>`,p[2],'он · она',p[0]+', '+p[1]]));
+drill('zena',()=>shuf(PROF).slice(0,10).map(([m,f])=>{const set=new Set([f]);[m+'ka',m+'ová',m+'ice',m+'yně',m.replace(/[eě]c$/,'')+'ka'].forEach(o=>{if(set.size<3&&o!==f)set.add(o)});
+  return {q:`<span class="m">${m}</span> → ?`,o:[...set],a:f,sayAfter:m+', '+f}}));
+fill('model',shuf(PROF.filter(p=>!['doktor','lékař'].includes(p[0]))).slice(0,6).map(([m,f])=>({p:`To je ${m}? 👩 — Ne, není. To je`,a:[f],s:'.'})));
+
+/* ===== 6 ČÍSLA ===== */
+const NUM=['nula','jedna','dva','tři','čtyři','pět','šest','sedm','osm','devět','deset'];
+$('#nums').innerHTML=NUM.map((n,i)=>`<button data-say="${n}"><b>${i}</b><span>${n}</span></button>`).join('');
+drill('poslech',()=>shuf([...Array(11).keys()]).slice(0,10).map(n=>({q:'Какое число вы слышите?',say:NUM[n],sayQ:true,o:shuf([...Array(11).keys()].filter(x=>x!==n)).slice(0,3).concat(n).map(String),a:String(n),x:`${n} = ${NUM[n]}`})),{label:'▶ '});
+drill('pocty',()=>Array.from({length:8},()=>{let a=Math.floor(Math.random()*11),b=Math.floor(Math.random()*11),plus=Math.random()<.5;
+  if(plus&&a+b>10)b=10-a;if(!plus&&b>a)[a,b]=[b,a];const r=plus?a+b:a-b,q=`Kolik je ${NUM[a]} ${plus?'plus':'mínus'} ${NUM[b]}?`;
+  const o=new Set([NUM[r]]);while(o.size<4)o.add(NUM[Math.floor(Math.random()*11)]);return {q,say:q,o:[...o],a:NUM[r],x:`${a} ${plus?'+':'−'} ${b} = ${r} · <i>${NUM[r]}</i>`,sayAfter:NUM[r]}}));
+(function(){const ex=$('#x-telefon'),res=$('.result',ex);let num,ok=0;
+  const gen=()=>{num=['6','7','2'][Math.floor(Math.random()*3)]+Array.from({length:8},()=>Math.floor(Math.random()*10)).join('');$('#telIn').value='';res.textContent=''};
+  const speakNum=()=>say([num.slice(0,3),num.slice(3,6),num.slice(6)].map(g=>g.split('').map(d=>NUM[d]).join(' ')).join(', '),.75);
+  $('[data-play]',ex).onclick=speakNum;$('[data-next]',ex).onclick=()=>{gen();speakNum()};
+  $('[data-check]',ex).onclick=()=>{const v=$('#telIn').value.replace(/\D/g,''),good=v===num;const f=num.replace(/(\d{3})(\d{3})(\d{3})/,'$1 $2 $3');
+    res.innerHTML=good?`Správně! ${f}`:`Не совсем. Правильно: <b>${f}</b> — ${num.split('').map(d=>NUM[d]).join(' ')}`;if(good&&++ok>=2)mark('telefon')};
+  $('#telIn').onkeydown=e=>{if(e.key==='Enter')$('[data-check]',ex).click()};gen()})();
+fill('mit',[{p:'Jaký (ty)',a:['máš'],s:'telefon?'},{p:'(my)',a:['máme'],s:'telefon 226 873 601.'},{p:'(já)',a:['mám'],s:'číslo 608 774 142.'},{p:'Jaký (vy)',a:['máte'],s:'telefon?'},
+ {p:'Jaký telefon',a:['má'],s:'Tom?'},{p:'Jaký telefon',a:['mají'],s:'Tadeusz a Maike?'},{p:'Jaký e-mail',a:['máte'],s:', pane Brown?'},{p:'Promiňte, (já)',a:['nemám'],s:'telefon.'}]);
+function spell(){const s=$('#spellIn').value.toLowerCase(),out=[];const map=Object.fromEntries(ABC);const sym={'@':'zavináč','.':'tečka','-':'pomlčka','_':'podtržítko',' ':'mezera'};
+  for(let i=0;i<s.length;i++){let c=s[i];if(c==='c'&&s[i+1]==='h'){c='ch';i++}
+    if(map[c])out.push([c,map[c]]);else if(sym[c])out.push([c==' '?'␣':c,sym[c]]);else if(/\d/.test(c))out.push([c,NUM[c]])}
+  $('#spellOut').innerHTML=out.map(o=>`<span><b>${esc(o[0])}</b> ${o[1]}</span>`).join('');return out}
+$('#spellIn').oninput=spell;$('#spellSay').onclick=()=>say(spell().map(o=>o[1]).join(', '),.8);spell();
+
+/* ===== 7 TEST ===== */
+drill('test',()=>shuf([
+ {q:'Oni ___ z Polska.',o:['jsou','je','jste'],a:'jsou'},
+ {q:'Отрицание: Tom ___ doma.',o:['není','neje','nejsi'],a:'není'},
+ {q:'Как сказать другу «Откуда ты?»',o:['Odkud jsi?','Odkud jste?','Odkud je?'],a:'Odkud jsi?'},
+ {q:'Неформальный вариант «Promiňte»:',o:['Promiň','Prosím','Pardon'],a:'Promiň'},
+ {q:'(my) ___ ve škole. — pracovat',o:['pracujeme','pracujem','pracováme'],a:'pracujeme'},
+ {q:'Co ___? (vy, dělat)',o:['děláte','děláš','dělají'],a:'děláte'},
+ {q:'(oni) ___ telefon. — mít',o:['mají','mámí','máte'],a:'mají'},
+ {q:'Женская форма от «herec»:',o:['herečka','herecka','herka'],a:'herečka'},
+ {q:'Женская форма от «číšník»:',o:['servírka','číšnice','číšnička'],a:'servírka'},
+ {q:'Обращение к Марине:',o:['Marino!','Marina!','Marine!'],a:'Marino!'},
+ {q:'Jsem ___ Ruska.',o:['z','ze','v'],a:'z'},
+ {q:'Какой род у слова «restaurace»?',o:['женский','мужской','средний'],a:'женский'},
+ {q:'Как по-чешски «@»?',o:['zavináč','tečka','pomlčka'],a:'zavináč'},
+ {q:'Kolik je tři plus čtyři?',o:['sedm','šest','osm'],a:'sedm'},
+ {q:'Что показывает čárka (á, í, ý)?',o:['долготу гласного','ударение','мягкость'],a:'долготу гласного'},
+ {q:'Где ударение в слове «univerzita»?',o:['U-ni-ver-zi-ta','u-NI-ver-zi-ta','u-ni-ver-ZI-ta'],a:'U-ni-ver-zi-ta'},
+ {q:'Вы не поняли. Скажите:',o:['Nerozumím.','Nerozumíme.','Nejsem.'],a:'Nerozumím.'}]).slice(0,15),{pass:.8});
+
+drawP();
+</script>
+
+</body></html>

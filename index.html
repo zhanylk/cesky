@@ -1,0 +1,87 @@
+<title>Česky krok za krokem</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,500;0,7..72,700;1,7..72,500&family=Onest:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#F3F5F8;--surface:#FFFFFF;--ink:#18263A;--muted:#5B6878;--line:#DCE2EA;--accent:#1D4E89;--accent-soft:#E3ECF7;--red:#B83A2E;--red-soft:#F8E6E3;--ok:#2E7D4F;--ok-soft:#E1F2E7;--cover:#1D3A5F;--cover-ink:#F3F5F8;--cover-muted:#A9BCD6;
+ --display:"Literata",Georgia,serif;--body:"Onest",system-ui,-apple-system,"Segoe UI",sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0F1621;--surface:#172232;--ink:#E6ECF3;--muted:#98A6B8;--line:#2A394D;--accent:#7FB0EA;--accent-soft:#1D3150;--red:#E88A7E;--red-soft:#3A2220;--ok:#6FCB94;--ok-soft:#18362A;--cover:#16263B;--cover-muted:#8FA6C4}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#0F1621;--surface:#172232;--ink:#E6ECF3;--muted:#98A6B8;--line:#2A394D;--accent:#7FB0EA;--accent-soft:#1D3150;--red:#E88A7E;--red-soft:#3A2220;--ok:#6FCB94;--ok-soft:#18362A;--cover:#16263B;--cover-muted:#8FA6C4}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;margin:0;padding-inline:16px;padding-block:20px 64px}
+.wrap{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:32px}
+h1,h2,h3{font-family:var(--display);margin:0;line-height:1.1;text-wrap:balance}
+p{margin:0}
+.cover{background:var(--cover);color:var(--cover-ink);border-radius:18px;padding:clamp(24px,5vw,48px);display:flex;flex-direction:column;gap:22px;position:relative;overflow:hidden}
+.cover::after{content:"";position:absolute;right:-70px;top:-70px;width:220px;height:220px;opacity:.7;border-radius:50%;background:radial-gradient(circle,rgba(184,58,46,.55) 0 30%,transparent 31%),radial-gradient(circle at 70% 30%,rgba(255,255,255,.07) 0 45%,transparent 46%);pointer-events:none}
+.kicker{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--cover-muted);font-weight:600}
+.cover h1{font-size:clamp(2.4rem,9vw,4.6rem);font-weight:700;letter-spacing:-.01em}
+.cover h1 i{font-style:italic;font-weight:500;color:#F2B3A9}
+.cover .sub{color:var(--cover-muted);max-width:52ch;font-size:1.02rem}
+.steps{display:flex;gap:clamp(3px,1vw,6px);align-items:flex-end;flex-wrap:nowrap;position:relative;z-index:1}
+.steps span{flex:1;max-width:18px;border-radius:4px;background:rgba(255,255,255,.14)}
+.steps span.on{background:#F2B3A9}
+.steps span.half{background:linear-gradient(to top,#F2B3A9 50%,rgba(255,255,255,.14) 50%)}
+.stats{display:flex;gap:28px;flex-wrap:wrap;position:relative;z-index:1}
+.stat b{display:block;font-family:var(--display);font-size:1.9rem;font-variant-numeric:tabular-nums}
+.stat span{font-size:.85rem;color:var(--cover-muted)}
+.level{display:flex;align-items:baseline;justify-content:space-between;gap:12px;border-bottom:2px solid var(--ink);padding-bottom:8px}
+.level h2{font-size:1.5rem}.level span{color:var(--muted);font-size:.9rem}
+.list{display:flex;flex-direction:column}
+.les{display:grid;grid-template-columns:56px minmax(0,1fr);gap:14px;align-items:center;padding:14px 4px;border-bottom:1px solid var(--line)}
+.les .no{font-family:var(--display);font-size:2rem;font-weight:700;color:var(--red);font-variant-numeric:tabular-nums;line-height:1}
+.les.soon .no{color:var(--line)}
+.les h3{font-size:1.15rem}
+.les .ru{color:var(--muted);font-size:.9rem}
+.les.soon h3{color:var(--muted);font-weight:500}
+.links{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.links a{display:flex;flex-direction:column;gap:4px;text-decoration:none;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-weight:600;font-size:.9rem}
+.links a:hover{border-color:var(--accent)}
+.links a small{font-weight:500;color:var(--muted);font-size:.78rem;font-variant-numeric:tabular-nums}
+.mini{height:4px;background:var(--line);border-radius:9px;overflow:hidden}.mini i{display:block;height:100%;background:var(--red)}
+.mini.full i{background:var(--ok)}
+.tag{font-size:.78rem;color:var(--muted);border:1px dashed var(--line);border-radius:99px;padding:3px 10px;white-space:nowrap}
+.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.how div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:.92rem;display:flex;flex-direction:column;gap:4px}
+.how b{font-family:var(--display);font-size:1.05rem}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.les .links{grid-column:2/-1;justify-content:flex-start}.les .tag{grid-column:2/-1;justify-self:start}@media (max-width:620px){.links{grid-template-columns:repeat(2,minmax(0,1fr))}.les{grid-template-columns:44px 1fr}.les .links,.les .tag{grid-column:1/-1}.les .no{font-size:1.6rem}}
+</style>
+
+<div class="wrap">
+ <section class="cover">
+  <span class="kicker">Мой курс чешского · A1 → B2 · 7 месяцев</span>
+  <h1>Česky<br><i>krok za krokem</i></h1>
+  <p class="sub">Интерактивные уроки по учебнику Lída Holá «Česky krok za krokem». В каждом уроке четыре части: учебник, рабочая тетрадь, чтение и тесты.</p>
+  <div class="steps" id="steps" aria-hidden="true"></div>
+  <div class="stats"><div class="stat"><b id="sReady">0</b><span>уроков готово</span></div><div class="stat"><b id="sDone">0</b><span>упражнений выполнено</span></div><div class="stat"><b>24</b><span>урока в двух книгах</span></div></div>
+ </section>
+
+ <div class="how">
+  <div><b>1. Учебник</b>Слова с озвучкой, грамматика и первые упражнения.</div>
+  <div><b>2. Рабочая тетрадь</b>Те же номера упражнений, что в бумажной тетради, с автоматической проверкой.</div>
+  <div><b>3. Чтение</b>Короткие тексты по теме урока: перевод слова по нажатию, список слов, упражнения.</div><div><b>4. Тесты</b>4 варианта по 30 вопросов к каждому уроку, с разбором ошибок.</div><div><b>5. Проверка в чате</b>Письменные задания и фото тетради присылайте мне, я разберу ошибки.</div>
+ </div>
+
+ <section><div class="level"><h2>Díl 1 · A1</h2><span>уроки 1–12</span></div><div class="list" id="a1"></div></section>
+ <section><div class="level"><h2>Díl 2 · A2</h2><span>уроки 13–24</span></div><div class="list" id="a2"></div></section>
+</div>
+
+<script>
+const L=[['Seznamujeme se','Знакомимся'],['Kde je to?','Где это?'],['Jídlo a pití','Еда и напитки'],['Moje rodina','Моя семья'],['Kdy je to?','Когда это?'],['Co jsi dneska dělal/a?','Что ты сегодня делал(а)?'],
+ ['Dům a byt','Дом и квартира'],['Plánujeme víkend','Планируем выходные'],['Lidské tělo','Тело человека'],['Místo, kde bydlíme','Место, где мы живём'],['Na dovolené','В отпуске'],['Tradiční svátky','Традиционные праздники'],
+ ['Výmluvy a přání','Отговорки и желания'],['Mluvíme o počasí','Говорим о погоде'],['Technika a komunikace','Техника и связь'],['Móda včera a dnes','Мода вчера и сегодня'],['Stěhujeme se','Мы переезжаем'],['Etapy života','Этапы жизни'],
+ ['Rodiče a děti','Родители и дети'],['Vaříme a vážíme','Готовим и взвешиваем'],['Máme rádi zvířata','Мы любим животных'],['Mluvíme o práci','Говорим о работе'],['Kultura a my','Культура и мы'],['Česko krok za krokem','Чехия шаг за шагом']];
+const READY={1:{u:'lekce-01.html',s:'lekce-01-sesit.html',t:'lekce-01-testy.html',c:'lekce-01-cteni.html'},2:{u:'lekce-02.html',s:'lekce-02-sesit.html',t:'lekce-02-testy.html',c:'lekce-02-cteni.html'},3:{u:'lekce-03.html',s:'lekce-03-sesit.html',t:'lekce-03-testy.html',c:'lekce-03-cteni.html'},4:{u:'lekce-04.html',s:'lekce-04-sesit.html',t:'lekce-04-testy.html',c:'lekce-04-cteni.html'},5:{u:'lekce-05.html',s:'lekce-05-sesit.html',t:'lekce-05-testy.html',c:'lekce-05-cteni.html'}};
+const get=k=>{try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}};
+const pad=n=>String(n).padStart(2,'0');
+let total=0;
+function link(href,label){const p=get('kp:'+href.replace('.html',''));const d=p?p.d:0,t=p?p.t:0;total+=d;const pct=t?Math.round(d/t*100):0;
+  return `<a href="${href}">${label}<small>${t?`${d} / ${t} · ${pct}%`:'не начато'}</small><span class="mini ${t&&d===t?'full':''}"><i style="width:${pct}%"></i></span></a>`}
+function row(i){const [cz,ru]=L[i-1],r=READY[i];
+  return `<div class="les ${r?'':'soon'}"><span class="no">${pad(i)}</span><div><h3>${cz}</h3><p class="ru">${ru}</p></div>${r?`<div class="links">${link(r.u,'Учебник')}${link(r.s,'Тетрадь')}${r.c?link(r.c,'Чтение'):''}${r.t?link(r.t,'Тесты'):''}</div>`:'<span class="tag">скоро</span>'}</div>`}
+document.getElementById('a1').innerHTML=L.slice(0,12).map((_,k)=>row(k+1)).join('');
+document.getElementById('a2').innerHTML=L.slice(12).map((_,k)=>row(k+13)).join('');
+document.getElementById('sReady').textContent=Object.keys(READY).length;
+document.getElementById('sDone').textContent=total;
+document.getElementById('steps').innerHTML=L.map((_,k)=>{const r=READY[k+1];let c='';if(r){const a=get('kp:'+r.u.replace('.html','')),b=get('kp:'+r.s.replace('.html',''));const f=x=>x&&x.t&&x.d===x.t;c=[r.u,r.s,r.c,r.t].filter(Boolean).every(h=>f(get('kp:'+h.replace('.html',''))))?'on':'half'}return `<span class="${c}" style="height:${16+k*2.2}px"></span>`}).join('');
+</script>

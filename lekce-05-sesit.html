@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="cs"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Pracovní sešit 5</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,700&family=Onest:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#F3F5F8;--surface:#FFFFFF;--ink:#18263A;--muted:#5B6878;--line:#DCE2EA;
+  --accent:#1D4E89;--accent-soft:#E3ECF7;--red:#B83A2E;--red-soft:#F8E6E3;
+  --ok:#2E7D4F;--ok-soft:#E1F2E7;--bad:#B83A2E;--bad-soft:#F8E6E3;
+  --ma:#1D6FB8;--mi:#274B7A;--f:#C0392B;--n:#2E7D4F;
+  --display:"Literata",Georgia,serif;--body:"Onest",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  color-scheme:dark;--bg:#0F1621;--surface:#172232;--ink:#E6ECF3;--muted:#98A6B8;--line:#2A394D;
+  --accent:#7FB0EA;--accent-soft:#1D3150;--red:#E88A7E;--red-soft:#3A2220;
+  --ok:#6FCB94;--ok-soft:#18362A;--bad:#E88A7E;--bad-soft:#3A2220;
+  --ma:#7FB8EA;--mi:#A9BFE0;--f:#EE9A8F;--n:#7FD1A0;}}
+:root[data-theme="dark"]{
+  color-scheme:dark;--bg:#0F1621;--surface:#172232;--ink:#E6ECF3;--muted:#98A6B8;--line:#2A394D;
+  --accent:#7FB0EA;--accent-soft:#1D3150;--red:#E88A7E;--red-soft:#3A2220;
+  --ok:#6FCB94;--ok-soft:#18362A;--bad:#E88A7E;--bad-soft:#3A2220;
+  --ma:#7FB8EA;--mi:#A9BFE0;--f:#EE9A8F;--n:#7FD1A0;}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;padding-inline:16px;padding-block:24px 64px}
+.wrap{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:clamp(2rem,6vw,2.8rem)}h2{font-size:1.45rem}h3{font-size:1.08rem}
+p{margin:0}
+.eyebrow{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+header{display:flex;flex-direction:column;gap:10px}
+.lead{color:var(--muted);max-width:62ch}
+.progress{display:flex;align-items:center;gap:12px;font-size:.9rem;color:var(--muted);flex-wrap:wrap}
+.bar{flex:1;min-width:140px;height:8px;background:var(--line);border-radius:99px;overflow:hidden;max-width:320px}
+.bar i{display:block;height:100%;background:var(--red);width:0;transition:width .4s}
+nav.tabs{display:flex;gap:2px;overflow-x:auto;border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5;padding-top:6px;scrollbar-width:none}
+nav.tabs button{font:inherit;font-weight:600;background:none;border:0;color:var(--muted);padding:10px 12px;border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap}
+nav.tabs button[aria-selected="true"]{color:var(--ink);border-color:var(--red)}
+nav.tabs button .ck{color:var(--ok);margin-left:4px}
+button:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+section.panel{display:flex;flex-direction:column;gap:22px}
+.sechead{display:flex;flex-direction:column;gap:4px}
+.pg{font-size:.82rem;color:var(--muted)}
+.note{background:var(--accent-soft);padding:14px 16px;border-radius:10px;font-size:.95rem;display:flex;flex-direction:column;gap:6px}
+.note b{color:var(--accent)}
+.warn{background:var(--red-soft)}.warn b{color:var(--red)}
+.note ul{margin:0;padding-left:18px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{font:inherit;font-weight:600;background:var(--ink);color:var(--bg);border:0;border-radius:8px;padding:9px 16px;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.say{font:inherit;font-size:.82rem;border:1px solid var(--line);background:var(--bg);color:var(--accent);border-radius:8px;padding:3px 9px;cursor:pointer;white-space:nowrap}
+.hint{font-size:.87rem;color:var(--muted)}
+.result{font-weight:600}
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;cursor:pointer;min-height:104px}
+.card .cz{font-family:var(--display);font-size:1.15rem;font-weight:700}
+.card .ru{color:var(--muted)}
+.hideru .card .ru:not(.shown){filter:blur(6px);user-select:none}
+.card .row{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:auto}
+.tag{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.m{color:var(--ma)}.f{color:var(--f)}.mi{color:var(--mi)}.n{color:var(--n)}
+/* tables */
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;background:var(--surface);font-variant-numeric:tabular-nums;border-radius:12px;overflow:hidden}
+th,td{padding:9px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-size:.76rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+td.cz{font-family:var(--display);font-weight:700}
+.end{color:var(--red)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.box ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+/* exercise shell */
+.ex{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:14px}
+.ex h3 small{font-family:var(--body);font-weight:500;color:var(--muted);font-size:.85rem;margin-left:6px}
+.ex.done{border-color:var(--ok)}
+.qs{display:flex;flex-direction:column;gap:6px}
+.q{display:flex;flex-wrap:wrap;align-items:center;gap:6px;line-height:2}
+.q .who{font-weight:600;color:var(--muted)}
+.q input{font:inherit;width:8em;padding:3px 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}
+.q input.ok{border-color:var(--ok);background:var(--ok-soft)}
+.q input.bad{border-color:var(--bad);background:var(--bad-soft)}
+.q .gl{font-size:.82rem;color:var(--muted)}
+.fix{font-size:.85rem;color:var(--bad)}
+.keys{display:flex;gap:6px;flex-wrap:wrap}
+.keys button{font:inherit;min-width:36px;padding:3px 8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:6px;cursor:pointer}
+.bank{display:flex;flex-wrap:wrap;gap:6px;font-size:.9rem}
+.bank span{padding:2px 10px;border:1px dashed var(--line);border-radius:6px}
+/* drill */
+.drill .prompt{font-family:var(--display);font-size:1.35rem;font-weight:700;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.drill .prompt .big{font-size:2.4rem;line-height:1}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.opts button{font:inherit;text-align:left;padding:10px 14px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;cursor:pointer}
+.opts button.ok{border-color:var(--ok);background:var(--ok-soft)}
+.opts button.bad{border-color:var(--bad);background:var(--bad-soft)}
+.meta{display:flex;justify-content:space-between;font-size:.85rem;color:var(--muted)}
+.expl{font-size:.9rem;color:var(--muted)}
+/* builder */
+.target{min-height:48px;border:1px dashed var(--line);border-radius:10px;padding:8px;display:flex;flex-wrap:wrap;gap:6px}
+.pool{display:flex;flex-wrap:wrap;gap:6px}
+.word{font:inherit;padding:6px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.target .word{background:var(--accent-soft);border-color:transparent}
+/* match */
+.match{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.match button{font:inherit;text-align:left;padding:9px 12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;cursor:pointer}
+.match button.sel{border-color:var(--accent);background:var(--accent-soft)}
+.match button.ok{border-color:var(--ok);background:var(--ok-soft);color:var(--ok);cursor:default}
+.shake{animation:sh .3s}
+@keyframes sh{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+/* alphabet & numbers */
+.abc{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:6px}
+.abc button{font:inherit;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 6px;cursor:pointer;color:var(--ink);display:flex;flex-direction:column;align-items:center;gap:2px}
+.abc button b{font-family:var(--display);font-size:1.3rem}
+.abc button span{font-size:.75rem;color:var(--muted);text-align:center;line-height:1.2}
+.abc button.dia b{color:var(--red)}
+.nums{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:6px}
+.nums button{font:inherit;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 4px;cursor:pointer;color:var(--ink);display:flex;flex-direction:column;align-items:center}
+.nums button b{font-family:var(--display);font-size:1.5rem;font-variant-numeric:tabular-nums}
+.nums button span{font-size:.85rem}
+.spell{display:flex;flex-wrap:wrap;gap:6px}
+.spell span{background:var(--accent-soft);border-radius:6px;padding:2px 8px;font-size:.9rem}
+.spell span b{font-family:var(--display)}
+input.txt{font:inherit;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);max-width:100%}
+.dlg{display:flex;flex-direction:column;gap:4px}
+footer{color:var(--muted);font-size:.85rem}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:520px){.match{grid-template-columns:1fr}}
+
+.ex h3{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.num{font-family:var(--body);font-size:.8rem;font-weight:700;background:var(--red);color:#fff;border-radius:6px;padding:2px 8px;letter-spacing:.02em}
+.ex.done .num{background:var(--ok)}
+.q.tight{gap:0}.q.tight input{width:2.6em;text-align:center;margin-inline:2px}
+.q input.wide{width:min(22em,100%)}
+.q input.mid{width:11em}
+.pick{display:flex;flex-direction:column;gap:8px}
+.prow{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.pgrp{display:inline-flex;gap:4px;flex-wrap:wrap}
+.pgrp button{font:inherit;font-size:.95rem;padding:3px 10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:6px;cursor:pointer}
+.pgrp button.ok{border-color:var(--ok);background:var(--ok-soft);color:var(--ok);font-weight:600}
+.pgrp button.bad{border-color:var(--bad);background:var(--bad-soft);text-decoration:line-through}
+.order{display:flex;flex-direction:column;gap:6px;counter-reset:ln}
+.order button{font:inherit;text-align:left;padding:8px 12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;cursor:pointer}
+.order.list button{background:var(--accent-soft);border-color:transparent}
+.order.list button::before{counter-increment:ln;content:counter(ln) ". ";font-weight:700;color:var(--accent)}
+.order.list button.ok{background:var(--ok-soft)}.order.list button.bad{background:var(--bad-soft)}
+.lst{display:flex;flex-direction:column;gap:6px;margin:0;padding:0;list-style:none}
+.lst li{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.skip{font-size:.9rem;color:var(--muted);border:1px dashed var(--line);border-radius:10px;padding:10px 14px}
+
+.q input{line-height:1.4}
+.back{display:inline-flex;align-items:center;gap:6px;font-weight:600;color:var(--accent);text-decoration:none;font-size:.95rem}
+.back:hover{text-decoration:underline}
+.topnav{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.theory{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:10px}
+.theory h3{font-size:1.1rem}
+.theory ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.dlgbox{display:flex;flex-direction:column;gap:3px;padding-left:12px;border-left:3px solid var(--accent-soft)}
+.dlgbox b{color:var(--muted);font-weight:600}
+.city{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:420px}
+.city div{background:var(--accent-soft);border-radius:8px;padding:10px 6px;text-align:center;font-weight:600;font-size:.9rem}
+.city div span{display:block;font-size:1.6rem}
+.mail{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.mail .hd{background:var(--accent-soft);padding:10px 14px;font-size:.88rem;display:flex;flex-direction:column;gap:2px}
+.mail .bd{padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.mail mark{background:var(--red-soft);color:inherit;padding:0 2px;border-radius:3px}
+.reader{display:flex;flex-direction:column;gap:12px}
+.rtext{display:flex;flex-direction:column;gap:10px;font-size:1.08rem;line-height:1.75;max-width:65ch}
+.rtext .spk{color:var(--accent)}
+.gw{border-bottom:2px dotted var(--accent);cursor:pointer;border-radius:3px}
+.gw:hover,.gw.on{background:var(--accent-soft)}
+.gloss{position:sticky;bottom:calc(env(safe-area-inset-bottom,0px) + 8px);background:var(--ink);color:var(--bg);border-radius:10px;padding:10px 14px;font-size:.95rem;box-shadow:0 4px 16px rgba(0,0,0,.18);z-index:4}
+.wl summary{cursor:pointer;font-weight:600;color:var(--accent);padding-block:4px}
+.wl table{margin-top:8px}
+</style></head><body><div id="app"></div><script>
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const shuf=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>s.trim().toLowerCase().replace(/[.!?,„“"]/g,'').replace(/\s+/g,' ');
+const arr=a=>Array.isArray(a)?a:[a];
+const NUM=['nula','jedna','dva','tři','čtyři','pět','šest','sedm','osm','devět','deset'];
+const TEEN=['deset','jedenáct','dvanáct','třináct','čtrnáct','patnáct','šestnáct','sedmnáct','osmnáct','devatenáct'];
+const TENS=['','','dvacet','třicet','čtyřicet','padesát','šedesát','sedmdesát','osmdesát','devadesát'];
+const HUN=['','sto','dvě stě','tři sta','čtyři sta','pět set','šest set','sedm set','osm set','devět set'];
+function cz(n){if(n===0)return 'nula';const p=[];const t=Math.floor(n/1000),h=Math.floor(n%1000/100),r=n%100;
+  if(t)p.push(t===1?'tisíc':t<5?(t===2?'dva':NUM[t])+' tisíce':cz(t)+' tisíc');if(h)p.push(HUN[h]);
+  if(r)p.push(r<=10?NUM[r]:r<20?TEEN[r-10]:TENS[Math.floor(r/10)]+(r%10?' '+NUM[r%10]:''));return p.join(' ')}
+const spoken=s=>s.replace(/@/g,' zavináč ').replace(/\./g,' tečka ').replace(/_/g,' podtržítko ').replace(/-/g,' pomlčka ');
+
+let csVoice=null;
+function say(t,rate=.85){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='cs-CZ';if(csVoice)u.voice=csVoice;u.rate=rate;speechSynthesis.speak(u)}catch(e){}}
+const sayBtn=t=>`<button class="say" data-say="${esc(t)}" aria-label="Произнести">▶</button>`;
+document.addEventListener('click',e=>{const b=e.target.closest('[data-say]');if(b){e.stopPropagation();say(b.dataset.say)}},true);
+let lastInput=null;document.addEventListener('focusin',e=>{if(e.target.matches('.q input'))lastInput=e.target});
+function keys(el){el.innerHTML=['á','é','í','ý','ó','ú','ů','ě','č','ř','š','ž','ň','ď','ť'].map(c=>`<button type="button" tabindex="-1">${c}</button>`).join('');
+  $$('button',el).forEach(b=>b.onmousedown=e=>{e.preventDefault();if(lastInput)lastInput.setRangeText(b.textContent,lastInput.selectionStart,lastInput.selectionEnd,'end')})}
+const actions=(extra='')=>`<div class="actions">${extra}<span class="result"></span></div>`;
+
+function KURZ(cfg){
+  const KEY=cfg.key;let done=store.get(KEY,{});const ALL=[];
+  document.title=cfg.docTitle||cfg.title;
+  $('#app').innerHTML=`<div class="wrap"><div class="topnav"><a class="back" href="index.html">← Все уроки</a>${cfg.other?`<a class="back" href="${cfg.other[0]}">${cfg.other[1]} →</a>`:''}</div>
+   <header><span class="eyebrow">${cfg.eyebrow}</span><h1>${cfg.title}</h1><p class="lead">${cfg.lead}</p>
+   <div class="progress"><span>Выполнено</span><div class="bar"><i id="pbar"></i></div><span id="ptext"></span><button class="say" id="resetAll">сбросить</button></div><p class="hint" id="ttsHint"></p></header>
+   <nav class="tabs" role="tablist" id="tabs"></nav><main id="panels"></main><footer>${cfg.footer||''}</footer></div>`;
+  try{const pick=()=>{csVoice=speechSynthesis.getVoices().find(x=>/^cs/i.test(x.lang))||null;$('#ttsHint').textContent=csVoice?'':'На этом устройстве нет чешского голоса, поэтому озвучка может звучать с акцентом.'};pick();speechSynthesis.onvoiceschanged=pick}catch(e){$('#ttsHint').textContent='Озвучка в этом браузере недоступна.'}
+  const mark=n=>{done[n]=true;store.set(KEY,done);drawP()};
+  function drawP(){const k=ALL.filter(n=>done[n]).length;$('#pbar').style.width=(ALL.length?k/ALL.length*100:0)+'%';$('#ptext').textContent=`${k} из ${ALL.length} ${cfg.unit||'упражнений'}`;
+    store.set('kp:'+cfg.page,{d:k,t:ALL.length});
+    ALL.forEach(n=>{const e=document.getElementById('x-'+n);if(e)e.classList.toggle('done',!!done[n])});
+    cfg.tabs.forEach(t=>{const b=$(`#tabs [data-tab="${t.id}"] .ck`);const ex=t.ex.filter(e=>ALL.includes(e.n));if(b)b.textContent=ex.length&&ex.every(e=>done[e.n])?'✓':''})}
+
+  const E={};
+  E.html=(ex,sp)=>{$('.body',ex).innerHTML=sp.html};
+  E.cards=(ex,sp)=>{const b=$('.body',ex);b.innerHTML=`<div class="actions"><button class="btn ghost" data-h>Скрыть перевод</button></div><div class="cards">${sp.items.map(c=>`<div class="card" tabindex="0"><span class="cz ${c[3]||''}">${c[0]}</span><span class="ru">${c[1]}</span><div class="row"><span class="tag">${c[2]||''}</span>${sayBtn(c[0].replace(/<[^>]+>/g,''))}</div></div>`).join('')}</div>`;
+    $$('.card',b).forEach(c=>{const t=()=>$('.ru',c).classList.toggle('shown');c.onclick=e=>{if(!e.target.closest('.say'))t()};c.onkeydown=e=>{if(e.key==='Enter')t()}});
+    $('[data-h]',b).onclick=e=>{b.classList.toggle('hideru');e.target.textContent=b.classList.contains('hideru')?'Показать перевод':'Скрыть перевод'}};
+  E.fill=(ex,sp)=>{const b=$('.body',ex);const size=sp.size||'';
+    b.innerHTML=(sp.intro?`<div>${sp.intro}</div>`:'')+(sp.bank?`<div class="bank">${sp.bank.map(w=>`<span>${w}</span>`).join('')}</div>`:'')+`<div class="keys"></div><div class="qs"></div>`+actions('<button class="btn" data-check>Проверить</button><button class="btn ghost" data-again>Заново</button>');
+    keys($('.keys',b));const qs=$('.qs',b),res=$('.result',b);const gaps=sp.items.filter(q=>q.a!=null);
+    const build=()=>{let n=0;qs.innerHTML=sp.items.map((q,i)=>q.a==null?`<div class="q">${q.w!=null?`<span class="who">${q.w}</span>`:''}<span>${q.p||''}</span></div>`:
+      `<div class="q ${size==='tight'?'tight':''}" data-i="${i}">${q.w!=null?`<span class="who">${q.w}</span>`:`<span class="gl" style="min-width:1.6em">${++n}.</span>`}<span>${q.p||''}</span><input class="${q.size||size}" autocomplete="off" spellcheck="false" aria-label="ответ"><span>${q.s||''}</span>${q.g?`<span class="gl">&nbsp;${q.g}</span>`:''}<span class="fix"></span></div>`).join('');res.textContent=''};
+    build();
+    $('[data-check]',b).onclick=()=>{let ok=0;$$('.q[data-i]',qs).forEach(r=>{const it=sp.items[+r.dataset.i],inp=$('input',r),good=arr(it.a).some(a=>norm(a)===norm(inp.value));
+      inp.classList.toggle('ok',good);inp.classList.toggle('bad',!good);$('.fix',r).textContent=good?'':' → '+arr(it.a)[0];if(good)ok++});
+      res.textContent=`${ok} из ${gaps.length}`+(ok===gaps.length?' · Výborně!':'');if(ok/gaps.length>=(sp.pass||.8))mark(sp.n)};
+    $('[data-again]',b).onclick=build};
+  E.pick=(ex,sp)=>{const b=$('.body',ex);b.innerHTML=(sp.intro?`<div>${sp.intro}</div>`:'')+`<div class="pick"></div>`+actions('<button class="btn ghost" data-again>Заново</button>');
+    const box=$('.pick',b),res=$('.result',b);let answered,ok;
+    const build=()=>{answered=0;ok=0;res.textContent='';box.innerHTML=sp.items.map((it,i)=>{const [pre,post]=it.t.split('___');
+      return `<div class="prow" data-i="${i}"><span class="gl">${i+1}.</span><span>${pre}</span><span class="pgrp">${it.o.map(o=>`<button>${o}</button>`).join('')}</span><span>${post||''}</span></div>`}).join('');
+      $$('.prow',box).forEach(r=>{const it=sp.items[+r.dataset.i];$$('button',r).forEach(bt=>bt.onclick=()=>{if(r.dataset.done)return;r.dataset.done=1;answered++;
+        const good=bt.textContent===it.a;bt.classList.add(good?'ok':'bad');if(good)ok++;else $$('button',r).find(x=>x.textContent===it.a).classList.add('ok');
+        if(answered===sp.items.length){res.textContent=`${ok} из ${sp.items.length}`+(ok===sp.items.length?' · Výborně!':'');if(ok/sp.items.length>=(sp.pass||.8))mark(sp.n)}})})};
+    build();$('[data-again]',b).onclick=build};
+  E.drill=(ex,sp)=>{const host=$('.body',ex);host.innerHTML=(sp.intro?`<div>${sp.intro}</div>`:'')+'<div class="drill"></div>';const el=$('.drill',host);let items,i,score;
+    let wrong=[];const start=()=>{const src=typeof sp.items==='function'?sp.items():sp.items;items=(sp.keepOrder?src.slice():shuf(src)).slice(0,sp.take||99);i=0;score=0;wrong=[];show()};
+    const show=()=>{if(i>=items.length){const good=score/items.length>=(sp.pass||.8);
+        const bk=KEY+':best:'+sp.n,best=Math.max(store.get(bk,0),score);store.set(bk,best);
+        el.innerHTML=`<div class="prompt">${score} из ${items.length}</div><p>${good?'Skvělé! Упражнение выполнено.':'Попробуйте ещё раз.'}${sp.review?` Лучший результат: ${best} из ${items.length}.`:''}</p>${sp.review&&wrong.length?`<div class="theory"><h3>Разбор ошибок</h3><ul>${wrong.map(w=>`<li>${w[0]} — <b style="color:var(--ok)">${w[1]}</b> <span class="hint">(вы выбрали: ${w[2]})</span></li>`).join('')}</ul></div>`:''}<div class="actions"><button class="btn ghost">Ещё раз</button></div>`;$('.actions button',el).onclick=start;if(good)mark(sp.n);return}
+      const it=items[i],o=sp.fixed?it.o:shuf(it.o.slice());
+      el.innerHTML=`<div class="meta"><span>${i+1} / ${items.length}</span><span>верно: ${score}</span></div>
+        <div class="prompt">${it.big?`<span class="big">${it.big}</span>`:''}<span>${it.q}</span>${it.say?sayBtn(it.say):''}</div>
+        <div class="opts">${o.map(x=>`<button data-o="${esc(x)}">${x}</button>`).join('')}</div><p class="expl" hidden></p><div class="actions"><button class="btn" data-n hidden>Дальше →</button></div>`;
+      if(it.autoSay&&i>0)say(it.say);
+      $$('.opts button',el).forEach(bt=>bt.onclick=()=>{if(!$('[data-n]',el).hidden)return;const good=bt.dataset.o===String(it.a);bt.classList.add(good?'ok':'bad');
+        $$('.opts button',el).find(x=>x.dataset.o===String(it.a)).classList.add('ok');if(good)score++;else wrong.push([it.q,it.a,bt.dataset.o]);const x=$('.expl',el);x.hidden=false;
+        x.innerHTML=(good?'<b style="color:var(--ok)">Správně!</b> ':'<b style="color:var(--bad)">Špatně.</b> ')+(it.x||'');if(it.after)say(it.after);$('[data-n]',el).hidden=false;$('[data-n]',el).focus()});
+      $('[data-n]',el).onclick=()=>{i++;show()}};start()};
+  E.match=(ex,sp)=>{const b=$('.body',ex);b.innerHTML=`<p class="hint">Нажмите слева, затем подходящий вариант справа.</p><div class="match"></div>`+actions('<button class="btn ghost" data-again>Перемешать</button>');
+    const m=$('.match',b),res=$('.result',b);let sel,got;
+    const build=()=>{sel=null;got=0;res.textContent='';const L=sp.pairs.map((p,i)=>[p[0],i]),R=shuf(sp.pairs.map((p,i)=>[p[1],i]));
+      m.innerHTML=L.map((l,k)=>`<button data-s="L" data-i="${l[1]}">${l[0]}</button><button data-s="R" data-i="${R[k][1]}">${R[k][0]}</button>`).join('');
+      $$('button',m).forEach(bt=>bt.onclick=()=>{if(bt.classList.contains('ok'))return;
+        if(bt.dataset.s==='L'){$$('[data-s="L"]',m).forEach(x=>x.classList.remove('sel'));bt.classList.add('sel');sel=bt;return}
+        if(!sel)return;if(sel.dataset.i===bt.dataset.i){sel.className='ok';bt.className='ok';say(sel.textContent+' '+bt.textContent);sel=null;if(++got===sp.pairs.length){res.textContent='Všechno správně!';mark(sp.n)}}
+        else{bt.classList.add('shake');setTimeout(()=>bt.classList.remove('shake'),300)}})};build();$('[data-again]',b).onclick=build};
+  E.order=(ex,sp)=>{const b=$('.body',ex);b.innerHTML=`<p class="hint">Нажимайте на части по порядку. Нажатие в списке возвращает часть обратно.</p><div class="order list"></div><div class="order pool"></div>`+actions('<button class="btn" data-check>Проверить</button><button class="btn ghost" data-again>Заново</button>');
+    const list=$('.order.list',b),pool=$('.order.pool',b),res=$('.result',b);
+    const build=()=>{list.innerHTML='';res.textContent='';pool.innerHTML=shuf(sp.lines.map((l,i)=>[l,i])).map(([l,i])=>`<button data-i="${i}">${l}</button>`).join('');
+      $$('button',pool).forEach(bt=>bt.onclick=()=>{bt.className='';(bt.parentElement===pool?list:pool).appendChild(bt)})};
+    $('[data-check]',b).onclick=()=>{const it=$$('button',list);let ok=0;it.forEach((bt,k)=>{const g=+bt.dataset.i===k;bt.className=g?'ok':'bad';if(g)ok++});
+      res.textContent=it.length<sp.lines.length?`Разложите все части (${it.length} из ${sp.lines.length}).`:`${ok} из ${sp.lines.length} на своём месте`+(ok===sp.lines.length?' · Výborně!':'');if(ok===sp.lines.length)mark(sp.n)};
+    build();$('[data-again]',b).onclick=build};
+  E.build=(ex,sp)=>{const b=$('.body',ex);b.innerHTML=`<p class="hint" data-ru></p><div class="target"></div><div class="pool"></div>`+actions('<button class="btn" data-check>Проверить</button><button class="btn ghost" data-next>Следующее</button>');
+    const t=$('.target',b),p=$('.pool',b),res=$('.result',b);let i=0;const solved=new Set();
+    const show=()=>{const [hint,s]=sp.items[i];$('[data-ru]',b).innerHTML=`${i+1}/${sp.items.length} · ${hint}`;t.innerHTML='';res.textContent='';
+      p.innerHTML=shuf(s.split(' ')).map(w=>`<button class="word">${w}</button>`).join('');$$('.word',p).forEach(w=>w.onclick=()=>(w.parentElement===p?t:p).appendChild(w))};
+    $('[data-check]',b).onclick=()=>{const got=$$('.word',t).map(w=>w.textContent).join(' '),good=got===sp.items[i][1];res.textContent=good?'Správně! ✓':(got?'Порядок не тот, попробуйте ещё.':'Нажимайте на слова по порядку.');
+      if(good){say(got);solved.add(i);if(solved.size>=Math.ceil(sp.items.length*.8))mark(sp.n)}};
+    $('[data-next]',b).onclick=()=>{i=(i+1)%sp.items.length;show()};show()};
+  E.listen=(ex,sp)=>{const b=$('.body',ex);b.innerHTML=(sp.intro?`<div>${sp.intro}</div>`:'')+`<ul class="lst">${sp.items.map(t=>`<li>${sayBtn(sp.spk?spoken(t):t)}<span>${t}</span></li>`).join('')}</ul>`+actions();
+    const heard=new Set();$$('.lst .say',b).forEach((bt,i)=>bt.addEventListener('click',()=>{heard.add(i);if(heard.size>=Math.min(sp.need||5,sp.items.length)){mark(sp.n);$('.result',b).textContent='Отлично! Повторяйте вслух.'}}))};
+  E.free=(ex,sp)=>{$('.body',ex).innerHTML=`<p>${sp.text}</p>`};
+  E.skip=(ex,sp)=>{ex.classList.add('skip');$('.body',ex).innerHTML=`<p>${sp.text||'Это задание лучше сделать на бумаге.'}</p>`};
+
+  $('#tabs').innerHTML=cfg.tabs.map(t=>`<button role="tab" data-tab="${t.id}" aria-selected="false">${t.name}<span class="ck"></span></button>`).join('');
+  $('#panels').innerHTML=cfg.tabs.map(t=>`<section class="panel" id="t-${t.id}" hidden>${t.ex.map((e,j)=>e.type==='html'?`<div class="theory" id="h-${t.id}-${j}">${e.t?`<h3>${e.t}</h3>`:''}<div class="body"></div></div>`:
+    `<div class="ex" id="x-${e.n||t.id+'-'+j}"><h3>${e.n?`<span class="num">${e.n}</span>`:''}${e.t||''}${e.h?` <small>${e.h}</small>`:''}</h3><div class="body"></div></div>`).join('')}</section>`).join('');
+  cfg.tabs.forEach(t=>t.ex.forEach((e,j)=>{const el=e.type==='html'?$(`#h-${t.id}-${j}`):document.getElementById('x-'+(e.n||t.id+'-'+j));if(e.n&&!['free','skip','html','cards'].includes(e.type))ALL.push(e.n);E[e.type](el,e)}));
+  const open=k=>{$$('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===k));$$('section.panel').forEach(p=>p.hidden=p.id!=='t-'+k);store.set(KEY+':tab',k)};
+  $$('#tabs button').forEach(b=>b.onclick=()=>{open(b.dataset.tab);window.scrollTo({top:0})});
+  const last=store.get(KEY+':tab');open(cfg.tabs.some(t=>t.id===last)?last:cfg.tabs[0].id);
+  $('#resetAll').onclick=()=>{done={};store.set(KEY,done);drawP()};drawP();
+}
+
+function TESTY(t){const pad=String(t.n).padStart(2,'0');
+  KURZ({unit:'вариантов',key:'t'+t.n,page:`lekce-${pad}-testy`,eyebrow:`Česky krok za krokem 1 · Lekce ${t.n} · Testy`,title:`Testy: ${t.title}`,docTitle:`Testy ${t.n} · ${t.title}`,
+    lead:'4 варианта по 30 вопросов, в каждом три ответа и один правильный. Порядок вопросов и ответов каждый раз перемешивается. Если ответите правильно на 24 и больше (80%), вариант засчитан, а в конце будет разбор ошибок.',
+    other:[`lekce-${pad}.html`,`Учебник, урок ${t.n}`],
+    tabs:t.variants.map((v,k)=>({id:'v'+(k+1),name:`Вариант ${k+1}`,ex:[{n:`V${k+1}`,t:`Вариант ${k+1}`,h:'30 вопросов',type:'drill',review:true,pass:.8,
+      items:v.trim().split('\n').map(r=>{const [q,a,b,c]=r.split('|');return {q,o:[a,b,c],a}})}]}))})}
+
+/* reading block: {type:'read', t, paras:[...], words:[[cz,ru],...]} */
+function readHtml(sp){const W=sp.words.slice().sort((a,b)=>b[0].length-a[0].length);
+  const re=new RegExp('(?<![\\p{L}])('+W.map(w=>w[0].replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|')+')(?![\\p{L}])','giu');
+  const map=Object.fromEntries(W.map(w=>[w[0].toLowerCase(),w[1]]));
+  const wrap=t=>esc(t).replace(re,m=>`<span class="gw" tabindex="0" data-ru="${esc(map[m.toLowerCase()]||'')}">${m}</span>`);
+  const paras=sp.paras.map(p=>{const m=p.match(/^([A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ][\p{L}]+):\s(.*)$/u);return `<p>${m?`<b class="spk">${m[1]}:</b> ${wrap(m[2])}`:wrap(p)} ${sayBtn(m?m[2]:p)}</p>`}).join('');
+  const full=sp.paras.map(p=>p.replace(/^[^:\s]+:\s/,'')).join(' ');
+  return `<div class="reader"><div class="actions"><button class="btn ghost" data-say="${esc(full)}">▶ Слушать весь текст</button><span class="hint">Нажмите на подчёркнутое слово, чтобы увидеть перевод.</span></div>
+   <div class="rtext">${paras}</div><div class="gloss" aria-live="polite">Нажмите на слово в тексте</div>
+   <details class="wl"><summary>Слова к тексту (${sp.words.length})</summary><div class="tablewrap"><table><tbody>${sp.words.map(w=>`<tr><td class="cz">${w[0]} ${sayBtn(w[0])}</td><td>${w[1]}</td></tr>`).join('')}</tbody></table></div></details></div>`}
+document.addEventListener('click',e=>{const g=e.target.closest('.gw');if(!g)return;const box=g.closest('.reader').querySelector('.gloss');box.innerHTML=`<b>${g.textContent}</b> — ${g.dataset.ru}`;$$('.gw.on').forEach(x=>x.classList.remove('on'));g.classList.add('on');say(g.textContent)});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.matches('.gw'))e.target.click()});
+
+function CTENI(t){const pad=String(t.n).padStart(2,'0');
+  KURZ({key:'c'+t.n,page:`lekce-${pad}-cteni`,eyebrow:`Česky krok za krokem 1 · Lekce ${t.n} · Čtení`,title:`Čtení: ${t.title}`,docTitle:`Čtení ${t.n} · ${t.title}`,
+    lead:'Короткие тексты по темам урока, написаны по пройденным словам. Сначала прочитайте текст сами, потом послушайте его и сделайте упражнения. Новые слова выделены: нажмите на слово, и появится перевод.',
+    other:[`lekce-${pad}-testy.html`,`Тесты, урок ${t.n}`],
+    footer:'Тексты и упражнения составлены для этого курса по лексике и грамматике урока.',
+    tabs:t.texts.map((x,k)=>({id:'r'+(k+1),name:`${k+1}. ${x.name}`,ex:[{type:'html',t:x.t,html:readHtml(x)},...x.ex.map((e,j)=>({...e,n:`${k+1}${'ABCDE'[j]}`}))]}))})}
+
+const optsFrom=(list,w,n=4)=>[w,...shuf(list.filter(x=>x!==w)).slice(0,n-1)];
+function scramble(w){let s;do{s=shuf(w.toUpperCase().split('')).join('')}while(s===w.toUpperCase());return s}
+const PR=['já','ty','on, ona, to','my','vy','oni'];
+const tbl=(verb,forms,give)=>forms.map((f,i)=>give.includes(i)?null:{p:`${verb} · ${PR[i]} —`,a:f}).filter(Boolean);
+const OD=['','jedné','dvou','tří','čtyř','pěti','šesti','sedmi','osmi','devíti','deseti','jedenácti','dvanácti'];
+const vH=h=>([2,3,4,12].includes(h)?'ve ':'v ')+(h===1?'jednu':h===2?'dvě':cz(h));
+const DNY=[['pondělí','v pondělí'],['úterý','v úterý'],['středa','ve středu'],['čtvrtek','ve čtvrtek'],['pátek','v pátek'],['sobota','v sobotu'],['neděle','v neděli']];
+const RODINA=`<div class="tablewrap"><table><thead><tr><th>Karel</th><th>Eliška</th><th>Helena</th></tr></thead><tbody><tr><td>14.00–15.00 porada<br>15.30–16.30 konzultace<br>22.00–23.30 fotbal</td><td>8.00–17.00 školka<br>18.00–19.30 pohádka</td><td>9.00–12.00 firemní kurz<br>15.00–16.00 schůzka<br>20.15–21.55 seriál</td></tr></tbody></table></div>`;
+const TV=`<div class="tablewrap"><table><thead><tr><th>ČT 1</th><th>ČT 2</th><th>Nova</th><th>Prima</th></tr></thead><tbody><tr><td>19.00 Zprávy<br>20.10 Talk show<br>21.30 Všichni doma! <i>Komedie ČR</i><br>23.05 Koncert</td><td>18.45 Večerníček <i>pro děti</i><br>19.00 Evropa dnes <i>Dokument</i><br>20.00 Staré město <i>Divadelní hra</i><br>22.00 Jesus Christ Superstar <i>Rocková opera</i></td><td>18.30 Ulice <i>Seriál ČR</i><br>19.30 Televizní noviny<br>20.20 Chcete být milionářem? <i>Soutěž</i><br>22.30 Rychle a zběsile <i>Akční film</i></td><td>18.55 Zprávy<br>20.15 Máme rádi Česko <i>Kvíz</i><br>22.00 Jste to, co jíte <i>Zdravý životní styl</i><br>23.55 Hokej</td></tr></tbody></table></div>`;
+const ARNOST=`<div class="dlgbox"><p>Arnošt Kučera je hudební skladatel. Má zajímavou a neobvyklou práci. Skládá písničky a hudbu k filmům. Také jeho denní program je opravdu neobvyklý. Arnošt je typická sova. Vstává většinou ve tři hodiny odpoledne. Do pěti hodin „snídá“ a čte noviny. Pak obvykle hraje na klavír a hledá nové melodie. Někdy má také pracovní schůzky. V devět večer „obědvá“ a pak jede do studia. Od deseti do čtyř pracuje ve studiu. V pět hodin ráno „večeří“. Jde spát v šest hodin ráno, ale někdy i později.</p></div>`;
+
+KURZ({key:'ps5',page:'lekce-05-sesit',eyebrow:'Česky krok za krokem 1 · Pracovní sešit · Lekce 5',title:'Pracovní sešit 5',docTitle:'Pracovní sešit 5',
+lead:'Рабочая тетрадь к уроку 5 «Kdy je to? Kdy se sejdeme?»: упражнения 1–56 с теми же номерами и заданиями, что в бумажной тетради, но со своими предложениями.',
+other:['lekce-05.html','Учебник, урок 5'],
+footer:'Упражнения повторяют задания и нумерацию рабочей тетради «Česky krok za krokem 1 — Pracovní sešit», урок 5. Тексты, программа ТВ и предложения составлены заново.',
+tabs:[
+{id:'a',name:'1–14 Čas',ex:[
+ {n:'1',t:'Kdo to říká? Petr (P), nebo Lucie (L)?',type:'drill',keepOrder:true,items:[['Proč tak spěcháš?','Lucie'],['Prosím tě, kolik je hodin?','Petr'],['Mám strach, že jdu pozdě.','Petr'],['Teď je 9.55.','Lucie'],['A kdy začíná lekce?','Petr'],['Zapomněl jsem doma mobil.','Petr'],['Ještě máme čas na kávu.','Lucie']].map(([q,a])=>({q,say:q,o:['Petr','Lucie'],a,fixed:true}))},
+ {n:'2',t:'Kolik je hodin? Doplňte čas',h:'18:30 — Je osmnáct třicet.',type:'fill',size:'wide',items:[['18:30','osmnáct třicet'],['11:22','jedenáct dvacet dva'],['05:27','pět dvacet sedm'],['12:30','dvanáct třicet'],['20:35','dvacet třicet pět'],['3:52','tři padesát dva']].map(([t,a],i)=>({p:`${t} — ${i===5?'Jsou':'Je'}`,a}))},
+ {n:'3',t:'Co je to? Napište správně',h:'KCONETR — KONCERT',type:'fill',size:'mid',items:['konference','party','schůze','divadlo','lekce','fotbal','film','mítink'].map(w=>({p:`<b style="letter-spacing:.1em">${scramble(w)}</b> →`,a:w}))},
+ {n:'4',t:'Kdy to je? Tvořte věty',h:'pět / v / Tenis / je / hodin — Tenis je v pět hodin.',type:'build',items:[['Футбол в час.','Fotbal je v jednu hodinu.'],['Урок в два часа.','Lekce je ve dvě hodiny.'],['Концерт в шесть часов.','Koncert je v šest hodin.'],['Фильм в восемь часов.','Film je v osm hodin.'],['Собрание в три часа.','Schůze je ve tři hodiny.'],['Что в четыре часа?','Co je ve čtyři hodiny?']]},
+ {n:'5',t:'Začíná (→), nebo končí (→|)?',type:'pick',items:[['Film','→|','v 11 v noci'],['Party','→','ve 4 odpoledne'],['Schůze','→','v 10 dopoledne'],['Konference','→|','v 9 večer'],['Lekce','→','v 8 ráno'],['Mítink','→|','v 7 večer'],['Tenis','→','v 6 ráno'],['Fotbal','→|','ve 12 v noci']].map(([k,s,t])=>({t:`${k} ${s} ___ ${t}.`,o:['začíná','končí'],a:s==='→'?'začíná':'končí'}))},
+ {n:'6',t:'Co říkají Eva a Petr? Spojte části vět',type:'match',pairs:[['Nechceš jít','na tenis?'],['Zítra dopoledne','nemůžu.'],['Co zítra','večer?'],['Kdy','se sejdeme?'],['Hodí se','ti to?'],['Ano, hodí, končím','v práci v pět.'],['Dobře,','těším se!'],['Já','taky.']]},
+ {n:'7',t:'V, nebo ve? Doplňte',type:'pick',items:['jednu','dvě','tři','čtyři','pět','šest','sedm','osm','devět','deset'].map((w,i)=>({t:`___ ${w}`,o:['v','ve'],a:[1,2,3].includes(i)?'ve':'v'}))},
+ {n:'8',t:'Kdy je to? Doplňte části dne',type:'drill',items:[['🌅 5.00–9.00','ráno'],['🌤️ 9.00–12.00','dopoledne'],['☀️ 12.00','v poledne'],['🌇 12.00–17.00','odpoledne'],['🌆 17.00–23.00','večer'],['🌙 23.00–5.00','v noci']].map(([q,a])=>({q,o:['ráno','dopoledne','v poledne','odpoledne','večer','v noci'],a,fixed:true}))},
+ {n:'9',t:'Doplňte vhodnou reakci',type:'match',pairs:[['Nechceš jít na fotbal?','Ano, a kdy?'],['Co zítra večer?','Zítra nemůžu.'],['Hodí se ti to?','Ne, nehodí.'],['Kdy se dneska sejdeme?','Hodí se ti to v 5?'],['Těším se.','Já taky.']]},
+ {n:'10',t:'Dana mluví s Martinem. Doplňte dialog',type:'fill',size:'mid',bank:['nechceš jít','a kdy','nemůžu','Ano, hodí','Já taky'],items:[{w:'Dana:',p:'Ahoj Martine,',a:'nechceš jít',s:'do kina?'},{w:'Martin:',p:'Ano,',a:'a kdy',s:'?'},{w:'Dana:',p:'Třeba ve čtvrtek večer. Hodí se ti to?'},{w:'Martin:',p:'Ve čtvrtek',a:'nemůžu',s:'.'},{w:'Dana:',p:'A co v neděli? — Super, v neděli mám čas.'},{w:'Dana:',p:'Fajn. Tak třeba v sedm večer?'},{w:'Martin:',a:'Ano, hodí',s:'.'},{w:'Dana:',p:'Kde se sejdeme? — Třeba v kavárně Slunce. — Dobře. Těším se.'},{w:'Martin:',a:'Já taky',s:'. Ahoj.'}]},
+ {n:'11',t:'Změňte věty podle modelu. Doplňte část dne',h:'Sejdeme se v 19 hodin. — Sejdeme se v sedm večer.',type:'drill',items:[[15,'ve tři odpoledne'],[8,'v osm ráno'],[16,'ve čtyři odpoledne'],[21,'v devět večer'],[22,'v deset večer'],[13,'v jednu odpoledne'],[14,'ve dvě odpoledne'],[2,'ve dvě v noci'],[18,'v šest večer'],[1,'v jednu v noci']].map(([h,a],i,A)=>({q:`v ${h} hodin`,o:optsFrom(A.map(x=>x[1]),a,3),a,after:a}))},
+ {n:'12',t:'Karel a Helena plánují. Doplňte čas',type:'fill',size:'mid',intro:RODINA,items:[{w:'Karel:',p:'Máme v práci poradu a ta začíná',a:['ve dvě','ve 14','ve čtrnáct'],s:'a končí'},{w:'',a:['ve tři','v 15','v patnáct'],s:'.'},{w:'Karel:',p:'Kolega a já máme konzultaci od',a:['půl čtvrté','15.30','patnácti třiceti'],s:'.'},{w:'Helena:',p:'Firemní kurz mám od',a:['devíti','9'],s:'do dvanácti.'},{w:'Karel:',p:'Pohádka začíná',a:['v šest','v 18','v osmnáct'],s:'.'},{w:'Helena:',p:'Můj seriál začíná',a:['ve 20.15','ve dvacet patnáct'],s:'.'},{w:'Karel:',p:'Fotbal začíná',a:['v deset','ve 22','ve dvacet dva'],s:'.'}]},
+ {n:'13',t:'Jaký program je dneska v televizi? Spojte',type:'match',pairs:[['Máme rádi Česko','kvíz o ČR'],['Jste to, co jíte','program o zdravém jídle'],['Ulice','český seriál'],['Evropa dnes','dokument'],['Všichni doma!','česká komedie'],['Večerníček','program pro děti'],['Staré město','divadelní hra'],['Rychle a zběsile','akční film'],['Jesus Christ Superstar','rocková opera']]},
+ {n:'14',t:'Kdy je…? Podle programu',type:'drill',intro:TV,items:[['Kdy je česká komedie?','ve 21.30'],['Kdy je dokument?','v 19.00'],['Kdy je rocková opera?','ve 22.00'],['Kdy je akční film?','ve 22.30'],['Kdy je kvíz?','ve 20.15'],['Kdy je program pro děti?','v 18.45']].map(([q,a],i,A)=>({q,o:optsFrom(A.map(x=>x[1]),a,3),a}))}]},
+
+{id:'b',name:'15–26 Denní program',ex:[
+ {n:'15',t:'Co dělá Marina ve všední den a o víkendu?',type:'match',pairs:[['Ve všední den ráno','vstává v 6.'],['O víkendu ráno','vstává v 10.'],['Ve všední den dopoledne','pracuje v kanceláři.'],['O víkendu dopoledne','plave.'],['Ve všední den odpoledne','se učí česky.'],['O víkendu odpoledne','jde do kina.'],['Ve všední den večer','vaří.'],['O víkendu večer','večeří s kamarády.'],['Ve všední den v noci','spí.'],['O víkendu v noci','tancuje v klubu.']]},
+ {n:'16',t:'Opravte nelogické věty',type:'drill',items:[{q:'Ráno večeřím.',o:['Ráno snídám.','Ráno spím večeři.','Večer snídám.'],a:'Ráno snídám.'},{q:'Nesnídám, protože mám čas.',o:['Nesnídám, protože nemám čas.','Snídám, protože nemám čas.','Nesnídám, protože mám hlad.'],a:'Nesnídám, protože nemám čas.'},{q:'Dopoledne tancuju v kanceláři.',o:['Dopoledne pracuju v kanceláři.','Dopoledne tancuju v kanceláři dobře.','Dopoledne plavu v kanceláři.'],a:'Dopoledne pracuju v kanceláři.'},{q:'Večer poslouchám kávu.',o:['Večer poslouchám hudbu.','Večer piju hudbu.','Večer poslouchám čaj.'],a:'Večer poslouchám hudbu.'},{q:'V noci se učím česky ve škole.',o:['Odpoledne se učím česky ve škole.','V noci spím ve škole.','V noci se učím česky v klubu.'],a:'Odpoledne se učím česky ve škole.'},{q:'Nakupuju v klubu.',o:['Nakupuju v supermarketu.','Tancuju v supermarketu.','Nakupuju v kině.'],a:'Nakupuju v supermarketu.'},{q:'O víkendu plavu tenis.',o:['O víkendu hraju tenis.','O víkendu plavu fotbal.','O víkendu hraju plavání.'],a:'O víkendu hraju tenis.'}]},
+ {n:'17',t:'Doplňte konjugaci sloves',type:'fill',size:'mid',items:[...tbl('vstávat',['vstávám','vstáváš','vstává','vstáváme','vstáváte','vstávají'],[0,5]),...tbl('snídat',['snídám','snídáš','snídá','snídáme','snídáte','snídají'],[2,5]),...tbl('večeřet',['večeřím','večeříš','večeří','večeříme','večeříte','večeří'],[1,5]),...tbl('vařit',['vařím','vaříš','vaří','vaříme','vaříte','vaří'],[1,4]),...tbl('nakupovat',['nakupuju','nakupuješ','nakupuje','nakupujeme','nakupujete','nakupujou'],[0,2]),...tbl('plavat',['plavu','plaveš','plave','plaveme','plavete','plavou'],[1,4,5]),...tbl('hrát',['hraju','hraješ','hraje','hrajeme','hrajete','hrajou'],[1,4,5]),...tbl('spát',['spím','spíš','spí','spíme','spíte','spí'],[1,5])]},
+ {n:'18',t:'Doplňte rád, ráda nebo rádi',type:'pick',items:[['Adam','hraje fotbal','rád'],['Ema a Filip','vaří','rádi'],['Markéta','jezdí na kole','ráda'],['David','tancuje flamenco','rád'],['Irena','lyžuje','ráda'],['Pan Janák','hraje tenis','rád'],['Milada','čte noviny','ráda'],['Jakub a Klára','nakupujou','rádi'],['Lea','cvičí aerobik','ráda'],['Diana a Ivan','plavou','rádi']].map(([k,v,a])=>({t:`${k} ___ ${v}.`,o:['rád','ráda','rádi'],a}))},
+ {n:'19',t:'Vyberte, co je správně',h:'глагол → rád, существительное → mít rád',type:'pick',items:[{t:'Pavel ___ hraje fotbal a tenis.',o:['rád','má rád'],a:'rád'},{t:'Milan ___ pracuje v noci.',o:['rád','má rád'],a:'rád'},{t:'Iveta ___ jezdí na kole.',o:['ráda','má ráda'],a:'ráda'},{t:'Petra ___ čokoládovou zmrzlinu.',o:['ráda','má ráda'],a:'má ráda'},{t:'Daniel a Eva ___ červené víno.',o:['rádi','mají rádi'],a:'mají rádi'},{t:'Katka a Honza ___ sport.',o:['rádi','mají rádi'],a:'mají rádi'},{t:'Šimon ___ spí.',o:['rád','má rád'],a:'rád'},{t:'Leona ___ tancuje.',o:['ráda','má ráda'],a:'ráda'},{t:'Paní Horáková, ___ balet?',o:['ráda','máte ráda'],a:'máte ráda'},{t:'Pane Malý, vy ___ hrajete tenis?',o:['rád','máte rád'],a:'rád'}]},
+ {n:'20',t:'Doplňte mít rád / mít ráda / mít rádi nebo rád / ráda / rádi',type:'fill',size:'mid',items:[['Michal','rád','lyžuje.'],['Ema','ráda','tancuje.'],['David a Filip','mají rádi','fotbal.'],['Paní Málková','má ráda','černý čaj.'],['Linda a Marek','mají rádi','smažený sýr.'],['Jakub','rád','čte noviny.'],['Leoš a Marek','mají rádi','dobrou hudbu.'],['Jan a Iva','rádi','pijou pivo.'],['Renata','ráda','čte knihy.'],['Pan Hromádka','má rád','dobré jídlo.'],['Andrej','rád','fotografuje.'],['Eva a Jiří','rádi','nakupujou.'],['Alice','má ráda','čaj s mlékem.'],['Maminka a tatínek','rádi','jezdí na kole.'],['Irena','má ráda','vanilkovou zmrzlinu.'],['Zuzana','ráda','čte romantické knihy.'],['Daniel a Lucie','rádi','nakupujou.'],['Jaroslav','rád','hraje tenis.'],['Robert','má rád','kakao.'],['Jana','ráda','jí čokoládu.']].map(([p,a,s])=>({p,a,s}))},
+ {n:'21',t:'Tvořte věty',h:'čokoládovou / Jana / ráda / zmrzlinu / má — Jana má ráda čokoládovou zmrzlinu.',type:'build',items:[['Петр любит волейбол.','Petr má rád volejbal.'],['Михал и Яна любят готовить итальянскую еду.','Michal a Jana rádi vaří italské jídlo.'],['Моя сестра любит чёрный кофе.','Moje sestra má ráda černou kávu.'],['Доминик любит танцевать.','Dominik rád tancuje.'],['Мой пёс любит спать.','Můj pes rád spí.'],['Ива не любит тёмное пиво.','Iva nemá ráda černé pivo.'],['Адам любит работать дома.','Adam rád pracuje doma.'],['Моя дочь любит блинчики.','Moje dcera má ráda palačinky.']]},
+ {n:'22',t:'Co máte nebo nemáte rádi?',type:'free',text:'Напишите мне 6 предложений: <i>Nerad tancuju. Nemám rád operu. Ráda vařím. Mám ráda červené víno…</i> Используйте: balet, čokoláda, snídat, fotbal, obědvat doma, cvičit jógu, nakupovat, lyžovat, uklízet, plavat, knedlíky, vařit, akční filmy, spát odpoledne.'},
+ {n:'23',t:'Napište věty o sobě',type:'free',text:'Пришлите мне: <i>Pořád… Často… Obvykle… Někdy… Nikdy ne…</i>'},
+ {n:'24',t:'Jak často…? Odpovídejte',type:'free',text:'Ответьте в чате: Jak často pijete kávu? Jak často pracujete na počítači? Jak často sportujete? Jak často jíte zeleninu? Jak často spíte odpoledne? Jak často vaříte?'},
+ {n:'25',t:'Doplňte teď, často, někdy nebo nikdy',type:'fill',size:'mid',items:[['Jsem z Francie, ale','teď','bydlím v Praze.'],['Jsem aktivní a',['často','někdy'],'sportuju.'],['Jsem abstinent.','Nikdy','nepiju alkohol.'],['Nepiju kávu, ale',['často','někdy'],'piju zelený čaj.'],['Chci být zdravá.','Často','jím zeleninu.'],['Jsem vegetariánka a','nikdy','nejím maso.'],['Rád studuju jazyky.','Teď','se učím česky.']].map(([p,a,s])=>({p,a,s}))},
+ {n:'26',t:'Co říkají Eva a Petr? Spojte',type:'match',pairs:[['Strašně nerada','vstávám brzy.'],['Nikdy','nesnídám.'],['Ráda','tancuju a cvičím.'],['Večeřím obvykle','v 9 večer.'],['V noci','pracuju na počítači.'],['Čtu noviny','na internetu.'],['Večeřím většinou','v 7 hodin.'],['Rád se dívám','na filmy.']]}]},
+
+{id:'c',name:'27–33 Dny v týdnu',ex:[
+ {n:'27',t:'Dny v týdnu. Kdy?',type:'fill',size:'mid',items:DNY.map(d=>({p:d[0]+' →',a:d[1]}))},
+ {n:'28',t:'Kdy je to? Napište správně',h:'V RÚTEÝ — v úterý',type:'fill',size:'mid',items:[['v','pátek'],['v','pondělí'],['ve','středu'],['v','neděli'],['ve','čtvrtek'],['v','sobotu']].map(([p,w])=>({p:`${p.toUpperCase()} <b style="letter-spacing:.1em">${scramble(w)}</b> →`,a:`${p} ${w}`}))},
+ {n:'29',t:'Doplňte v/ve, kde je to nutné',h:'часть дня и «zítra» без предлога!',type:'fill',size:'tight',pass:.85,items:[['Lekce je','—','ráno.'],['Konference je','—','dopoledne.'],['Schůze je','v','pondělí.'],['Koncert je','—','večer.'],['Tenis je','v','16.00.'],['Hokej je','v','17.40.'],['Schůze je','v','úterý.'],['Opera je','ve','21.15.'],['Party je','v','neděli.'],['Fotbal je','—','zítra.'],['Film je','v','sobotu.'],['Divadlo je','ve','středu.'],['Opera je','v','18.00.'],['Detektivka je','v','noci.']].map(([p,a,s])=>({p,a:a==='—'?['—','-','0','']:a,s}))},
+ {n:'30',t:'Marek je manažer. Jaký má program?',h:'V pondělí v deset třicet je konference.',type:'drill',intro:'<div class="tablewrap"><table><tbody><tr><td>Po</td><td>10.30 konference</td></tr><tr><td>Út</td><td>10.00 konzultace</td></tr><tr><td>St</td><td>19.00 tenis</td></tr><tr><td>Čt</td><td>12.00 oběd se šéfem · 14.00 schůze</td></tr><tr><td>Pá</td><td>8.00 fotbal</td></tr><tr><td>So</td><td>21.00 party</td></tr><tr><td>Ne</td><td>15.00 tenis · 19.00 kino</td></tr></tbody></table></div>',items:[['Kdy má Marek konferenci?','v pondělí v deset třicet'],['Kdy má konzultaci?','v úterý v deset'],['Kdy hraje tenis poprvé?','ve středu v devatenáct'],['Kdy má schůzi?','ve čtvrtek ve čtrnáct'],['Kdy hraje fotbal?','v pátek v osm'],['Kdy je party?','v sobotu ve dvacet jedna'],['Kdy jde do kina?','v neděli v devatenáct']].map(([q,a],i,A)=>({q,o:optsFrom(A.map(x=>x[1]),a,3),a}))},
+ {n:'31',t:'Co říká Marina? Seřaďte chronologicky',type:'order',lines:['V pondělí nemůžu, musím se učit.','V úterý jsem ve škole. Musím psát test.','Ve středu taky nemůžu, musím uklízet.','A ve čtvrtek musím nakupovat a vařit.','V pátek mám návštěvu.','Jo, v sobotu můžu.']},
+ {n:'32',t:'Co je, nebo není pravda?',type:'drill',keepOrder:true,fixed:true,items:[['Marina nechce jít do kina.',0],['V pondělí musí Marina psát test.',0],['V úterý je Marina ve škole.',1],['Ve středu musí Marina uklízet.',1],['Ve čtvrtek musí Marina nakupovat a vařit.',1],['V pátek má Marina návštěvu.',1],['Marina chce jít v sobotu tancovat.',1],['Tom umí dobře tancovat.',0]].map(([q,y])=>({q,o:['ANO','NE'],a:y?'ANO':'NE'}))},
+ {n:'33',t:'Tvořte věty',h:'projekt / psát / Musím — Musím psát projekt.',type:'build',items:[['Не хочешь как-нибудь пойти на кофе?','Nechceš jít někdy na kávu?'],['В четверг после обеда не могу.','Ve čtvrtek odpoledne nemůžu.'],['Я должна учиться к тесту.','Musím se učit na test.'],['В пятницу у меня гости.','V pátek mám návštěvu.'],['Встретимся в 7 вечера.','Sejdeme se v 7 večer.'],['Тебе удобно?','Hodí se ti to?']]}]},
+
+{id:'d',name:'34–46 Modální slovesa',ex:[
+ {n:'34',t:'Denis zve Vandu do kina. Doplňte',type:'fill',size:'mid',bank:['Těším se.','nemůžu','nechceš','se sejdeme','taky','hodí se ti to','v pátek'],items:[{w:'Denis:',p:'Ahoj Vando,',a:'nechceš',s:'jít ve čtvrtek do kina?'},{w:'Vanda:',p:'Ve čtvrtek',a:'nemůžu',s:', mám moc práce.'},{w:'Denis:',p:'A co',a:'v pátek',s:'?'},{w:'Vanda:',p:'V pátek můžu. Kdy',a:'se sejdeme',s:'?'},{w:'Denis:',p:'Třeba v 8 večer,',a:'hodí se ti to',s:'?'},{w:'Vanda:',p:'Ano, hodí.',a:['Těším se','Těším se.']},{w:'Denis:',p:'Já',a:'taky',s:'.'}]},
+ {n:'35',t:'Doplňte nechceš, neumím, umí, můžu, nemůžu nebo musím',type:'fill',size:'mid',items:[['','Nechceš','jít do kina?'],['V pondělí','nemůžu',', musím se učit.'],['V sobotu','můžu','.'],['','Neumím','tancovat.'],['To přece','umí','každý!']].map(([p,a,s])=>({p,a:[a,a.toLowerCase()],s}))},
+ {n:'36',t:'Konjugace modálních sloves muset, moct a umět',type:'fill',size:'mid',items:[...tbl('muset',['musím','musíš','musí','musíme','musíte','musí'],[5]),...tbl('moct',['můžu','můžeš','může','můžeme','můžete','můžou'],[0,5]),...tbl('umět',['umím','umíš','umí','umíme','umíte','umí'],[5])]},
+ {n:'37',t:'Změňte věty podle modelu',h:'V úterý nakupuju. — V úterý musím nakupovat.',type:'fill',size:'wide',items:[['V pondělí ráno pracuju.','V pondělí ráno musím pracovat'],['V neděli dopoledne vařím.','V neděli dopoledne musím vařit'],['V sobotu odpoledne uklízím.','V sobotu odpoledne musím uklízet'],['V úterý obědvám v restauraci.','V úterý musím obědvat v restauraci'],['Ve čtvrtek vstávám v 7 hodin.','Ve čtvrtek musím vstávat v 7 hodin'],['V pátek večer jdu do klubu.','V pátek večer musím jít do klubu'],['V pátek odpoledne jdu na tenis.','V pátek odpoledne musím jít na tenis'],['V pondělí ráno jedu na mítink.','V pondělí ráno musím jet na mítink']].map(([p,a])=>({p:p+' →',a}))},
+ {n:'38',t:'Analyzujte formy modálních sloves. Doplňte kdo',type:'drill',items:[['umíme',3],['musíš',1],['umí',2],['může',2],['můžete',4],['umíte',4],['musím',0],['můžou',5],['umíš',1],['můžu',0],['umím',0],['musíme',3],['musíte',4],['můžeš',1]].map(([f,i])=>({q:f,say:f,o:PR,a:PR[i]}))},
+ {n:'39',t:'Doplňte správnou formu modálních sloves',h:'my – umět: umíme',type:'fill',size:'mid',items:[['já – umět','umím'],['ty – muset','musíš'],['on – moct','může'],['my – muset','musíme'],['vy – umět','umíte'],['oni – moct',['můžou','mohou']],['já – nemuset','nemusím'],['my – neumět','neumíme'],['ty – nemoct','nemůžeš'],['ona – umět','umí'],['vy – moct','můžete'],['já – nemoct',['nemůžu','nemohu']],['ty – umět','umíš'],['on – muset','musí'],['vy – nemuset','nemusíte']].map(([p,a])=>({p:p+':',a}))},
+ {n:'40',t:'Procvičujte slovesa. Co dělají?',type:'drill',items:[['👩‍🍳','vařit'],['💃🕺','tancovat'],['⛷️','lyžovat'],['📖👨‍👩‍👧','číst'],['🍽️🕯️','večeřet'],['🧹','uklízet'],['💻😩','pracovat na počítači'],['⚽','hrát fotbal'],['⏰','vstávat'],['🛒','nakupovat'],['🚲','jezdit na kole'],['🧘','cvičit jógu'],['🏖️','odpočívat'],['🥐☕','snídat'],['📚✏️','učit se'],['🎧','poslouchat hudbu'],['🏊','plavat'],['😴','spát']].map(([e,w],i,A)=>({big:e,q:'Co dělají?',o:optsFrom(A.map(x=>x[1]),w),a:w,after:w}))},
+ {n:'41',t:'Napište informace o sobě',type:'free',text:'Пришлите мне: <i>Ve všední den musím… O víkendu můžu… Umím…</i>'},
+ {n:'42',t:'Doplňte modální sloveso ve správné formě',h:'Karolína nemá čas, (nemoct) jít plavat. — nemůže',type:'fill',size:'mid',items:[['(já)','umím','(umět) dobře vařit.'],['Karel','může','(moct) nakupovat.'],['Filip nemá čas.','Musí','(muset) studovat.'],['Honza je malý, ale už','umí','(umět) mluvit.'],['Matěj ještě','neumí','(neumět) plavat?'],['(oni)',['Nemusí','Nemusejí'],'(nemuset) pracovat?'],['(vy)','Můžete','(moct) jít večer do kina?'],['(my)','Umíme','(umět) dobře hrát tenis.'],['(vy)','Musíte','(muset) vstávat brzy?'],['Dana','neumí','(neumět) tancovat.'],['(vy)','Musíte','(muset) psát test.'],['Petra','může','(moct) spát.'],['Dan má čas,','může','(moct) spát.'],['Ema ještě','neumí','(neumět) číst?'],['Hugo musí uklízet,','nemůže','(nemoct) odpočívat.']].map(([p,a,s])=>({p,a:arr(a).flatMap(x=>[x,x.toLowerCase()]),s}))},
+ {n:'43',t:'Doplňte vhodné sloveso',h:'может быть несколько вариантов',type:'fill',size:'mid',items:[['O víkendu můžu',['spát','odpočívat','plavat','lyžovat']],['Zítra nemám čas, musím',['pracovat','uklízet','nakupovat','učit se']],['Adam může',['spát','odpočívat'],'dlouho. Nepracuje.'],['Martina umí dobře',['vařit','tancovat','plavat','lyžovat']],['Umíš',['hrát fotbal'],'? Ne, nemám rád fotbal.'],['Jana musí',['učit se','se učit'],'. Zítra píše test.'],['Promiň. Nemám čas. Musím',['vařit'],'večeři.'],['Musím',['spát','jít spát'],'. Zítra vstávám v 6 ráno.']].map(([p,a,s])=>({p,a,s}))},
+ {n:'44',t:'Co chcete, můžete nebo musíte dělat?',type:'free',text:'Составьте 8 фраз из слов (psát test, cvičit jógu, hrát šachy, vařit polévku, jet tramvají, pít kávu, poslouchat jazz, nakupovat v supermarketu, učit se česky…) и пришлите: <i>Musím psát test. Chci hrát tenis. Můžu jet autem.</i>'},
+ {n:'45',t:'Spojte části vět',type:'match',pairs:[['Pracuju jako','učitelka.'],['Někdy jím','v restauraci.'],['Mluvím','rusky.'],['Čtu','dobrou knihu.'],['Studuju','na univerzitě.'],['Chci','nový byt.'],['Často piju','mléko.'],['Nikdy','nesportuju.'],['Teď','studuju češtinu.']]},
+ {n:'46',t:'Vyberte, co je správně',type:'pick',items:[{t:'Koncert je ___.',o:['středa','v úterý','dobře'],a:'v úterý'},{t:'Sejdeme se ve čtyři. ___ se ti to?',o:['Hodí','Ráda','Může'],a:'Hodí'},{t:'Ve všední den ___ pracovat.',o:['umím','musím','těším se'],a:'musím'},{t:'Max ___ hraje fotbal.',o:['rád','má rád','musí'],a:'rád'},{t:'V sobotu nemůžu jít do kina, protože ___ psát esej.',o:['chceš','nemůžu','musím'],a:'musím'},{t:'Tom neumí ___.',o:['tancuje','tancovat','tancuješ'],a:'tancovat'},{t:'Petr ___ akční filmy.',o:['má rád','rád','rádi'],a:'má rád'},{t:'Nemám čas. ___ moc práce.',o:['Mám','Umím','Můžu'],a:'Mám'}]}]},
+
+{id:'e',name:'47–51 Od kdy do kdy',ex:[
+ {n:'47',t:'Co píšou Mai a Marina? Doplňte e-maily',type:'fill',size:'wide',bank:['Měj se hezky','zvu tě','omlouvám se','Hodí se ti to','už od sedmi hodin','od tří do šesti','moc práce','v pátek','od šesti večer'],items:[{w:'Mai:',p:'Ahoj Marino, co děláš',a:'v pátek',s:'?'},{w:'',p:'Mám narozeniny a',a:'zvu tě',s:'na party!'},{w:'',p:'Party je v restauraci, máme rezervaci',a:'od šesti večer',s:'.'},{w:'Marina:',p:'Ahoj Mai,',a:'omlouvám se',s:', ale v pátek nemůžu,'},{w:'',p:'mám',a:'moc práce',s:'. Musím být v práci'},{w:'',a:'už od sedmi hodin',s:'. Pak máme oběd a'},{w:'',a:'od tří do šesti',s:'máme zase školení.'},{w:'',p:'Zvu tě na oběd.',a:['Hodí se ti to','Hodí se ti to?'],s:'třeba v pondělí?'},{w:'',a:['Měj se hezky','Měj se hezky,'],s:'Marina'}]},
+ {n:'48',t:'Odkdy dokdy to je? Napište čísla',h:'od jedenácti do dvanácti: 11–12',type:'fill',size:'mid',items:[[1,5],[9,12],[3,6],[2,8],[10,11],[7,9],[4,6],[12,1]].map(([a,b])=>({p:`od ${OD[a]} do ${OD[b]}:`,a:[`${a}–${b}`,`${a}-${b}`]}))},
+ {n:'49',t:'Odkdy dokdy to je? Napište slovy',h:'7–8: od sedmi do osmi',type:'fill',size:'wide',items:[[1,3],[4,6],[10,12],[9,11],[2,5],[8,9],[4,7],[2,3]].map(([a,b])=>({p:`${a}–${b}:`,a:[`od ${OD[a]} do ${OD[b]}`,...(b===4?[`od ${OD[a]} do čtyřech`]:[])]}))},
+ {n:'50',t:'Arnošt je hudební skladatel. Odpovídejte na otázky',type:'drill',intro:ARNOST,items:[{q:'Kdy Arnošt vstává?',o:['Ve tři hodiny odpoledne.','V šest ráno.','V pět ráno.'],a:'Ve tři hodiny odpoledne.'},{q:'Odkdy dokdy snídá?',o:['Od tří do pěti.','Od pěti do devíti.','Od deseti do čtyř.'],a:'Od tří do pěti.'},{q:'V kolik hodin obědvá?',o:['V devět večer.','Ve dvanáct.','V pět ráno.'],a:'V devět večer.'},{q:'Odkdy dokdy pracuje ve studiu?',o:['Od deseti do čtyř.','Od tří do pěti.','Od devíti do dvanácti.'],a:'Od deseti do čtyř.'},{q:'V kolik hodin večeří?',o:['V pět hodin ráno.','V sedm večer.','V devět večer.'],a:'V pět hodin ráno.'},{q:'Kdy jde spát?',o:['V šest ráno.','V deset večer.','Ve tři odpoledne.'],a:'V šest ráno.'}]},
+ {n:'51',t:'Co kdy Arnošt dělá? Seřaďte',type:'order',lines:['15.00 — vstává','15.00–17.00 — snídá a čte noviny','17.00–21.00 — hraje na klavír nebo má schůzky','21.00 — obědvá','22.00–4.00 — pracuje ve studiu','5.00 — večeří','6.00 — jde spát']}]},
+
+{id:'f',name:'52–56 Pravopis',ex:[
+ {n:'52',t:'Doplňte a nebo á',type:'fill',size:'tight',pass:.9,items:[['R','á','d spím.'],['Ner','á','d uklízím.'],['R','á','di tancujou.'],['Ner','a','di hrajou fotbal.'],['Kdy vst','á','váš?'],['V pondělí hr','a','jeme tenis.'],['Martin je v pr','á','ci.'],['M','á','š zítra večer čas?'],['Tom a Marina nem','a','jí čas.'],['Co děl','á','š v pátek?']].map(([p,a,s])=>({p,a,s}))},
+ {n:'53',t:'Doplňte s nebo z',type:'fill',size:'tight',pass:.9,items:[['Rád ','s','nídám rohlík s máslem.'],['Ráno čtu ','z','právy na internetu.'],['Dopoledne mám ','s','chůzi.'],['Odpoledne mám kon','z','ultaci.'],['Večer se dívám na televi','z','i.'],['Jsem ','s','ova. Vstávám pozdě.'],['Jsem skřivánek. Vstávám br','z','y.'],['Jdu na večeři ','s',' kamarádkou.']].map(([p,a,s])=>({p,a,s}))},
+ {n:'54',t:'Doplňte h nebo ch',type:'fill',size:'tight',pass:.9,items:[['Mám stra','ch','.'],['Poslou','ch','ám hudbu.'],['V neděli ','h','rajeme volejbal.'],['Máš ','h','odnou babičku.'],['Ne','ch','ceš jít na koncert?'],['','H','odí se ti to v pět?'],['Musím jít do práce, mám s','ch','ůzi.'],['Vstávám v 6 ','h','odin ráno.'],['Nerad spím v ','h','otelu.'],['Na náměstí je nový ob','ch','od.']].map(([p,a,s])=>({p,a,s}))},
+ {n:'55',t:'Opakování: vyberte, co je správně',type:'pick',items:[{t:'___ zelený čaj.',o:['Můžu','Rád','Mám ráda'],a:'Mám ráda'},{t:'___ kuřecí řízek a hranolky.',o:['Dám si','Pijeme','Čtu'],a:'Dám si'},{t:'Ten salát je moc ___.',o:['dobrý','dobře','dobré'],a:'dobrý'},{t:'___ čokoládu?',o:['Máš rád','Jíme','Rádi'],a:'Máš rád'},{t:'Můj manžel je ___.',o:['hodného','hodný','hodnou'],a:'hodný'},{t:'Moje sestra je ___.',o:['ženatý','vdaná','svobodný'],a:'vdaná'},{t:'To je Iva a ___ přítel.',o:['jeho','ona','její'],a:'její'},{t:'Mám ___ bratra.',o:['mladší','mladšího','mladý'],a:'mladšího'},{t:'Dan není ve škole, je ___.',o:['vysoký','nemocný','veselý'],a:'nemocný'},{t:'Můj tatínek ___ jako řidič.',o:['dělá','je','pracuje'],a:'pracuje'},{t:'To jsem já a ___ maminka.',o:['tvůj','náš','moje'],a:'moje'},{t:'Tvoje sestra je malá. Kolik ___?',o:['je','mu je','jí je'],a:'jí je'}]},
+ {n:'56',t:'Doplňte otázky',type:'fill',size:'mid',bank:['co','odkud','kdo','kde','kdy','proč','jaká','jak','jaký','kolik'],items:[['Kdy','začíná lekce? — V 8.30.'],['Kde','pracuje Zuzana? — V nemocnici.'],['Kolik','je hodin? — 10.15.'],['Co','děláš? — Pracuju.'],['Proč','nemáš čas? — Protože mám moc práce.'],['Jak','se máš? — Dobře.'],['Odkud','je Marina? — Z Bulharska.'],['Jaký','je Tom? — Sympatický.'],['Jaká','je Evina babička? — Hodná.'],['Kdo','je Petr Hanuš? — Evin přítel.']].map(([a,s])=>({a,s}))}]}
+]});
+
+</script></body></html>

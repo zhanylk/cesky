@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="cs"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Pracovní sešit 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,700&family=Onest:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#F3F5F8;--surface:#FFFFFF;--ink:#18263A;--muted:#5B6878;--line:#DCE2EA;
+  --accent:#1D4E89;--accent-soft:#E3ECF7;--red:#B83A2E;--red-soft:#F8E6E3;
+  --ok:#2E7D4F;--ok-soft:#E1F2E7;--bad:#B83A2E;--bad-soft:#F8E6E3;
+  --ma:#1D6FB8;--mi:#274B7A;--f:#C0392B;--n:#2E7D4F;
+  --display:"Literata",Georgia,serif;--body:"Onest",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  color-scheme:dark;--bg:#0F1621;--surface:#172232;--ink:#E6ECF3;--muted:#98A6B8;--line:#2A394D;
+  --accent:#7FB0EA;--accent-soft:#1D3150;--red:#E88A7E;--red-soft:#3A2220;
+  --ok:#6FCB94;--ok-soft:#18362A;--bad:#E88A7E;--bad-soft:#3A2220;
+  --ma:#7FB8EA;--mi:#A9BFE0;--f:#EE9A8F;--n:#7FD1A0;}}
+:root[data-theme="dark"]{
+  color-scheme:dark;--bg:#0F1621;--surface:#172232;--ink:#E6ECF3;--muted:#98A6B8;--line:#2A394D;
+  --accent:#7FB0EA;--accent-soft:#1D3150;--red:#E88A7E;--red-soft:#3A2220;
+  --ok:#6FCB94;--ok-soft:#18362A;--bad:#E88A7E;--bad-soft:#3A2220;
+  --ma:#7FB8EA;--mi:#A9BFE0;--f:#EE9A8F;--n:#7FD1A0;}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;padding-inline:16px;padding-block:24px 64px}
+.wrap{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:clamp(2rem,6vw,2.8rem)}h2{font-size:1.45rem}h3{font-size:1.08rem}
+p{margin:0}
+.eyebrow{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+header{display:flex;flex-direction:column;gap:10px}
+.lead{color:var(--muted);max-width:62ch}
+.progress{display:flex;align-items:center;gap:12px;font-size:.9rem;color:var(--muted);flex-wrap:wrap}
+.bar{flex:1;min-width:140px;height:8px;background:var(--line);border-radius:99px;overflow:hidden;max-width:320px}
+.bar i{display:block;height:100%;background:var(--red);width:0;transition:width .4s}
+nav.tabs{display:flex;gap:2px;overflow-x:auto;border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5;padding-top:6px;scrollbar-width:none}
+nav.tabs button{font:inherit;font-weight:600;background:none;border:0;color:var(--muted);padding:10px 12px;border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap}
+nav.tabs button[aria-selected="true"]{color:var(--ink);border-color:var(--red)}
+nav.tabs button .ck{color:var(--ok);margin-left:4px}
+button:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+section.panel{display:flex;flex-direction:column;gap:22px}
+.sechead{display:flex;flex-direction:column;gap:4px}
+.pg{font-size:.82rem;color:var(--muted)}
+.note{background:var(--accent-soft);padding:14px 16px;border-radius:10px;font-size:.95rem;display:flex;flex-direction:column;gap:6px}
+.note b{color:var(--accent)}
+.warn{background:var(--red-soft)}.warn b{color:var(--red)}
+.note ul{margin:0;padding-left:18px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{font:inherit;font-weight:600;background:var(--ink);color:var(--bg);border:0;border-radius:8px;padding:9px 16px;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.say{font:inherit;font-size:.82rem;border:1px solid var(--line);background:var(--bg);color:var(--accent);border-radius:8px;padding:3px 9px;cursor:pointer;white-space:nowrap}
+.hint{font-size:.87rem;color:var(--muted)}
+.result{font-weight:600}
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;cursor:pointer;min-height:104px}
+.card .cz{font-family:var(--display);font-size:1.15rem;font-weight:700}
+.card .ru{color:var(--muted)}
+.hideru .card .ru:not(.shown){filter:blur(6px);user-select:none}
+.card .row{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:auto}
+.tag{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.m{color:var(--ma)}.f{color:var(--f)}.mi{color:var(--mi)}.n{color:var(--n)}
+/* tables */
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;background:var(--surface);font-variant-numeric:tabular-nums;border-radius:12px;overflow:hidden}
+th,td{padding:9px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-size:.76rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+td.cz{font-family:var(--display);font-weight:700}
+.end{color:var(--red)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.box ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+/* exercise shell */
+.ex{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:14px}
+.ex h3 small{font-family:var(--body);font-weight:500;color:var(--muted);font-size:.85rem;margin-left:6px}
+.ex.done{border-color:var(--ok)}
+.qs{display:flex;flex-direction:column;gap:6px}
+.q{display:flex;flex-wrap:wrap;align-items:center;gap:6px;line-height:2}
+.q .who{font-weight:600;color:var(--muted)}
+.q input{font:inherit;line-height:1.4;width:8em;padding:3px 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}
+.q input.ok{border-color:var(--ok);background:var(--ok-soft)}
+.q input.bad{border-color:var(--bad);background:var(--bad-soft)}
+.q .gl{font-size:.82rem;color:var(--muted)}
+.fix{font-size:.85rem;color:var(--bad)}
+.keys{display:flex;gap:6px;flex-wrap:wrap}
+.keys button{font:inherit;min-width:36px;padding:3px 8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:6px;cursor:pointer}
+.bank{display:flex;flex-wrap:wrap;gap:6px;font-size:.9rem}
+.bank span{padding:2px 10px;border:1px dashed var(--line);border-radius:6px}
+/* drill */
+.drill .prompt{font-family:var(--display);font-size:1.35rem;font-weight:700;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.drill .prompt .big{font-size:2.4rem;line-height:1}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.opts button{font:inherit;text-align:left;padding:10px 14px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;cursor:pointer}
+.opts button.ok{border-color:var(--ok);background:var(--ok-soft)}
+.opts button.bad{border-color:var(--bad);background:var(--bad-soft)}
+.meta{display:flex;justify-content:space-between;font-size:.85rem;color:var(--muted)}
+.expl{font-size:.9rem;color:var(--muted)}
+/* builder */
+.target{min-height:48px;border:1px dashed var(--line);border-radius:10px;padding:8px;display:flex;flex-wrap:wrap;gap:6px}
+.pool{display:flex;flex-wrap:wrap;gap:6px}
+.word{font:inherit;padding:6px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.target .word{background:var(--accent-soft);border-color:transparent}
+/* match */
+.match{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.match button{font:inherit;text-align:left;padding:9px 12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;cursor:pointer}
+.match button.sel{border-color:var(--accent);background:var(--accent-soft)}
+.match button.ok{border-color:var(--ok);background:var(--ok-soft);color:var(--ok);cursor:default}
+.shake{animation:sh .3s}
+@keyframes sh{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+/* alphabet & numbers */
+.abc{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:6px}
+.abc button{font:inherit;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 6px;cursor:pointer;color:var(--ink);display:flex;flex-direction:column;align-items:center;gap:2px}
+.abc button b{font-family:var(--display);font-size:1.3rem}
+.abc button span{font-size:.75rem;color:var(--muted);text-align:center;line-height:1.2}
+.abc button.dia b{color:var(--red)}
+.nums{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:6px}
+.nums button{font:inherit;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 4px;cursor:pointer;color:var(--ink);display:flex;flex-direction:column;align-items:center}
+.nums button b{font-family:var(--display);font-size:1.5rem;font-variant-numeric:tabular-nums}
+.nums button span{font-size:.85rem}
+.spell{display:flex;flex-wrap:wrap;gap:6px}
+.spell span{background:var(--accent-soft);border-radius:6px;padding:2px 8px;font-size:.9rem}
+.spell span b{font-family:var(--display)}
+input.txt{font:inherit;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);max-width:100%}
+.dlg{display:flex;flex-direction:column;gap:4px}
+footer{color:var(--muted);font-size:.85rem}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:520px){.match{grid-template-columns:1fr}}
+</style><style>[hidden]{display:none!important}.topnav{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.back{font-weight:600;color:var(--accent);text-decoration:none;font-size:.95rem}.back:hover{text-decoration:underline}</style>
+<style>
+.ex h3{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.num{font-family:var(--body);font-size:.8rem;font-weight:700;background:var(--red);color:#fff;border-radius:6px;padding:2px 8px;letter-spacing:.02em}
+.ex.done .num{background:var(--ok)}
+.q.tight{gap:0}.q.tight input{width:2.6em;text-align:center;margin-inline:2px}
+.q input.wide{width:min(22em,100%)}
+.q input.mid{width:11em}
+.pick{display:flex;flex-direction:column;gap:8px}
+.prow{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.pgrp{display:inline-flex;gap:4px;flex-wrap:wrap}
+.pgrp button{font:inherit;font-size:.95rem;padding:3px 10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:6px;cursor:pointer}
+.pgrp button.ok{border-color:var(--ok);background:var(--ok-soft);color:var(--ok);font-weight:600}
+.pgrp button.bad{border-color:var(--bad);background:var(--bad-soft);text-decoration:line-through}
+.order{display:flex;flex-direction:column;gap:6px;counter-reset:ln}
+.order button{font:inherit;text-align:left;padding:8px 12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;cursor:pointer}
+.order.list button{background:var(--accent-soft);border-color:transparent}
+.order.list button::before{counter-increment:ln;content:counter(ln) ". ";font-weight:700;color:var(--accent)}
+.order.list button.ok{background:var(--ok-soft)}.order.list button.bad{background:var(--bad-soft)}
+.lst{display:flex;flex-direction:column;gap:6px;margin:0;padding:0;list-style:none}
+.lst li{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.skip{font-size:.9rem;color:var(--muted);border:1px dashed var(--line);border-radius:10px;padding:10px 14px}
+</style>
+
+<div class="wrap"><div class="topnav"><a class="back" href="index.html">← Все уроки</a><a class="back" href="lekce-01.html">Учебник, урок 1 →</a></div>
+<header>
+  <span class="eyebrow">Česky krok za krokem 1 · Pracovní sešit · Lekce 1</span>
+  <h1>Pracovní sešit 1</h1>
+  <p class="lead">Интерактивная рабочая тетрадь к уроку 1: упражнения 1–50 с теми же номерами и заданиями, что в вашей бумажной тетради. Ответы проверяются сразу, а кнопка ▶ озвучивает текст.</p>
+  <div class="progress"><span>Выполнено</span><div class="bar"><i id="pbar"></i></div><span id="ptext"></span><button class="say" id="resetAll">сбросить</button></div>
+  <p class="hint" id="ttsHint"></p>
+</header>
+<nav class="tabs" role="tablist" id="tabs"></nav>
+<main id="panels"></main>
+<footer>Упражнения повторяют задания и нумерацию рабочей тетради «Česky krok za krokem 1 — Pracovní sešit», урок 1, но предложения и диалоги в них составлены заново. Поиск слов в таблице (13, 39) остаётся на бумаге.</footer>
+</div>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const shuf=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>s.trim().toLowerCase().replace(/[.!?,„“"]/g,'').replace(/\s+/g,' ');
+const arr=a=>Array.isArray(a)?a:[a];
+
+/* TTS */
+let csVoice=null;
+function pickVoice(){try{csVoice=speechSynthesis.getVoices().find(x=>/^cs/i.test(x.lang))||null;$('#ttsHint').textContent=csVoice?'':'На этом устройстве нет чешского голоса, поэтому озвучка может звучать с акцентом.'}catch(e){}}
+if('speechSynthesis' in window){pickVoice();speechSynthesis.onvoiceschanged=pickVoice}else $('#ttsHint').textContent='Озвучка в этом браузере недоступна.';
+function say(t,rate=.85){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='cs-CZ';if(csVoice)u.voice=csVoice;u.rate=rate;speechSynthesis.speak(u)}catch(e){}}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-say]');if(b){e.stopPropagation();say(b.dataset.say)}},true);
+const sayBtn=t=>`<button class="say" data-say="${esc(t)}" aria-label="Произнести">▶</button>`;
+const NUM=['nula','jedna','dva','tři','čtyři','pět','šest','sedm','osm','devět','deset'];
+const spoken=s=>s.replace(/@/g,' zavináč ').replace(/\./g,' tečka ').replace(/_/g,' podtržítko ').replace(/-/g,' pomlčka ').replace(/\d/g,d=>' '+NUM[d]+' ');
+
+/* progress */
+let done=store.get('ps1',{});const ALL=[];
+function mark(n){done[n]=true;store.set('ps1',done);drawP()}
+function drawP(){const k=ALL.filter(n=>done[n]).length;$('#pbar').style.width=(ALL.length?k/ALL.length*100:0)+'%';$('#ptext').textContent=`${k} из ${ALL.length} упражнений`;store.set('kp:lekce-01-sesit',{d:k,t:ALL.length});
+  ALL.forEach(n=>{const e=$('#x-'+n);if(e)e.classList.toggle('done',!!done[n])});
+  TABS.forEach(t=>{const b=$(`#tabs [data-tab="${t.id}"] .ck`);if(b)b.textContent=t.ex.filter(e=>ALL.includes(e.n)).every(e=>done[e.n])?'✓':''})}
+
+let lastInput=null;document.addEventListener('focusin',e=>{if(e.target.matches('.q input'))lastInput=e.target});
+function keys(el){el.innerHTML=['á','é','í','ý','ó','ú','ů','ě','č','ř','š','ž','ň','ď','ť'].map(c=>`<button type="button" tabindex="-1">${c}</button>`).join('');
+  $$('button',el).forEach(b=>b.onmousedown=e=>{e.preventDefault();if(lastInput)lastInput.setRangeText(b.textContent,lastInput.selectionStart,lastInput.selectionEnd,'end')})}
+const actions=(extra='')=>`<div class="actions">${extra}<span class="result"></span></div>`;
+
+/* ===== engines ===== */
+const E={};
+E.fill=(ex,sp)=>{const b=$('.body',ex);const size=sp.size||'';
+  b.innerHTML=(sp.bank?`<div class="bank">${sp.bank.map(w=>`<span>${w}</span>`).join('')}</div>`:'')+`<div class="keys"></div><div class="qs"></div>`+actions('<button class="btn" data-check>Проверить</button><button class="btn ghost" data-again>Заново</button>');
+  keys($('.keys',b));const qs=$('.qs',b),res=$('.result',b);const gaps=sp.items.filter(q=>q.a!=null);
+  const build=()=>{let n=0;qs.innerHTML=sp.items.map((q,i)=>q.a==null?`<div class="q">${q.w!=null?`<span class="who">${q.w}</span>`:''}<span>${q.p||''}</span></div>`:
+    `<div class="q ${size==='tight'?'tight':''}" data-i="${i}">${q.w!=null?`<span class="who">${q.w}</span>`:size==='tight'?`<span class="gl" style="min-width:1.6em">${++n}.</span>`:`<span>${++n}.</span>`}<span>${q.p||''}</span><input class="${size}" autocomplete="off" spellcheck="false" aria-label="ответ"><span>${q.s||''}</span>${q.g?`<span class="gl">&nbsp;${q.g}</span>`:''}<span class="fix"></span></div>`).join('');res.textContent=''};
+  build();
+  $('[data-check]',b).onclick=()=>{let ok=0;$$('.q[data-i]',qs).forEach(r=>{const it=sp.items[+r.dataset.i],inp=$('input',r),good=arr(it.a).some(a=>norm(a)===norm(inp.value));
+    inp.classList.toggle('ok',good);inp.classList.toggle('bad',!good);$('.fix',r).textContent=good?'':' → '+arr(it.a)[0];if(good)ok++});
+    res.textContent=`${ok} из ${gaps.length}`+(ok===gaps.length?' · Výborně!':'');if(ok/gaps.length>=(sp.pass||.8))mark(sp.n)};
+  $('[data-again]',b).onclick=build};
+
+E.pick=(ex,sp)=>{const b=$('.body',ex);b.innerHTML=`<div class="pick"></div>`+actions('<button class="btn ghost" data-again>Заново</button>');
+  const box=$('.pick',b),res=$('.result',b);let answered,ok;
+  const build=()=>{answered=0;ok=0;res.textContent='';box.innerHTML=sp.items.map((it,i)=>{const [pre,post]=it.t.split('___');
+    return `<div class="prow" data-i="${i}"><span class="gl">${i+1}.</span><span>${pre}</span><span class="pgrp">${it.o.map(o=>`<button>${o}</button>`).join('')}</span><span>${post||''}</span></div>`}).join('');
+    $$('.prow',box).forEach(r=>{const it=sp.items[+r.dataset.i];$$('button',r).forEach(bt=>bt.onclick=()=>{if(r.dataset.done)return;r.dataset.done=1;answered++;
+      const good=bt.textContent===it.a;bt.classList.add(good?'ok':'bad');if(good)ok++;else $$('button',r).find(x=>x.textContent===it.a).classList.add('ok');
+      if(answered===sp.items.length){res.textContent=`${ok} из ${sp.items.length}`+(ok===sp.items.length?' · Výborně!':'');if(ok/sp.items.length>=(sp.pass||.8))mark(sp.n)}})})};
+  build();$('[data-again]',b).onclick=build};
+
+E.drill=(ex,sp)=>{const el=$('.body',ex);el.classList.add('drill');let items,i,score;
+  const start=()=>{items=(sp.shuffle===false?sp.items.slice():shuf(sp.items)).slice(0,sp.take||99);i=0;score=0;show()};
+  const show=()=>{if(i>=items.length){const good=score/items.length>=(sp.pass||.8);
+      el.innerHTML=`<div class="prompt">${score} из ${items.length}</div><p>${good?'Skvělé! Упражнение выполнено.':'Попробуйте ещё раз.'}</p><div class="actions"><button class="btn ghost">Ещё раз</button></div>`;$('button',el).onclick=start;if(good)mark(sp.n);return}
+    const it=items[i],o=sp.fixed?it.o:shuf(it.o.slice());
+    el.innerHTML=`<div class="meta"><span>${i+1} / ${items.length}</span><span>верно: ${score}</span></div>
+      <div class="prompt">${it.big?`<span class="big">${it.big}</span>`:''}<span>${it.q}</span>${it.say?sayBtn(it.say):''}</div>
+      <div class="opts">${o.map(x=>`<button data-o="${esc(x)}">${x}</button>`).join('')}</div><p class="expl" hidden></p><div class="actions"><button class="btn" data-n hidden>Дальше →</button></div>`;
+    $$('.opts button',el).forEach(bt=>bt.onclick=()=>{if(!$('[data-n]',el).hidden)return;const good=bt.dataset.o===it.a;bt.classList.add(good?'ok':'bad');
+      $$('.opts button',el).find(x=>x.dataset.o===it.a).classList.add('ok');if(good)score++;const x=$('.expl',el);x.hidden=false;
+      x.innerHTML=(good?'<b style="color:var(--ok)">Správně!</b> ':'<b style="color:var(--bad)">Špatně.</b> ')+(it.x||'');if(it.after)say(it.after);$('[data-n]',el).hidden=false;$('[data-n]',el).focus()});
+    $('[data-n]',el).onclick=()=>{i++;show()}};start()};
+
+E.match=(ex,sp)=>{const b=$('.body',ex);b.innerHTML=`<p class="hint">Нажмите слева, затем подходящий вариант справа.</p><div class="match"></div>`+actions('<button class="btn ghost" data-again>Перемешать</button>');
+  const m=$('.match',b),res=$('.result',b);let sel,got;
+  const build=()=>{sel=null;got=0;res.textContent='';const L=sp.pairs.map((p,i)=>[p[0],i]),R=shuf(sp.pairs.map((p,i)=>[p[1],i]));
+    m.innerHTML=L.map((l,k)=>`<button data-s="L" data-i="${l[1]}">${l[0]}</button><button data-s="R" data-i="${R[k][1]}">${R[k][0]}</button>`).join('');
+    $$('button',m).forEach(bt=>bt.onclick=()=>{if(bt.classList.contains('ok'))return;
+      if(bt.dataset.s==='L'){$$('[data-s="L"]',m).forEach(x=>x.classList.remove('sel'));bt.classList.add('sel');sel=bt;return}
+      if(!sel)return;if(sel.dataset.i===bt.dataset.i){sel.className='ok';bt.className='ok';say(sel.textContent+'. '+bt.textContent);sel=null;if(++got===sp.pairs.length){res.textContent='Všechno správně!';mark(sp.n)}}
+      else{bt.classList.add('shake');setTimeout(()=>bt.classList.remove('shake'),300)}})};build();$('[data-again]',b).onclick=build};
+
+E.order=(ex,sp)=>{const b=$('.body',ex);b.innerHTML=`<p class="hint">Нажимайте на реплики по порядку (1–${sp.lines.length}). Нажатие на реплику в списке возвращает её обратно.</p><div class="order list"></div><div class="order pool"></div>`+actions('<button class="btn" data-check>Проверить</button><button class="btn ghost" data-again>Заново</button>');
+  const list=$('.order.list',b),pool=$('.order.pool',b),res=$('.result',b);
+  const build=()=>{list.innerHTML='';res.textContent='';pool.innerHTML=shuf(sp.lines.map((l,i)=>[l,i])).map(([l,i])=>`<button data-i="${i}">${l}</button>`).join('');
+    $$('button',pool).forEach(bt=>bt.onclick=()=>{bt.className='';(bt.parentElement===pool?list:pool).appendChild(bt)})};
+  $('[data-check]',b).onclick=()=>{const it=$$('button',list);let ok=0;it.forEach((bt,k)=>{const g=+bt.dataset.i===k;bt.className=g?'ok':'bad';if(g)ok++});
+    res.textContent=it.length<sp.lines.length?`Разложите все реплики (${it.length} из ${sp.lines.length}).`:`${ok} из ${sp.lines.length} на своём месте`+(ok===sp.lines.length?' · Výborně!':'');
+    if(ok===sp.lines.length){mark(sp.n);say(sp.lines.map(l=>l.replace(/^[^:]+:\s*/,'')).join(' '))}};
+  build();$('[data-again]',b).onclick=build};
+
+E.listen=(ex,sp)=>{const b=$('.body',ex);b.innerHTML=`<ul class="lst">${sp.items.map(t=>`<li>${sayBtn(sp.spk?spoken(t):t)}<span>${t}</span></li>`).join('')}</ul>`+actions();
+  const heard=new Set();$$('.say',b).forEach((bt,i)=>bt.addEventListener('click',()=>{heard.add(i);if(heard.size>=Math.min(sp.need||5,sp.items.length)){mark(sp.n);$('.result',b).textContent='Отлично! Не забывайте повторять вслух.'}}))};
+
+E.free=(ex,sp)=>{$('.body',ex).innerHTML=`<p>${sp.text}</p>`};
+E.skip=(ex,sp)=>{ex.classList.add('skip');$('.body',ex).innerHTML=`<p>${sp.text}</p>`};
+
+/* ===== DATA ===== */
+const COJE=[['🚋','tramvaj'],['ℹ️','infocentrum'],['🛒','supermarket'],['🏫','škola'],['🚌','autobus'],['🚕','taxi'],['🍽️','restaurace'],['🎬','kino'],['🏨','hotel'],['🚇','metro'],['🚗','auto']];
+const PROF=[['prodavač','prodavačka'],['manažer','manažerka'],['vědec','vědkyně'],['číšník','servírka'],['hasič','hasička'],['úředník','úřednice'],['zpěvák','zpěvačka'],['uklízeč','uklízečka'],['dělník','dělnice'],['herec','herečka'],['učitel','učitelka'],['policista','policistka'],['sportovec','sportovkyně'],['lékař','lékařka']];
+function scramble(w){let s;do{s=shuf(w.toUpperCase().split('')).join('')}while(s===w.toUpperCase());return s}
+const PR=['já','ty','on, ona, to','my','vy','oni'];
+const OLGA_DLG=['Lenka: To je pan Karel Novák a to je paní Olga Beková.','Karel: Těší mě, paní Beková.','Olga: Těší mě, pane Nováku.','Karel: Odkud jste?','Olga: Promiňte, nerozumím. Ještě jednou, prosím.','Karel: Odkud jste?','Olga: Jsem z Kazachstánu. A vy?','Karel: Já jsem z Brna.','Olga: Aha. A co děláte?','Karel: Jsem učitel. A vy?','Olga: To je zajímavé. Já jsem manažerka.','Karel: Mluvíte dobře česky!','Olga: Děkuju. Můžeme si tykat?','Karel: Určitě. Já jsem Karel.','Olga: A já jsem Olga.'];
+const ARITH=[[4,'+',5],[9,'-',2],[3,'+',3],[0,'+',1],[10,'-',6],[2,'+',6],[8,'-',5],[7,'+',3],[6,'-',6],[5,'-',3],[1,'+',4],[9,'-',1]];
+const WRONG=[['šest + dva','devět',8],['sedm + tři','deset',10],['nula + dva','tři',2],['pět − tři','dva',2],['deset − devět','jedna',1],['čtyři + šest','osm',10],['jedna + tři','čtyři',4],['devět − tři','pět',6],['osm − čtyři','čtyři',4],['deset − šest','tři',4],['devět − pět','čtyři',4],['dva + sedm','devět',9]];
+
+const TABS=[
+{id:'fraze',name:'1–3 Fráze',ex:[
+ {n:'1',t:'Co říkají lidé? Doplňte výrazy',h:'полезные фразы',type:'fill',size:'mid',bank:['Těší mě','Mluvíte','Nerozumím','se řekne','znamená','se to píše','jednou','otázku','Prosím','Ano'],items:[
+  {p:'Очень приятно →',a:'Těší mě',s:'.'},{p:'Вы говорите по-английски? →',a:'Mluvíte',s:'anglicky?'},{p:'Не понимаю →',a:'Nerozumím',s:'.'},
+  {p:'Как сказать «спасибо»? → Jak',a:'se řekne',s:'„спасибо“?'},{p:'Что значит «náhoda»? → Co',a:'znamená',s:'„náhoda“?'},{p:'Как это пишется? → Jak',a:'se to píše',s:'?'},
+  {p:'Ещё раз, пожалуйста → Ještě',a:'jednou',s:', prosím.'},{p:'У меня вопрос → Mám',a:'otázku',s:'.'},{p:'Děkuju. —',a:'Prosím',s:'.'},{p:'Да / нет →',a:'Ano',s:'/ Ne.'}]},
+ {n:'2',t:'Doplňte písmena',h:'одна буква или буквосочетание',type:'fill',size:'tight',pass:.9,items:[
+  {p:'D',a:'ě',s:'kuju.'},{p:'Pros',a:'í',s:'m.'},{p:'Nerozum',a:'í',s:'m.'},{p:'Jak se ',a:'ř',s:'ekne…?'},{p:'Ml',a:'u',s:'víte rusky?'},{p:'Co znamen',a:'á',s:'…?'},
+  {p:'Ješt',a:'ě',s:' jednou, prosím!'},{p:'Jak se to pí',a:'š',s:'e?'},{p:'R',a:'o',s:'zumíte?'},{p:'T',a:'ě',s:'ší mě.'},{p:'Na shledan',a:'ou',s:'.'},{p:'Dobr',a:'ý',s:' den.'}]},
+ {n:'3',t:'Co je to?',h:'To je…',type:'drill',items:COJE.map(([e,w])=>({big:e,q:'Co je to?',o:[w,...shuf(COJE.filter(c=>c[1]!==w)).slice(0,3).map(c=>c[1])],a:w,after:'To je '+w}))}]},
+
+{id:'tyvy',name:'4–11 Ty/Vy',ex:[
+ {n:'4',t:'Jaká je to situace? Formální, nebo neformální?',type:'drill',fixed:true,items:[
+  ['Друзья ужинают вместе','NF'],['Профессор читает лекцию','F'],['Врач и пожилой пациент','F'],['Семейный праздник','NF'],['Мама и сын-подросток','NF'],['Продавец и покупатель в магазине','F'],['Полицейский проверяет документы водителя','F'],['Студенты на вечеринке','NF']]
+  .map(([q,a])=>({q,o:['Formální (F)','Neformální (NF)'],a:a==='F'?'Formální (F)':'Neformální (NF)'}))},
+ {n:'5',t:'Co je formální a co je neformální?',h:'разложите выражения',type:'drill',fixed:true,take:14,items:[
+  ['Dobrý den.','F'],['Čau.','NF'],['Měj se hezky.','NF'],['Co děláš?','NF'],['Odkud jste?','F'],['A vy?','F'],['Co děláte?','F'],['Mějte se hezky.','F'],['Ahoj.','NF'],['Díky.','NF'],['Na shledanou.','F'],['Odkud jsi?','NF'],['A ty?','NF'],['Děkuji.','F']]
+  .map(([q,a])=>({q,say:q,o:['Formální','Neformální'],a:a==='F'?'Formální':'Neformální'}))},
+ {n:'6',t:'Jak oslovíte tyto lidi? Vy, nebo ty?',type:'drill',fixed:true,items:[
+  {q:'Simona, 8 let',o:['ty','Vy'],a:'ty',x:'Детям примерно до 15 лет говорят «ty».'},{q:'Neznámý muž, 42 let',o:['ty','Vy'],a:'Vy',x:'Незнакомому взрослому — всегда «Vy».'},
+  {q:'Monika, 17 let (neznámá)',o:['ty','Vy'],a:'Vy',x:'Незнакомым подросткам с ~15 лет уже говорят «Vy».'},{q:'Pan Tomáš, 74 let',o:['ty','Vy'],a:'Vy'},{q:'Paní Hana, 56 let',o:['ty','Vy'],a:'Vy'},
+  {q:'Váš spolužák na kurzu',o:['ty','Vy'],a:'ty',x:'Между однокурсниками обычно «ty».'},{q:'Vaše učitelka češtiny',o:['ty','Vy'],a:'Vy',x:'Пока она сама не предложит: <i>Můžeme si tykat?</i>'}]},
+ {n:'7',t:'Další pozdravy',h:'Dobré ráno · Dobrý den · Dobrý večer · Dobrou noc',type:'drill',fixed:true,items:[
+  ['🌅','Утро, 7:00','Dobré ráno.'],['☀️','День, 13:00','Dobrý den.'],['🌇','Вечер, 19:00','Dobrý večer.'],['🌙','Ночь, перед сном','Dobrou noc.']]
+  .map(([e,q,a])=>({big:e,q,o:['Dobré ráno.','Dobrý den.','Dobrý večer.','Dobrou noc.'],a,after:a}))},
+ {n:'8',t:'Jak budete reagovat? Spojte',type:'match',pairs:[['Ahoj.','Čau.'],['Dobrý den.','Dobrý den.'],['Odkud jste?','Jsem z Kazachstánu.'],['Co děláte?','Jsem manažerka.'],['Děkuju.','Prosím.'],['Na shledanou.','Na shledanou.']]},
+ {n:'9',t:'Doplňte 2 dialogy',h:'формальный и неформальный',type:'fill',bank:['jsem ×2','Těší','Odkud','vy','Prosím','taky ×2','jsi','děláš','studentka','To'],items:[
+  {p:'<b>Dialog 1 — formální</b>'},{w:'Petr:',p:'Dobrý den. Já jsem Petr Novák.'},{w:'Olga:',p:'Dobrý den. Já',a:'jsem',s:'Olga Beková.'},{w:'Petr:',a:'Těší',s:'mě.'},
+  {w:'Olga:',p:'Těší mě.',a:'Odkud',s:'jste?'},{w:'Petr:',p:'Jsem z Brna. A',a:'vy',s:'?'},{w:'Olga:',p:'Jsem z Kazachstánu.'},{w:'Petr:',p:'Děkuju.'},{w:'Olga:',a:'Prosím',s:'.'},
+  {w:'Petr:',p:'Mějte se hezky.'},{w:'Olga:',p:'Vy',a:'taky',s:'. Na shledanou.'},
+  {p:'<b>Dialog 2 — neformální</b>'},{w:'Jan:',p:'Čau.'},{w:'Irina:',p:'Ahoj. Já',a:'jsem',s:'Irina.'},{w:'Jan:',p:'Já jsem Jan. Odkud',a:'jsi',s:'?'},{w:'Irina:',p:'Jsem z Ukrajiny. A ty?'},{w:'Jan:',p:'Jsem z Prahy. Co',a:'děláš',s:'?'},
+  {w:'Irina:',p:'Jsem',a:'studentka',s:'. A ty?'},{w:'Jan:',p:'Já jsem',a:'taky',s:'student.'},{w:'Irina:',p:'Au!'},{w:'Jan:',p:'Promiň.'},{w:'Irina:',a:'To',s:'nic.'}]},
+ {n:'10',t:'Spojte části vět',type:'match',pairs:[['Já jsem','Olga Beková.'],['Těší','mě.'],['Co','děláte?'],['Odkud','jsi?'],['Jsem z','Kazachstánu.'],['Jsem','manažerka.'],['Měj se','hezky.']]},
+ {n:'11',t:'Vymyslete a napište formální a neformální dialog',type:'free',text:'Напишите два коротких диалога, формальный (<i>Dobrý den…</i>) и неформальный (<i>Čau / Ahoj…</i>), и пришлите их мне в чат. Используйте <i>Těší mě, Odkud jste/jsi?, Co děláte/děláš?, Mějte se / Měj se hezky</i>.'}]},
+
+{id:'byt',name:'12–17 Být',ex:[
+ {n:'12',t:'Doplňte osobní zájmena',type:'drill',items:[
+  ['🙋 Говорю о себе','já'],['👉 Обращаюсь к другу','ty'],['👨 Говорю о мужчине','on'],['👩 Говорю о женщине','ona'],['🚗 Показываю на предмет: … je auto','to'],
+  ['🙋‍♀️🙋‍♂️ Я и мои друзья','my'],['👥 Обращаюсь к группе людей','vy (plurál)'],['🎩 Обращаюсь к незнакомому пожилому человеку','vy (formální singulár)'],['👫 Говорю о людях вон там','oni']]
+  .map(([q,a])=>({q,o:['já','ty','on','ona','to','my','vy (plurál)','vy (formální singulár)','oni'],a}))},
+ {n:'13',t:'Najděte 7 osobních zájmen',type:'skip',text:'Поиск слов в таблице лучше делать на бумаге.'},
+ {n:'14',t:'Procvičujte sloveso být. Doplňte tabulku',type:'fill',size:'mid',items:PR.flatMap((p,i)=>[{p:p+' —',a:['jsem','jsi','je','jsme','jste','jsou'][i]},{p:p+' (ne) —',a:['nejsem','nejsi','není','nejsme','nejste','nejsou'][i]}])},
+ {n:'15',t:'Procvičujte sloveso být. Doplňte',type:'fill',items:[
+  {p:'(já)',a:'jsem',s:'studentka.'},{p:'(ty)',a:'jsi',s:'doktor?'},{p:'Olga',a:'je',s:'z Kazachstánu.'},{p:'(my)',a:'jsme',s:'z Ruska.'},
+  {p:'(oni)',a:'jsou',s:'z Polska.'},{p:'Petr',a:'je',s:'z Brna.'},{p:'Odkud (vy)',a:'jste',s:'?'},{p:'Odkud (ty)',a:'jsi',s:'?'}]},
+ {n:'16',t:'Vyberte, co je správně',type:'pick',items:[
+  {t:'Já ___ Olga.',o:['jsem','jsme'],a:'jsem'},{t:'My ___ z Kazachstánu.',o:['jsou','jsme'],a:'jsme'},{t:'Oni ___ z Polska.',o:['jsou','jste'],a:'jsou'},{t:'Ty ___ lékař?',o:['jste','jsi'],a:'jsi'},
+  {t:'Vy ___ manažerka?',o:['jste','jsi'],a:'jste'},{t:'Odkud ___ Petr?',o:['jsi','je'],a:'je'},{t:'Anna ___ z Ruska.',o:['není','nejsem'],a:'není'},{t:'Ty ___ z Česka?',o:['není','nejsi'],a:'nejsi'}]},
+ {n:'17',t:'Pište věty jako negativní',h:'To je hotel. → To není hotel.',type:'fill',size:'wide',items:[
+  {p:'To je kino. →',a:'To není kino'},{p:'Já jsem Olga. →',a:['Já nejsem Olga','Nejsem Olga']},{p:'Ty jsi učitel. →',a:['Ty nejsi učitel','Nejsi učitel']},{p:'Petr je z Brna. →',a:'Petr není z Brna'},
+  {p:'Anna a Jan jsou studenti. →',a:'Anna a Jan nejsou studenti'},{p:'Vy jste lékařka? →',a:['Vy nejste lékařka','Nejste lékařka']},{p:'My jsme z Ruska. →',a:['My nejsme z Ruska','Nejsme z Ruska']},{p:'To je autobus. →',a:'To není autobus'}]}]},
+
+{id:'slovesa',name:'18–28 Slovesa',ex:[
+ {n:'18',t:'Procvičujte sloveso dělat. Spojte',type:'match',pairs:PR.map((p,i)=>[p,['dělám','děláš','dělá','děláme','děláte','dělají'][i]])},
+ {n:'19',t:'Slovesa být a dělat. Doplňte kdo',type:'drill',take:14,items:[['dělám',0],['jsem',0],['jste',4],['děláme',3],['je',2],['jsou',5],['dělají',5],['nejsem',0],['jsi',1],['nedělám',0],['jsme',3],['neděláš',1],['děláte',4],['nejsou',5],['nejste',4],['není',2],['děláš',1],['dělá',2],['nejsi',1]]
+  .map(([f,i])=>({q:f,say:f,o:PR,a:PR[i]}))},
+ {n:'20',t:'Slovesa dělat, rozumět a pracovat. Doplňte tabulku',type:'fill',size:'mid',items:[
+  {p:'dělat · ty —',a:'děláš'},{p:'dělat · on —',a:'dělá'},{p:'dělat · vy —',a:'děláte'},{p:'rozumět · já —',a:'rozumím'},{p:'rozumět · ty —',a:'rozumíš'},{p:'rozumět · my —',a:'rozumíme'},
+  {p:'rozumět · oni —',a:['rozumí','rozumějí']},{p:'pracovat · ty —',a:'pracuješ'},{p:'pracovat · on —',a:'pracuje'},{p:'pracovat · vy —',a:'pracujete'}]},
+ {n:'21',t:'Vyberte, co je správně',type:'pick',items:[
+  {t:'Olga ___ ve škole.',o:['pracuje','pracovat','pracujeme'],a:'pracuje'},{t:'Promiňte, ___.',o:['nerozumím','nerozumíš','nerozumět'],a:'nerozumím'},
+  {t:'Co ___ Petr?',o:['děláte','dělá','dělají'],a:'dělá'},{t:'(já) ___ na univerzitě.',o:['Pracujeme','Pracuju','Pracujete'],a:'Pracuju'},
+  {t:'(my) ___ rusky.',o:['Rozumím','Rozumí','Rozumíme'],a:'Rozumíme'},{t:'(ty) ___ tady?',o:['Pracujete','Pracuješ','Pracujou'],a:'Pracuješ'},
+  {t:'Co ___ Anna a Jan?',o:['děláš','dělají','dělá'],a:'dělají'},{t:'Petr a Olga ___ česky.',o:['rozumím','rozumíte','rozumí'],a:'rozumí'}]},
+ {n:'22',t:'Napište slovesa ve správné formě',type:'fill',items:[['já','být','jsem'],['on','dělat','dělá'],['ona','rozumět','rozumí'],['my','pracovat','pracujeme'],['vy','být','jste'],['já','dělat','dělám'],['ty','pracovat','pracuješ'],
+  ['oni','dělat','dělají'],['oni','být','jsou'],['on','rozumět','rozumí'],['vy','dělat','děláte'],['ty','rozumět','rozumíš'],['ona','pracovat','pracuje'],['ty','být','jsi'],['my','dělat','děláme']].map(([p,v,a])=>({p:`${p} – ${v}:`,a}))},
+ {n:'23',t:'Slovesa mluvit a studovat. Doplňte tabulku',h:'mluvit как rozumět (-í), studovat как pracovat (-uj)',type:'fill',size:'mid',items:[
+  {p:'mluvit · ty —',a:'mluvíš'},{p:'mluvit · my —',a:'mluvíme'},{p:'mluvit · vy —',a:'mluvíte'},{p:'studovat · ty —',a:'studuješ'},{p:'studovat · on —',a:'studuje'},{p:'studovat · my —',a:'studujeme'},{p:'studovat · vy —',a:'studujete'}]},
+ {n:'24',t:'Vyberte, co je správně',type:'pick',items:[
+  {t:'Olga ___ česky.',o:['mluvit','mluví','mluvíš'],a:'mluví'},{t:'Petr a Anna ___ na univerzitě.',o:['studujete','studujou','studujeme'],a:'studujou'},
+  {t:'Jan ___ dobře anglicky.',o:['nemluví','nemluvit','nemluvím'],a:'nemluví'},{t:'Anna ___ medicínu.',o:['studovat','studujete','studuje'],a:'studuje'},
+  {t:'(já) ___ ekonomii.',o:['Studuju','Studujeme','Studovat'],a:'Studuju'},{t:'(my) ___ rusky.',o:['Mluvíš','Mluvíme','Mluvíte'],a:'Mluvíme'},
+  {t:'Co ___ Petr?',o:['studuješ','studovat','studuje'],a:'studuje'},{t:'(já) ___ dobře česky.',o:['Mluvím','Mluvíme','Mluvit'],a:'Mluvím'}]},
+ {n:'25',t:'-uj slovesa. Doplňte kdo',type:'drill',items:[['pracujou',5],['studuje',2],['pracuješ',1],['studujeme',3],['pracuju',0],['studujou',5],['studuju',0],['studuješ',1],['pracujete',4],['pracuje',2]]
+  .map(([f,i])=>({q:f,say:f,o:PR,a:PR[i]}))},
+ {n:'26',t:'-uj slovesa ve správné formě',type:'fill',items:[['já','pracovat',['pracuju','pracuji']],['on','pracovat','pracuje'],['oni','pracovat',['pracujou','pracují']],['vy','pracovat','pracujete'],['ty','pracovat','pracuješ'],
+  ['my','studovat','studujeme'],['oni','studovat',['studujou','studují']],['já','studovat',['studuju','studuji']],['vy','studovat','studujete'],['ona','studovat','studuje']].map(([p,v,a])=>({p:`${p} – ${v}:`,a}))},
+ {n:'27',t:'Doplňte vhodné sloveso',h:'dělat · rozumět · pracovat · mluvit · studovat',type:'fill',items:[
+  {p:'Olga',a:['studuje','pracuje'],s:'na univerzitě.'},{p:'Co',a:'děláš',s:'? Jsi student?'},{p:'Co',a:'děláte',s:'? Jste lékařka?'},{p:'Petře,',a:['mluvíš','rozumíš'],s:'rusky?'},
+  {p:'Učitelka',a:'pracuje',s:'ve škole.'},{p:'Jane,',a:['studuješ','pracuješ'],s:'na univerzitě?'},{p:'(já)',a:['mluvím','rozumím'],s:'dobře anglicky.'},{p:'Anna',a:['mluví','rozumí'],s:'česky.'}]},
+ {n:'28',t:'Doplňte minidialogy',type:'fill',bank:['mluví','jste ×3','jsi','pracuju','jsem ×2','nejsem','mluvíš','nemluvím','je','děláš','pracujete','studuju'],items:[
+  {w:'1',p:'Vy',a:'jste',s:'lékařka?'},{w:'',p:'Ano,',a:'pracuju',s:'tady v nemocnici.'},{w:'2',p:'Ty',a:'mluvíš',s:'česky?'},{w:'',p:'Ne,',a:'nemluvím',s:'dobře česky.'},
+  {w:'3',p:'Co',a:'děláš',s:', Petře?'},{w:'',a:'Jsem',s:'student.'},{w:'4',a:'Mluví',s:'Anna dobře česky?'},{w:'',p:'Ano, Anna',a:'je',s:'z Česka.'},
+  {w:'5',p:'Vy',a:'jste',s:'z Kazachstánu?'},{w:'',p:'Ano,',a:'jsem',s:'z Almaty.'},{w:'6',p:'Ty',a:'jsi',s:'student?'},{w:'',p:'Ne,',a:'nejsem',s:'student.'},
+  {w:'7',p:'Vy',a:'pracujete',s:'tady v hotelu?'},{w:'',p:'Ne, já',a:'studuju',s:'na univerzitě.'},{w:'8',p:'Promiňte, nerozumím.'},{w:'',p:'Aha, vy',a:'jste',s:'z Ruska?'}]}]},
+
+{id:'profese',name:'29–37 Profese',ex:[
+ {n:'29',t:'Kdo je to? Napište profese správně',h:'буквы перемешаны',type:'fill',size:'mid',items:shuf(PROF).slice(0,12).map(([m,f],i)=>{const w=i%2?f:m;return {p:`<b style="letter-spacing:.12em">${scramble(w)}</b> →`,a:w}})},
+ {n:'30',t:'Co kdo dělá? Doplňte profese',type:'fill',size:'mid',items:[
+  ['Jan','prodavač','продавец'],['Mia','herečka','актриса'],['Petra',['lékařka','doktorka'],'врач'],['Olga','učitelka','учительница'],['Petr','vědec','учёный'],['Ella','manažerka','менеджер'],
+  ['Max','sportovec','спортсмен'],['Marta','policistka','полицейская'],['Iva','uklízečka','уборщица'],['Inna','úřednice','служащая'],['Leoš','dělník','рабочий'],['Libor','zpěvák','певец']].map(([n,a,g])=>({p:n+' je',a,s:'.',g}))},
+ {n:'31',t:'Jaké profese znáte? Doplňte tabulku',h:'муж. → жен. и наоборот',type:'fill',size:'mid',items:[
+  {p:'doktor →',a:'doktorka'},{p:'politik →',a:'politička'},{p:'← manažerka',a:'manažer'},{p:'ekonom →',a:'ekonomka'},{p:'← profesorka',a:'profesor'},{p:'← asistentka',a:'asistent'},
+  {p:'úředník →',a:'úřednice'},{p:'sportovec →',a:'sportovkyně'},{p:'← zpěvačka',a:'zpěvák'},{p:'číšník →',a:'servírka'}]},
+ {n:'32',t:'Sloveso být ve správné formě',h:'Eva není studentka. Eva je učitelka.',type:'fill',items:[
+  ['Olga','učitelka','lékařka','není','je'],['Jan','dělník','manažer','není','je'],['Anna','studentka','herečka','není','je'],['Ivan a Olga','z Česka','z Kazachstánu','nejsou','jsou'],
+  ['Ty','asistent?','doktor?','nejsi','jsi'],['Vy','manažerka?','profesorka?','nejste','jste'],['My','z Brna','z Prahy','nejsme','jsme'],['Petr a Jan','z Polska','ze Slovenska','nejsou','jsou']]
+  .flatMap(([k,x,y,n,j])=>[{p:k+' (nebýt)',a:n,s:x},{p:k+' (být)',a:j,s:y}])},
+ {n:'33',t:'Intonace otázky. Přečtěte nahlas',h:'вопрос «да/нет» — голос вверх ↗, вопрос со словом «co, odkud…» — вниз ↘',type:'listen',need:6,items:['To je student? — Ano.','To je lékař? — Ne.','Olga je z Kazachstánu? — Ano.','Petr je taky z Kazachstánu? — Ne.','Co děláš? — Jsem studentka.','Co děláte? — Jsem manažer.','Odkud jsi? — Z Ruska.','Odkud jste? — Z Almaty.']},
+ {n:'34',t:'Kdo to říká? Lenka, Karel, nebo Olga?',type:'drill',take:8,items:OLGA_DLG.filter((l,i)=>![3,5].includes(i)).map(l=>{const [w,...r]=l.split(': ');return {q:r.join(': '),say:r.join(': '),o:['Lenka','Karel','Olga'],a:w}}),fixed:true},
+ {n:'35',t:'Seřaďte dialog (1–15)',type:'order',lines:OLGA_DLG},
+ {n:'36',t:'Jak se máte / máš?',type:'drill',fixed:true,items:[['😊','Dobře.'],['😐','Ujde to.'],['☹️','Špatně.']].map(([e,a])=>({big:e,q:'Jak se máš? —',o:['Dobře.','Ujde to.','Špatně.'],a,after:a}))},
+ {n:'37',t:'Co říkáme, když se seznamujeme? Doplňte minidialogy',type:'fill',items:[
+  {w:'1',p:'Dobrý den, promiňte,',a:'mluvíte',s:'anglicky?'},{w:'',p:'Ano,',a:'mluvím',s:'anglicky a rusky.'},{w:'2',p:'Vy',a:'jste',s:'paní Beková?'},{w:'',p:'Eee… Promiňte,',a:'nerozumím',s:'. Ještě jednou, prosím.'},
+  {w:'3',p:'Ahoj, jak se',a:'máš',s:'?'},{w:'',a:['Dobře','Ujde to','Špatně'],s:'. A ty?'},{w:'4',p:'Odkud',a:'jste',s:'?'},{w:'',a:['Jsem','Já jsem'],s:'z Kazachstánu.'},
+  {w:'5',p:'Pracujete, nebo studujete?'},{w:'',a:['Studuju','Studuji'],s:'ekonomii na univerzitě.'},{w:'6',a:['Mluvíš','Mluvíte'],s:'rusky?'},{w:'',p:'Ne,',a:'nemluvím',s:'. Mluvím jenom česky.'}]}]},
+
+{id:'cisla',name:'38–45 Čísla',ex:[
+ {n:'38',t:'Jaké je to číslo? Doplňte',type:'fill',size:'mid',pass:.9,items:NUM.map((w,i)=>({p:i+' =',a:w}))},
+ {n:'39',t:'Najděte čísla 0–10',type:'skip',text:'Поиск слов в таблице лучше делать на бумаге.'},
+ {n:'40',t:'Napište podle modelu',h:'dva – 2',type:'fill',size:'tight',items:['šest','deset','nula','jedna','pět','tři','čtyři','osm','sedm','devět'].map(w=>({p:w+' – ',a:String(NUM.indexOf(w))}))},
+ {n:'41',t:'Je to dobře? Opravte, co není dobře',type:'drill',items:WRONG.map(([e,r,c])=>{const good=NUM[c]===r;return {q:`${e} = ${r}`,o:['✓ Je to dobře.','✗ Není to dobře.'],a:good?'✓ Je to dobře.':'✗ Není to dobře.',x:good?'':`Правильно: ${e} = <b>${NUM[c]}</b>`}}),fixed:true},
+ {n:'42',t:'Počítejte s + (plus) a − (mínus)',h:'Kolik je tři plus čtyři? — Sedm.',type:'fill',size:'mid',items:ARITH.map(([a,o,b])=>({p:`${a} ${o==='+'?'+':'−'} ${b} =`,a:NUM[o==='+'?a+b:a-b]}))},
+ {n:'43',t:'Spojte',type:'match',pairs:['deset','osm','pět','tři','jedna','nula','sedm','devět'].map(w=>[w,String(NUM.indexOf(w))])},
+ {n:'44',t:'Čtěte nahlas e-mailové adresy',h:'@ zavináč · . tečka · - pomlčka · _ podtržítko',type:'listen',spk:true,need:4,items:['petr.novak@seznam.cz','olga_bekova@gmail.com','info@hotel-praha.cz','anna123@centrum.cz','jan.dvorak@firma.cz','kazakova-o@email.cz']},
+ {n:'45',t:'Procvičujte sloveso mít',type:'fill',items:[
+  {p:'Jaký telefon',a:'má',s:'Petr?'},{p:'Jaký e-mail',a:'má',s:'Olga?'},{p:'Jaký (ty)',a:'máš',s:'e-mail?'},{p:'(my)',a:'máme',s:'telefon 603 512 877.'},
+  {p:'(vy)',a:'máte',s:'telefon 721 404 118, nebo 721 404 119?'},{p:'(oni)',a:'mají',s:'e-mail info@firma.cz.'},{p:'(já)',a:'mám',s:'e-mail … (ваш)'},{p:'(já)',a:'mám',s:'telefon … (ваш)'}]}]},
+
+{id:'pravopis',name:'46–50 Pravopis',ex:[
+ {n:'46',t:'Doplňte otázky',type:'fill',bank:['Jak ×2','Co ×2','Jaký ×2','Odkud','Kdo'],items:[
+  {a:'Kdo',s:'je to? — To je paní Beková.'},{a:'Co',s:'děláš? — Jsem učitel.'},{a:'Odkud',s:'jsi? — Jsem z Brna.'},{a:'Jaký',s:'máte telefon? — 608 123 456.'},
+  {a:'Jak',s:'se máš? — Dobře.'},{a:'Jaký',s:'máš e-mail? — olga@seznam.cz.'},{a:'Jak',s:'se to píše? — O-L-G-A.'},{a:'Co',s:'znamená „tečka“? — Promiňte, nerozumím.'}]},
+ {n:'47',t:'Vyberte správnou reakci',type:'drill',items:[
+  {q:'Můžeme si tykat?',o:['Určitě. Já jsem Petr.','Určitě. To je Petr.'],a:'Určitě. Já jsem Petr.'},{q:'Jsem lékařka. A vy?',o:['Já jsem učitelka.','Děkuju.'],a:'Já jsem učitelka.'},
+  {q:'Au!',o:['Promiň.','Prosím.'],a:'Promiň.'},{q:'Jak se máš?',o:['Dobře, díky. A ty?','Jsem z Brna.'],a:'Dobře, díky. A ty?'},
+  {q:'Jaký máš e-mail?',o:['olga@gmail.com','Mám.'],a:'olga@gmail.com'},{q:'Děkuju.',o:['Prosím.','Promiň.'],a:'Prosím.'},{q:'Odkud jste?',o:['Z Kazachstánu.','Jsem studentka.'],a:'Z Kazachstánu.'}]},
+ {n:'48',t:'Doplňte a nebo á',type:'fill',size:'tight',pass:.9,items:[{p:'M',a:'á',s:'m otázku.'},{p:'J',a:'á',s:' jsem Olga.'},{p:'Jsem studentk',a:'a',s:'.'},{p:'Jak se m',a:'á',s:'š?'},
+  {p:'',a:'a',s:'hoj!'},{p:'Vy jste učitelk',a:'a',s:'?'},{p:'Jaký m',a:'á',s:'te e-mail?'},{p:'Co znamen',a:'á',s:'?'},{p:'Pr',a:'a',s:'cuju ve škole.'}]},
+ {n:'49',t:'Doplňte i/í nebo y/ý',type:'fill',size:'tight',pass:.9,items:[{p:'Dobr',a:'ý',s:' den.'},{p:'Těš',a:'í',s:' mě.'},{p:'Nerozum',a:'í',s:'m.'},{p:'To je zaj',a:'í',s:'mavé.'},{p:'Můžeme s',a:'i',s:' tykat?'},
+  {p:'Můžeme si t',a:'y',s:'kat?'},{p:'Prom',a:'i',s:'ňte.'},{p:'Mluv',a:'í',s:'te česky?'},{p:'D',a:'í',s:'ky!'},{p:'Jak',a:'ý',s:' máš telefon?'}]},
+ {n:'50',t:'Doplňte e nebo ě (e s háčkem)',type:'fill',size:'tight',pass:.9,items:[{p:'Dobrý d',a:'e',s:'n.'},{p:'D',a:'ě',s:'kuju.'},{p:'Co d',a:'ě',s:'láte?'},{p:'T',a:'ě',s:'ší mě.'},{p:'Těší m',a:'ě',s:'.'},
+  {p:'Ješt',a:'ě',s:' jednou, prosím.'},{p:'Jak se to píš',a:'e',s:'?'},{p:'Co znam',a:'e',s:'ná?'},{p:'Mluvít',a:'e',s:' česky?'},{p:'M',a:'ě',s:'jte se hezky.'}]}]}
+];
+
+/* ===== render ===== */
+$('#tabs').innerHTML=TABS.map(t=>`<button role="tab" data-tab="${t.id}" aria-selected="false">${t.name}<span class="ck"></span></button>`).join('');
+$('#panels').innerHTML=TABS.map(t=>`<section class="panel" id="t-${t.id}" hidden>${t.ex.map(e=>`<div class="ex" id="x-${e.n}"><h3><span class="num">${e.n}</span>${e.t}${e.h?` <small>${e.h}</small>`:''}</h3><div class="body"></div></div>`).join('')}</section>`).join('');
+TABS.forEach(t=>t.ex.forEach(e=>{if(!['free','skip'].includes(e.type))ALL.push(e.n);E[e.type]($('#x-'+e.n),e)}));
+function openTab(k){$$('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===k));$$('section.panel').forEach(p=>p.hidden=p.id!=='t-'+k);store.set('ps1tab',k)}
+$$('#tabs button').forEach(b=>b.onclick=()=>{openTab(b.dataset.tab);window.scrollTo({top:0})});
+openTab(TABS.some(t=>t.id===store.get('ps1tab'))?store.get('ps1tab'):'fraze');
+$('#resetAll').onclick=()=>{done={};store.set('ps1',done);drawP()};
+drawP();
+</script>
+
+</body></html>
